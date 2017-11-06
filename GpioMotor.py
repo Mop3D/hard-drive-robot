@@ -16,11 +16,6 @@ class gpioMotor(object):
 	[1,0,0,1]]
 
 	currentPosition = 0
-	
-	# GPIO Ports
-	#motorChannel = [18,23,24,25] #muss noch per function gesetzt werden
-	#motorChannel = [0,0,0,0] #muss noch per function gesetzt werden
-
 	buttonA=21 #Pin 40
 
 	loopStop = False
@@ -60,6 +55,27 @@ class gpioMotor(object):
 		GPIO.output(self.motorChannel,(0,0,0,0))
 		
 		
+	# set speed in percent
+	def setSpeed(self, speed):
+		self.sleeptime= self.minsleeptime*100/speed
+
+	# do step forward
+	def doStep(self, count):
+		self.loopStop = False
+		print self.currentPosition
+		direction=1
+		if count < 0:
+			direction= (-1)
+		print direction			
+		
+		for xi in range (abs(count)):
+			self.currentPosition += direction
+			GPIO.output(self.motorChannel, self.stepPattern[self.currentPosition%8])  
+			self.currentPosition
+			sleep (self.sleeptime)
+			if self.loopStop:
+				break;
+
 	# do step forward
 	def doStepForward(self, count):
 		self.loopStop = False
@@ -70,6 +86,7 @@ class gpioMotor(object):
 			if self.loopStop:
 				break;
 
+			
 	# do step backward
 	def doStepBackward(self, count):
 		self.loopStop = False
@@ -80,7 +97,7 @@ class gpioMotor(object):
 			sleep (self.sleeptime)
 			if self.loopStop:
 				break;
-
+		
 	#callback button pressed
 	def calibrateButton_callback(buttonAclass, Test1):
 		print("GPIO.input() - Button pressed - stop loop")
