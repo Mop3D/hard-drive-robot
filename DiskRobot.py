@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import getch
 import Elevator as Elevator
 print("DiskRobot")
 

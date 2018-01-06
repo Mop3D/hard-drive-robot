@@ -7,7 +7,7 @@ class Steuerung(object):
     minPos = 0
     maxPos = 1000
     stepsPerRound = 4096
-    motor1 = GpioMotor.gpioMotor(18,23,24,25)
+    motor1 = GpioMotor.gpioMotor(4,17,27,22)
 	
 	#init
     def __init__(self):

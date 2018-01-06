@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 
 class gpioMotor(object):
 	"""Motor - GPIO out"""
+	# half step
 	stepPattern= [
 	[1,0,0,0],
 	[1,1,0,0],
@@ -15,8 +16,16 @@ class gpioMotor(object):
 	[0,0,0,1],
 	[1,0,0,1]]
 
+	# full step
+	stepPattern2= [
+	[1,1,0,0],
+	[0,1,1,0],
+	[0,0,1,1],
+	[1,0,0,1]]
+
 	currentPosition = 0
-	buttonA=21 #Pin 40
+	endstop = False
+	endstopbutton = 0
 
 	loopStop = False
 
@@ -30,7 +39,6 @@ class gpioMotor(object):
 		print (" channels = " + str(self.motorChannel))
 		print (" sleeptime = " + str(self.sleeptime))
 		print (" currentPosition = " + str(self.currentPosition))
-		print (" self = " + self.__class__.__name__)
 		
 
 	# init. a,b,c,d are the contoling gpio ports
@@ -38,20 +46,18 @@ class gpioMotor(object):
 		# init step position
 		self.currentPosition = 0
 		self.motorChannel = [a,b,c,d]
-		print self
-		print a,b,c,d
+		self.endStop=False
+		
 		# define by GPIO numbers, not board numbers
 		GPIO.setmode(GPIO.BCM)
 		# define out pins
 		GPIO.setup(self.motorChannel, GPIO.OUT)
 		GPIO.output(self.motorChannel,(0,0,0,0))
 		# define in Pins for ends stop button
-		GPIO.setup(self.buttonA, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 		# assign the event
 		#GPIO.add_event_detect(self.buttonA, GPIO.RISING, callback = self.calibrateButton_callback)
 
 	def dispose(self):
-		print ("GPIO.cleanup()")
 		GPIO.output(self.motorChannel,(0,0,0,0))
 		
 		
@@ -59,46 +65,39 @@ class gpioMotor(object):
 	def setSpeed(self, speed):
 		self.sleeptime= self.minsleeptime*100/speed
 
+	# set endstop gpio port
+	def setEndstop(self, endstopport):
+		self.endstopbutton = endstopport
+		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+		GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.endstopCallback)  
+
 	# do step forward
 	def doStep(self, count):
 		self.loopStop = False
-		print self.currentPosition
+
 		direction=1
 		if count < 0:
 			direction= (-1)
-		print direction			
-		
+
 		for xi in range (abs(count)):
 			self.currentPosition += direction
 			GPIO.output(self.motorChannel, self.stepPattern[self.currentPosition%8])  
-			self.currentPosition
 			sleep (self.sleeptime)
 			if self.loopStop:
 				break;
-
-	# do step forward
-	def doStepForward(self, count):
-		self.loopStop = False
-		for xi in range (count):
-			self.currentPosition += 1
-			GPIO.output(self.motorChannel, self.stepPattern[self.currentPosition%8])  
-			sleep (self.sleeptime)
-			if self.loopStop:
-				break;
-
-			
-	# do step backward
-	def doStepBackward(self, count):
-		self.loopStop = False
-		gpioMotorLoopStop = ""
-		for xi in range (count): 
-			self.currentPosition -= 1
-			GPIO.output(self.motorChannel, self.stepPattern[7-self.currentPosition%8])	 
-			sleep (self.sleeptime)
-			if self.loopStop:
-				break;
-		
+				
 	#callback button pressed
-	def calibrateButton_callback(buttonAclass, Test1):
-		print("GPIO.input() - Button pressed - stop loop")
-		buttonAclass.loopStop = True
+	def calibrate(self):
+		while GPIO.input(self.endstopbutton)!=1:
+			self.doStep( 100)
+			self.currentPosition=0
+
+	#callback button pressed
+	def endstopCallback(self,port ):
+		# print("GPIO.input() - Button pressed - stop loop")
+		# print "port"
+		#print port
+		# print "self"
+		# print self
+		self.loopStop = True
+		self.endStop = True
