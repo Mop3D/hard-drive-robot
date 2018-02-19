@@ -1,0 +1,199 @@
+<!doctype html>
+<html class="no-js" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Disk Robot - Dashboard</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="../static/styles/style.css" />
+  </head>
+  <body class="ms360">
+  <!-- https://v4-alpha.getbootstrap.com/utilities/spacing/ -->
+	<div class="container-fluid">
+		<h1>Disk Robot - Dashboard</h1>
+		<section>
+		<div class="row mb-3">
+			<div class="col-md-4">
+				<div class="shadow-box z-depth-1-half pb-1 ">
+					<div class="row m-0 heading">
+						<div class="col-md-12">
+							<h3>Slots<h3>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12">
+							<button id="btnSlot5" type="button" class="btn btn-default btn-slot" data-slotno="5">Slot 5</button>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12">
+							<button id="btnSlot4" type="button" class="btn btn-default btn-slot" data-slotno="4">Slot 4</button>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12">
+							<button id="btnSlot3" type="button" class="btn btn-default btn-slot" data-slotno="3">Slot 3</button>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12">
+							<button id="btnSlot2" type="button" class="btn btn-default btn-slot" data-slotno="2">Slot 2</button>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12">
+							<button id="btnSlot1" type="button" class="btn btn-default btn-slot" data-slotno="1">Slot 1</button>
+						</div>	
+					</div>
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnCommConnect" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="connect">Connect</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnCommRelease" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="release">Release</button>
+						</div>	
+					</div>
+				</div>
+		    </div>
+			<div class="col-md-4">
+				<div class="shadow-box z-depth-1-half pb-1">
+					<div class="row m-0 heading">
+						<div class="col-md-12">
+							<h3>Steuerung<h3>
+						</div>	
+					</div>
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnElevUp" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="up200">Auf 200</button>
+							<button id="btnElevUp" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="up50">Auf 50</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnConnForward" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="forward100">Rein 100</button>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnElevUp" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="up10">Auf 10</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnConnForward" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="forward10">Rein 10</button>
+						</div>
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnElevDown" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="down10">Ab 10</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnConnBackward" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="backward10">Raus 10</button>
+						</div>
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnElevDown" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="down200">Ab 200</button>
+							<button id="btnElevDown" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="down50">Ab 50</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnConnBackward" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="backward100">Raus 100</button>
+						</div>
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-6 center">
+							<button id="btnElevCalibrate" type="button" class="btn btn-default btn-command" data-motor="Elevator" data-command="calibrate">Kalibrieren</button>
+						</div>	
+						<div class="col-md-6 center">
+							<button id="btnConnReset" type="button" class="btn btn-default btn-command" data-motor="Connector" data-command="reset">Reset</button>
+						</div>	
+					</div>	
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="shadow-box z-depth-1-half pb-1">
+					<div class="row m-0 heading">
+						<div class="col-md-12">
+							<h3>Info<h3>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12 center">
+							<h4>Elevator</h4>
+							<p id="elevatorInfo">...</p>
+							<h4>Connector</h4>
+							<p id="connectorInfo">...</p>
+						</div>	
+					</div>	
+				</div>
+			</div>
+		</div>
+		</section>
+	</div>
+	<div class="clearfix"></div>
+    <div class="container-fluid">
+		<section>
+		<div class="row mb-3">
+			<div class="col-md-12">
+				<div class="shadow-box z-depth-1-half pb-1">
+					<div class="row m-0 heading">
+						<div class="col-md-12">
+							<h3>Websocket<h3>
+						</div>	
+					</div>	
+					<div class="row m-3">
+						<div class="col-md-12 scrollbarheight200">
+							<table id="webSocketMessagesTable">
+							<tr>
+							<th></th>
+							<th>Command</th>
+							<th>Message</th>
+							</tr>
+							</table>
+						</div>	
+					</div>	
+				</div>	
+			</div>	
+		</div>	
+		</section>
+	</div>
+  
+<!--
+	  <div class="container-fluid">
+		<h1>Disk Robot</h1>
+		<div class="row">
+		  <div class="col-md-4">
+			<div style="background-color:red" class="jombotron">
+				<p>Steuerung</p>
+				<button id="btnBackwardx" accesskey="B">&lt; Backward</button>&nbsp;
+				<button id="btnForwardx" accesskey="F">Forward &gt;</button>
+				<br/><br/>
+				<button id="btnInfo" accesskey="I">Info</button>
+				<br/><br/>
+				<p id="currentCommand"></p>
+			</div>
+  		  </div>
+		  <div class="col-md-4">
+			<div style="background-color:blue" class="jombotron">
+				<p>Info</p>
+				<p id="elevatorInfo"></p>
+			</div>
+		  </div>
+		  <div class="col-md-4">
+				<p>WebSocket</p>
+			</div>
+		</div>
+		<div class="row">
+		  <div class="col-md-12">
+			<div style="background-color:yellow" class="jombotron">
+				<table id="webSocketMessagesTable">
+				<tr>
+				<th>Message</th>
+				</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	-->
+	<script src="../static/plugins/jquery-3.2.1.min.js"></script>
+	<script src="../static/scripts/basics.js"></script>
+	<script src="../static/scripts/diskrobot.js"></script>
+
+	</body>
+</html>
