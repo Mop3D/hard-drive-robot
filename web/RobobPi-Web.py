@@ -15,6 +15,11 @@ settings = {
 	'static_path': '/home/pi/web/static'
 }
 
+# DeviceConnect
+import DeviceConnect
+# connected Disk
+import ConnectedDisk
+
 import RPi.GPIO as GPIO
 import GpioMotor 
 
@@ -23,20 +28,39 @@ import GpioMotor
 stepsPerSlot = 400
 #Elevator Motor
 stepsPerRound = 4096
-# motor1 11,16,18,22 Motor alleine
-# motor1 11, 13, 15, 16 Endstop 18 Robot
-# motor2 19, 21, 23, 24 Endstop 26 Robot
-ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 11, 13, 15, 16)
-ElevatorMotor1.setSpeed(50)	
-ElevatorMotor1.setEndstop(18)
-
-ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21, 23, 24)
-ConnectorMotor1.setSpeed(50)	
-#ConnectorMotor1.setEndstop(26)
-ConnectorMotor1.powerOff()
 
 stepsPerKey = 100
 stepsToConnect = 1830
+
+####test
+#GpioMotor.gpioResolution(3, 5, 7)
+#GpioMotor.gpioResolution(11, 13, 15)
+GpioMotor.gpioResolution(19, 21, 23)
+####test
+
+#GpioMotor.gpioResolution(11, 13, 15)
+
+ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 16, 18)
+ElevatorMotor1.setSpeed(50)	
+#ElevatorMotor1.setEndstop(18)
+
+ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21)
+ConnectorMotor1.setSpeed(50)	
+#ConnectorMotor1.setEndstop(26) 
+ConnectorMotor1.powerOff()
+
+#Gear Motor
+#	# motor1 11,16,18,22 Motor alleine
+#	# motor1 11, 13, 15, 16 Endstop 18 Robot
+#	# motor2 19, 21, 23, 24 Endstop 26 Robot
+#	ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 11, 13, 15, 16)
+#	ElevatorMotor1.setSpeed(50)	
+#	ElevatorMotor1.setEndstop(18)
+#	ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21, 23, 24)
+#	ConnectorMotor1.setSpeed(50)	
+#	#ConnectorMotor1.setEndstop(26)
+#	ConnectorMotor1.powerOff()
+
 
 class IndexHandler(web.RequestHandler):
 	def get(self):
@@ -90,6 +114,7 @@ class MotorHandler(web.RequestHandler):
 				stepsToSlot = -5700
 			steps = stepsToSlot - int(motor.currentPosition)
 			print("slot, stepsPerSlot, stepsToSlot, steps, currentPosition ", slotNo, stepsPerSlot, stepsToSlot, steps, motor.currentPosition)
+			robotWork.ConnectToSlot(slotNo)
 			retJson = motor.doStep(steps)
 		#connect
 		elif command == "connect":
@@ -153,6 +178,8 @@ class SocketHandler(websocket.WebSocketHandler):
 		ElevatorMotor1.setSendMessage(SocketHandler.SendMessage)
 		ConnectorMotor1.setSendMessage(SocketHandler.SendMessage)
 		
+		robotWork.ConnectedInfo()
+		
 	def on_close(self):
 		print ("open closed")
 		if self in cl:
@@ -162,11 +189,73 @@ class SocketHandler(websocket.WebSocketHandler):
 
 	@staticmethod
 	def SendMessage(command, data):
+		print "SendMessage", command, data
 		retJson = { "command": command, "data": data }
 		for webSocket in cl:
 			webSocket.write_message(retJson)
 
 
+#
+# Robot worker class
+#		
+class RobotWorker():
+	#connected Slot Number
+	connectedSlotNo = -1
+	
+	# listen to device 
+	devicePath = "/dev/sda"
+	#connected Disk
+	connDisk = None
+	# device handler
+	devMon = None
+	#websocker handler
+	webSocketHandler = None
+	
+	# init
+	def __init__(self, SocketHandler):
+		self.webSocketHandler = SocketHandler
+		self.MessageFromObject("robotworker", "init RobotWorker")
+
+		#init Disk
+		self.connDisk = ConnectedDisk.CDisk(self)
+
+		self.devMon = DeviceConnect.Monitor(None, "ata", None, self.devicePath, self.connDisk, self);
+		diskConnected = self.devMon.GetConnectedDisk()
+		self.devMon.StartMonitoring()
+
+	def DiskInfoJson(self):
+		retJson = {
+			"SlotNo": self.connectedSlotNo,
+			"Device": { }
+		}
+		if self.connDisk != None:
+			retJson["Device"]["Type"] = self.connDisk.GetDeviceInfo("type")
+			retJson["Device"]["Node"] = self.connDisk.GetDeviceInfo("name")
+			retJson["Device"]["Serial"] = self.connDisk.GetDeviceInfo("serial")
+			retJson["Device"]["Bus"] = self.connDisk.GetDeviceInfo("bus")
+		return retJson
+
+	def ConnectedInfo(self):
+		retJson = self.DiskInfoJson()
+		self.MessageFromObject("connectinfo", retJson)
+		
+	def ConnectToSlot(self, slotNo):
+		self.connectedSlotNo = slotNo
+		print "   ConnectToSlot: {0}".format(slotNo)
+		retJson = self.DiskInfoJson()
+		self.MessageFromObject("connecttoslot", retJson)
+		
+	def MessageFromObject(self, command, message):
+		if command == "connecteddisk":
+			message = self.DiskInfoJson()
+		if command == "disconnecteddisk":
+			message = self.DiskInfoJson()
+		
+		print "   -> MessageFromObject - {0}: {1}".format(command, message)
+		if SocketHandler != None:
+			self.webSocketHandler.SendMessage(command, message)
+
+			
 def signalHandler(signum, frame):
 	SocketHandler.SendMessage("signalhandler", {})
 	print ("send signal")
@@ -175,7 +264,9 @@ def signalHandler(signum, frame):
 signal.signal(signal.SIGALRM, signalHandler)
 #signal.setitimer(signal.ITIMER_REAL, 5)
 
-			
+# init the Robot Worker class
+robotWork = RobotWorker(SocketHandler)
+
 app = web.Application(
 	[
 	(r'/', IndexHandler),

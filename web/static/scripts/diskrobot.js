@@ -49,6 +49,46 @@ function showInfo(data)
 	else
 		$('#connectorInfo').html(infoOut);
 }
+// set slot info
+function setSlotInfo(command, data)
+{
+	var slotBtn = $("#btnSlot" + data.SlotNo);
+	console.log("setSlotInfo", command, slotBtn.length, data)
+	if (command == "connecttoslot")
+	{
+		$('.btn-slot').each(function (index, value) { 
+		  $(this).prop("disabled", true); 
+		});
+		console.log("setSlotInfo connecttoslot")
+		slotBtn.addClass("connectToSlot");
+		slotBtn.text("Slot " + data.SlotNo + ", connect...")
+	}
+	if (command == "connecteddisk")
+	{
+		if (data.Device.Type == "disk")
+		{
+			slotBtn.removeClass("connectToSlot");
+			slotBtn.addClass("connectedToSlot");
+			slotBtn.text("Slot " + data.SlotNo + ", " + data.Device.Serial)
+			slotBtn.attr("title", "");
+		}
+		if (data.Device.Type == "partition")
+		{
+			slotBtn.attr("title", slotBtn.attr("title") + (slotBtn.attr("title") != "" ? ", " : "") + data.Device.Node);
+		}
+	}
+	if (command == "disconnecteddisk")
+	{
+		slotBtn.removeClass("connectToSlot");
+		slotBtn.removeClass("connectedToSlot");
+		slotBtn.text("Slot " + data.SlotNo);
+		slotBtn.attr("title", "");
+		$(".btn-slot").each(function (index, value) { 
+		  $(this).prop("disabled", false); 
+		});
+	}
+}
+
 
 //***************************************************************************
 	function ws_openSocket()
@@ -90,6 +130,11 @@ function showInfo(data)
 	  {
 		addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
 		showInfo(jsonData.data)
+	  }
+	  else if (jsonData.command == "connecttoslot" || jsonData.command == "connecteddisk" || jsonData.command == "disconnecteddisk")
+	  {
+		addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
+		setSlotInfo(jsonData.command, jsonData.data)
 	  }
 	  else if (jsonData.command == "signalhandler")
 	  {
