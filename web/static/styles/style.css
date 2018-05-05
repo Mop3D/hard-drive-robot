@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   body {
       background: #ddd;
       color: black;
@@ -46,6 +47,66 @@
 			overflow-y: scroll;
 			height: 200px;
 		}
+=======
+body {
+      background: #ddd;
+      color: black;
+}
+.bluebox {
+background-color:blue;
+border: 1px solid black
+}
+.shadow-box  {
+	height: 400px;
+	width: 100%;
+	background-color: #64b5f6;
+}
+/* https://mdbootstrap.com/css/shadows/ */
+.z-depth-1-half {
+	box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+}
+.z-depth-3 {
+	box-shadow: 0 12px 15px 0 rgba(0,0,0,.24), 0 17px 50px 0 rgba(0,0,0,.19);
+}
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	xheight: 100%;
+}
+.shadow-box .heading {
+	border-bottom: 1px solid black;
+	text-align: center;
+}
+.shadow-box .center {
+	text-align: center;
+}
+.slot-box {
+	width:90%;
+	border: 1px solid black;
+	text-align: center;
+}
+.btn-slot
+{
+	width:100%;
+	background-color:cyan
+}
+
+.scrollbarheight200 {
+	overflow-y: scroll;
+	height: 200px;
+}
+
+.connectToSlot 
+{
+	background-color: darkred
+}
+.connectedToSlot 
+{
+	background-color: green
+}
+
+>>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
   
  /*
 .motorPanel {
