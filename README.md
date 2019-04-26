@@ -21,10 +21,17 @@ Code is running on a raspberry pi 3
 Install pyudev
 $ sudo apt-get install python-pip
 $ sudo pip install pyudev
+---- psutil ---
+$ pip install psutil
+
 
 Install tornado
 get the last version of tornado
 $ sudo python -m pip install tornado
+
+
+
+
 
 
 Code running on Banana Pi BPI-M1
