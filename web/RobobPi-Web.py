@@ -12,17 +12,15 @@ static_path_dir = '/static'
 settings = {
 	'debug': True,
 	'autoreload': True,
-	'static_path': '/home/pi/web/static'
+	'static_path': './static'
 }
+#	'static_path': '/home/pi/web/static'
 
-<<<<<<< HEAD
-=======
 # DeviceConnect
 import DeviceConnect
 # connected Disk
 import ConnectedDisk
 
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 import RPi.GPIO as GPIO
 import GpioMotor 
 
@@ -31,16 +29,6 @@ import GpioMotor
 stepsPerSlot = 400
 #Elevator Motor
 stepsPerRound = 4096
-<<<<<<< HEAD
-# motor1 11,16,18,22 Motor alleine
-# motor1 11, 13, 15, 16 Endstop 18 Robot
-# motor2 19, 21, 23, 24 Endstop 26 Robot
-ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 11, 13, 15, 16)
-ElevatorMotor1.setSpeed(50)	
-ElevatorMotor1.setEndstop(18)
-
-ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21, 23, 24)
-=======
 
 stepsPerKey = 100
 stepsToConnect = 1830
@@ -58,14 +46,10 @@ ElevatorMotor1.setSpeed(50)
 #ElevatorMotor1.setEndstop(18)
 
 ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21)
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 ConnectorMotor1.setSpeed(50)	
 #ConnectorMotor1.setEndstop(26) 
 ConnectorMotor1.powerOff()
 
-<<<<<<< HEAD
-stepsPerKey = 100
-=======
 #Gear Motor
 #	# motor1 11,16,18,22 Motor alleine
 #	# motor1 11, 13, 15, 16 Endstop 18 Robot
@@ -78,7 +62,6 @@ stepsPerKey = 100
 #	#ConnectorMotor1.setEndstop(26)
 #	ConnectorMotor1.powerOff()
 
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 
 class IndexHandler(web.RequestHandler):
 	def get(self):
@@ -111,27 +94,11 @@ class MotorHandler(web.RequestHandler):
 		if motorName == "Connector":
 			motor = ConnectorMotor1
 		
-<<<<<<< HEAD
-		print("MotorHandler, motorName, command", motorName, command)
-=======
 		print("  ---  MotorHandler, motorName, command", motorName, command)
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 
 		if command == "info":
 			retJson = motor.info()
 		elif command == "slot":
-<<<<<<< HEAD
-			slotNo = self.get_argument('slotno', None, True)
-			stepsToSlot = ((stepsPerSlot * int(slotNo)) - int(motor.currentPosition)) * -1
-			print("slot, stepsToSlot, currentPosition", slotNo, stepsToSlot, motor.currentPosition)
-			retJson = motor.doStep(stepsToSlot)
-		elif command == "forward":
-			retJson = motor.doStep(stepsPerKey)
-		elif command == "backward":
-			retJson = motor.doStep(stepsPerKey * -1)
-		elif command == "calibrate":
-			retJson = motor.doCalibrate()
-=======
 			#if ConnectorMotor1.currentPosition > 0:
 			#	ConnectorMotor1.doStep(stepsToConnect);
 			slotNo = int(self.get_argument('slotno', None, True))
@@ -189,7 +156,6 @@ class MotorHandler(web.RequestHandler):
 		#reset
 		elif command == "reset":
 			retJson = motor.doReset()
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 		else:
 			retJson = { "Motor": command }
 		
@@ -210,38 +176,26 @@ class SocketHandler(websocket.WebSocketHandler):
 		print ("open socket")
 		if self not in cl:
 			cl.append(self)
-<<<<<<< HEAD
-
-=======
 		ElevatorMotor1.setSendMessage(SocketHandler.SendMessage)
 		ConnectorMotor1.setSendMessage(SocketHandler.SendMessage)
 		
 		robotWork.ConnectedInfo()
 		
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 	def on_close(self):
 		print ("open closed")
 		if self in cl:
 			cl.remove(self)
-<<<<<<< HEAD
-
-	@staticmethod
-	def SendMessage(command, data):
-=======
 		ElevatorMotor1.setSendMessage(None)
 		ConnectorMotor1.setSendMessage(None)
 
 	@staticmethod
 	def SendMessage(command, data):
 		print "SendMessage", command, data
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 		retJson = { "command": command, "data": data }
 		for webSocket in cl:
 			webSocket.write_message(retJson)
 
 
-<<<<<<< HEAD
-=======
 #
 # Robot worker class
 #		
@@ -303,7 +257,6 @@ class RobotWorker():
 			self.webSocketHandler.SendMessage(command, message)
 
 			
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 def signalHandler(signum, frame):
 	SocketHandler.SendMessage("signalhandler", {})
 	print ("send signal")
@@ -312,13 +265,9 @@ def signalHandler(signum, frame):
 signal.signal(signal.SIGALRM, signalHandler)
 #signal.setitimer(signal.ITIMER_REAL, 5)
 
-<<<<<<< HEAD
-			
-=======
 # init the Robot Worker class
 robotWork = RobotWorker(SocketHandler)
 
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 app = web.Application(
 	[
 	(r'/', IndexHandler),

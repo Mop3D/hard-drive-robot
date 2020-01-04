@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-$(document).ready(function() {
-	$('#btnElevForward').on('click', btnElevForwardClicked);
-	$('#btnElevBackward').on('click', btnElevBackwardClicked);
-	$('#btnElevCalibrate').on('click', btnElevCalibrateClicked);
-	$('#btnConnForward').on('click', btnConnForwardClicked);
-	$('#btnConnBackward').on('click', btnConnBackwardClicked);
-
-	$('.btn-slot').on('click', btnSlotClicked);
-		
-    var host = window.location.host;
-    var ws = new WebSocket('ws://'+host+'/ws');
-
-    ws.onopen = ws_onOpen;
-    ws.onmessage = ws_onMessage;6
-    ws.onclose = ws_onClose;
-    ws.onerror = ws_onError;	
-
-	setTimeout(getInfo, 500)
-
-=======
 var ws;
 $(document).ready(function() {
 	$('.btn-command').on('click', btnCommandClicked);
@@ -27,7 +6,6 @@ $(document).ready(function() {
 	ws_openSocket();
 
 	setTimeout(getInfo, 500)
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 });
 
 
@@ -36,32 +14,6 @@ function btnSlotClicked()
 	var slotNo = $(this).data("slotno");
 	motorCommand('Elevator', 'slot', slotNo);
 }
-<<<<<<< HEAD
-
-function btnElevCalibrateClicked()
-{
-	motorCommand('Elevator', 'calibrate');
-}
-function btnElevForwardClicked()
-{
-	motorCommand('Elevator', 'forward');
-}
-function btnElevBackwardClicked()
-{
-	motorCommand('Elevator', 'backward');
-}
-function btnConnForwardClicked()
-{
-	motorCommand('Connector', 'forward');
-}
-function btnConnBackwardClicked()
-{
-	motorCommand('Connector', 'backward');
-}
-function getInfo()
-{
-	motorCommand('Elevator', 'info');
-=======
 function btnCommandClicked()
 {
 	console.log("btnCommandClicked", $(this).data("motor"), $(this).data("command"))
@@ -72,16 +24,12 @@ function getInfo()
 {
 	motorCommand('Elevator', 'info');
 	motorCommand('Connector', 'info');
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 }
 
 function motorCommand(motorName, command, slotNo)
 {
-<<<<<<< HEAD
-=======
 	if (ws.readyState != 1) ws_openSocket();
 	//console.log("ws", ws)
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 	console.log('motorCommand motor, command', motorName, command)
 	var url = '/motor/' + motorName + "/" + command;
 	if (slotNo) url += "?slotno=" + slotNo;
@@ -95,13 +43,6 @@ function successStepCall(data){
 function showInfo(data)
 {
 	var infoOut = '<p>Current position:' + data.currentPosition + '</p>';
-<<<<<<< HEAD
-	infoOut += '<p>Sleep time:' + data.sleeptime + '</p>';
-	$('#elevatorInfo').html(infoOut);
-}
-
-//***************************************************************************
-=======
 	//infoOut += '<p>Sleep time:' + data.sleeptime + '</p>';
 	if (data.name == "Elevator")
 		$('#elevatorInfo').html(infoOut);
@@ -160,7 +101,6 @@ function setSlotInfo(command, data)
 		ws.onclose = ws_onClose;
 		ws.onerror = ws_onError;	
 	}
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 	function ws_onOpen()
 	{
 	  console.log("open")
@@ -181,28 +121,21 @@ function setSlotInfo(command, data)
 	  console.log("ws message", ev)
 
 	  var jsonData = JSON.parse(ev.data);
-<<<<<<< HEAD
-	  if (jsonData.command == "motorinfo")
-=======
 	  if (jsonData.command == "statusinfo")
 	  {
 		//addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
 		showInfo(jsonData.data)
 	  }
 	  else if (jsonData.command == "motorinfo")
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 	  {
 		addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
 		showInfo(jsonData.data)
 	  }
-<<<<<<< HEAD
-=======
 	  else if (jsonData.command == "connecttoslot" || jsonData.command == "connecteddisk" || jsonData.command == "disconnecteddisk")
 	  {
 		addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
 		setSlotInfo(jsonData.command, jsonData.data)
 	  }
->>>>>>> 4eef35c125ae8a425e3e7efebb31d7f979c3f462
 	  else if (jsonData.command == "signalhandler")
 	  {
 		addWebSocketMessage(jsonData.command, JSON.stringify(jsonData.data));		  
