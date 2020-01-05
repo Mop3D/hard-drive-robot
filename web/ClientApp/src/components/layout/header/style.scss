@@ -1,0 +1,23 @@
+.header{
+	background: #322a2a;
+	height: 70px;
+}
+
+.header__link{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.header__list--float-left{
+	float: left;
+}
+
+.header__list--float-right{
+	float: right;
+}
+
+.header__item{
+	list-style-type: none;
+	display: inline-block;
+	margin: 10px;
+}

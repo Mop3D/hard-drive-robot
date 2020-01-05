@@ -1,0 +1,23 @@
+.PlayGround {
+    * {
+        font-size: 20px;
+    }
+
+    h1 {
+        font: 32pt 'test-font';
+    }
+
+    div.bg-img {
+        min-height: 50px;
+        color: #fff;
+        background-image: url("../images/reference-img.png");
+    }
+
+    div.svg-bg-img {
+        width: 140px;
+        height: 140px;
+        color: #fff;
+        background-size: 140px 140px;
+        background-image: url("../images/logo-siemens-ingenuity-for-life.svg");
+    }
+}

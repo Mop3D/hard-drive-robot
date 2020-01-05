@@ -14,13 +14,12 @@ sys.path.append('./api')
 cl = []
 
 # set the web static folder
-static_path_dir = '/static'
+static_path_dir = 'ClientApp/build/staticA'
 settings = {
     'debug': True,
     'autoreload': True,
-    'static_path': './static'
+    'static_path': './ClientApp/build/static'
 }
-#    'static_path': '/home/pi/web/static'
 
 # DeviceConnect
 import DeviceConnect
@@ -83,17 +82,21 @@ if gpioExists:
 
 class IndexHandler(web.RequestHandler):
     def get(self):
-        self.render("templates/index.html")
+        self.render("ClientApp/build/index.html")
+
+class IndexFirstHandler(web.RequestHandler):
+    def get(self):
+        self.render("first/templates/index.html")
+
 
 class ApiHandler(web.RequestHandler):
 
     @web.asynchronous
     def get(self, *args):
+        retJson = { "return": "ping"}
+        self.write(retJson)
         self.finish()
-        retJson = { }
-        return json.dumps(retJson)
 
-        
         #value = self.get_argument("value")
         #data = {"id": id, "value" : value}
         #data = json.dumps(data)
@@ -223,14 +226,16 @@ socketHandler = SocketHandlerWrapper(SocketHandler)
 
 app = web.Application(
     [
-    (r'/first', IndexHandler),
+    (r'/', IndexHandler),
+    (r'/first', IndexFirstHandler),
     (r'/ws', SocketHandler),
-    (r'/api', ApiHandler),
+    (r'/api/(.*)', ApiHandler),
     #(r'/motor/([0-9]+)', MotorHandler),
     (r'/motor/(.*)/(.*)', MotorHandler, dict(gpioExists=gpioExists, socketHandler=socketHandler)), #/motor/motorName/Command
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     #(r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
     (r'/static/(.*)', web.StaticFileHandler, {'path': static_path_dir})
+    #(r'/firststatic/(.*)', web.StaticFileHandler, {'path': "first/firststatic"})
     ],
     **settings
 )
@@ -246,3 +251,4 @@ if __name__ == '__main__':
     #     [tornado.autoreload.watch(dir + '/' + f) for f in files if not f.startswith('.')]
     #
     ioloop.IOLoop.instance().start()
+    

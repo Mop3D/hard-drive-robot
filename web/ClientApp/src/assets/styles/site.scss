@@ -1,0 +1,15 @@
+@import "./_variables"; //custom variables
+@import "./normalize"; //css
+
+/*LAYOUT*/
+@import "./grid";
+@import "./elements";
+
+@import "../../components/layout/main/style.scss";
+@import "../../components/layout/header/style.scss";
+@import "../../components/layout/footer/style.scss";
+@import "../../components/pages/overview/style.scss";
+@import "../../components/ui/rackSlot/style.scss";
+@import "../../components/ui/elevatorController/style.scss";
+@import "../../components/ui/loading/style.scss";
+@import "../../components/ui/socketMessages/style.scss";

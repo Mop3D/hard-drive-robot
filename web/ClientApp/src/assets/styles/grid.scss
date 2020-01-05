@@ -1,0 +1,61 @@
+/*flex row*/
+.grid__row{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	color: black;
+	margin: 5px -24px;
+	align-items: stretch;
+}
+
+/*column of flex-row*/
+.grid__col{
+	display: flex;
+	flex-direction: column;
+	position:relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	background: #FFF;
+	margin: 1.5%;
+	cursor: pointer;
+}
+
+/*middle small column should not have margin on left and right*/
+.grid__col--1:nth-child(2):not(:last-child){
+	margin-left: 0%;
+	margin-right: 0%;
+}
+
+/*1st medium flex column should not have right margin(2nd must be small flex column)*/
+.grid__col--2:nth-child(1){
+	margin-right: 0%;
+}
+
+/*2nd medium flex column should not have left margin(1st must be small flex column)*/
+.grid__col--2:nth-child(2){
+	margin-left: 0%;
+}
+
+/*flex column large comprises of all 3 column*/
+.grid__col--3{
+	flex: 3;
+}
+
+/*flex column medium comprises of double column*/
+.grid__col--2{
+	flex: 2;
+	max-width: 63.7%;
+}
+
+/*flex column small, single column*/
+.grid__col--1{
+	flex: 1;
+	max-width: 30.4%;
+}
+
+.grid__col:hover{
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+}

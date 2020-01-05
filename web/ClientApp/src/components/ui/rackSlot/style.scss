@@ -1,0 +1,14 @@
+.rackslot {
+    margin: 5px;
+    .slot{ 
+        padding: 3px 10px;
+        border-radius: 25px;
+        width:100%;
+        background-color: red;
+        border: 1px soild black;
+        &.inactive {
+            background-color: grey;
+        }
+        cursor: pointer;
+    }
+}
