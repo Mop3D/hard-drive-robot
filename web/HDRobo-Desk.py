@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf8
+
+# https://www.tornadoweb.org/en/stable/guide/structure.html
 from tornado import websocket, web, ioloop
 import tornado.autoreload
 import json
@@ -92,11 +94,11 @@ class ApiHandler(web.RequestHandler):
         return json.dumps(retJson)
 
         
-        value = self.get_argument("value")
-        data = {"id": id, "value" : value}
-        data = json.dumps(data)
-        for c in cl:
-            c.write_message(data)
+        #value = self.get_argument("value")
+        #data = {"id": id, "value" : value}
+        #data = json.dumps(data)
+        #for c in cl:
+        #    c.write_message(data)
 
     @web.asynchronous
     def post(self):
@@ -169,8 +171,8 @@ class RobotWorker():
         #init Disk
         self.connDisk = ConnectedDisk.CDisk(self)
 
-        self.devMon = DeviceConnect.Monitor(None, "ata", None, self.devicePath, self.connDisk, self);
-        diskConnected = self.devMon.GetConnectedDisk()
+        self.devMon = DeviceConnect.Monitor(None, "ata", None, self.devicePath, self.connDisk, self)
+        #diskConnected = self.devMon.GetConnectedDisk()
         self.devMon.StartMonitoring()
 
     def DiskInfoJson(self):
@@ -221,7 +223,7 @@ socketHandler = SocketHandlerWrapper(SocketHandler)
 
 app = web.Application(
     [
-    (r'/', IndexHandler),
+    (r'/first', IndexHandler),
     (r'/ws', SocketHandler),
     (r'/api', ApiHandler),
     #(r'/motor/([0-9]+)', MotorHandler),
