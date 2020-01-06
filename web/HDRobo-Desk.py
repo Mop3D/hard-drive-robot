@@ -14,7 +14,7 @@ sys.path.append('./api')
 cl = []
 
 # set the web static folder
-static_path_dir = 'ClientApp/build/staticA'
+static_path_dir = 'ClientApp/build/static'
 settings = {
     'debug': True,
     'autoreload': True,
@@ -234,8 +234,8 @@ app = web.Application(
     (r'/motor/(.*)/(.*)', MotorHandler, dict(gpioExists=gpioExists, socketHandler=socketHandler)), #/motor/motorName/Command
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     #(r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
-    (r'/static/(.*)', web.StaticFileHandler, {'path': static_path_dir})
-    #(r'/firststatic/(.*)', web.StaticFileHandler, {'path': "first/firststatic"})
+    (r'/static/(.*)', web.StaticFileHandler, {'path': static_path_dir}),
+   (r'/firststatic/(.*)', web.StaticFileHandler, {'path': "./first/firststatic"})
     ],
     **settings
 )
