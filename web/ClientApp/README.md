@@ -1,13 +1,23 @@
-## HDRobo Desktop App (react)
-Build in ClientApp/build folder
+# HDRobo Browser App (react)
+Build in -> ClientApp/build folder
 ```
+cd ClientApp
 npm run build
 ```
 
 
+### pre requirements
+install node 8:
+```
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
-
-
+install necessary packages
+```
+cd ClientApp
+npm i
+```
 
 
 

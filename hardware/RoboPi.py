@@ -1,10 +1,12 @@
 #!/usr/bin/python
 # coding: utf8
 
-##########################
-# RoboPi.py 
-# 
-##########################
+"""
+RoboPi.py
+
+date: 06.01.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
 
 import json
 import os
