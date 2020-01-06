@@ -1,50 +1,19 @@
 #!/usr/bin/python
 # coding: utf8
+
+"""
+GpoiMotor.py
+
+date: 06.01.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
+
 from time import sleep
 import RPi.GPIO as GPIO
 
-class gpioMotor(object):
+class GpioMotor(object):
 	"""Motor - GPIO out"""
-	stepPattern= [
-	[1,0,0,0],
-	[1,1,0,0],
-	[0,1,0,0],
-	[0,1,1,0],
-	[0,0,1,0],
-	[0,0,1,1],
-	[0,0,0,1],
-	[1,0,0,1]]
-class gpioResolution(object):
-	RESOLUTION = {'1/1': (0, 0, 0),
-              '1/2': (1, 0, 0),
-              '1/4': (0, 1, 0),
-              '1/8': (1, 1, 0),
-              '1/16': (0, 0, 1),
-              '1/32': (1, 0, 1)}
-	def __init__(self, a, b, c):
-		self.resolutionPins = [a,b,c]
-		# Bananapi settings
-		# define by GPIO Board, not numbers / Bananpi
-		GPIO.setmode(GPIO.BOARD)
-		# define out pins
-		for mChannel in self.resolutionPins:
-			GPIO.setup(mChannel, GPIO.OUT)
-		# set resolution
-		for mChannel in self.resolutionPins:
-		#	self.gpioOutput(self.resolutionPins, self.RESOLUTION['1/32'])
-			self.gpioOutput(self.resolutionPins, self.RESOLUTION['1/1'])
-			
-	def dispose(self):
-		print ("GPIO.cleanup()")
-		self.gpioOutput(self.resolutionPins, (0, 0, 0))
-
-	#emulate gpio.output with arrays
-	def gpioOutput(self, channelArray, valueArray):
-		for channelCount in range(len(channelArray)):
-			GPIO.output(channelArray[channelCount], valueArray[channelCount])
-
-class gpioMotor(object):
-	"""Motor - GPIO out"""
+	GPIO.setmode(GPIO.BOARD)
 
 	name = 'motor'
 	currentPosition = 0
@@ -52,121 +21,144 @@ class gpioMotor(object):
 	endstopbutton = 0
 
 	waitDelay = .0208 / 32
-
-	minsleeptime = 0.0006
-	speed = 30 # in percent (110% möglich)
-	sleeptime= minsleeptime*100/speed
+	#waitDelay = .0208 / 16
 
 	sendMessage = None
-	
-	# info
-	def info(self):
-		print ('\n--- motor info --- ')
-		print (" channels = " + str(self.directionPin) + "/" + str(self.stepPin))
-		print (" sleeptime = " + str(self.sleeptime))
-		print (" currentPosition = " + str(self.currentPosition))
-		print (" self = " + self.__class__.__name__)
-		info = { "name": self.name, "channels": str(self.directionPin) + "/" + str(self.stepPin), "sleeptime": self.sleeptime, "currentPosition": self.currentPosition }
-		if self.sendMessage:
-			self.sendMessage("statusinfo", info)
-		return info
 
-	# init. name of the motor, directionPin, stepPin are the controling gpio ports
-	def __init__(self, name, directionPin, stepPin):
+	# init. name of the motor, a,b,c,d are the contoling gpio ports
+	def __init__(self, name, directionPin, stepPin, sleepPin):
 		self.name = name
 		# init step position
 		self.directionPin = directionPin
 		self.stepPin = stepPin
 		self.endStop=False
-		
+		self.sleepPin=sleepPin
+		print (" *****channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
+
 		# define out pins
 		GPIO.setup(directionPin, GPIO.OUT)
 		GPIO.setup(stepPin, GPIO.OUT)
+		GPIO.setup(sleepPin, GPIO.OUT)
+		# allways set to off
+		GPIO.output(self.sleepPin, GPIO.LOW)
 
-	def powerOff(self):
+	# set SendMessage method
+	def SetSendMessage(self, SendMessage):
+		self.sendMessage = SendMessage
+
+	# info
+	def Info(self):
+		print ('\n--- motor info --- ')
+		print (" channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
+		print (" currentPosition = " + str(self.currentPosition))
+		print (" self = " + self.__class__.__name__)
+		info = { "name": self.name, "channels": str(self.directionPin) + "/" + str(self.stepPin) +"/"+str(self.sleepPin), "currentPosition": self.currentPosition }
+		if self.sendMessage:
+			self.sendMessage("statusinfo", info)
+		return info
+
+	# set powerOn
+	def PowerOn(self):
+		print ("GPIO.powerOn()")
+		if GPIO.input(self.stepPin):
+			print("power on")
+		else:
+			print("power off")
+			
+		GPIO.output(self.sleepPin, GPIO.HIGH)
+
+	# set powerOff
+	def PowerOff(self):
 		print ("GPIO.powerOff()")
 		GPIO.output(self.directionPin, GPIO.LOW)
 		GPIO.output(self.stepPin, GPIO.LOW)
+		GPIO.output(self.sleepPin, GPIO.LOW)
 
-	def dispose(self):
+	# dispose
+	def Dispose(self):
 		print ("GPIO.cleanup()")
 		GPIO.output(self.directionPin, GPIO.LOW)
 		GPIO.output(self.stepPin, GPIO.LOW)
-
-	# set speed in percent
-	def setSpeed(self, speed):
-		self.sleeptime= self.minsleeptime*100/speed
+		GPIO.output(self.sleepPin, GPIO.LOW)
 
 	# set endstop gpio port
-	def setEndstop(self, endstopport):
+	def SetEndstop(self, endstopport):
 		self.endstopbutton = endstopport
-		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+		#GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+		# change to PULL-UP
+		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		print ("set Endstop", self.endstopbutton)
+		if not GPIO.input(self.endstopbutton):
+			self.endStop = True
+
+		#xi = 0
+		#while 1:
+		#	if not GPIO.input(self.endstopbutton):
+		#		print ("Pressed " + str(xi) )
+		#		xi = xi + 1
 		# call when Button Released
-		#GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.endstopCallback)  
+		GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.endstopCallback)  
 		# call when Button Pressed
-		GPIO.add_event_detect(self.endstopbutton, GPIO.RISING, callback=self.endstopCallback)  
-
-	# set SendMessage method
-	def setSendMessage(self, SendMessage):
-		self.sendMessage = SendMessage
-
+		#GPIO.add_event_detect(self.endstopbutton, GPIO.RISING, callback=self.endstopCallback)  
+		
 	# do step
-	def doStep(self, count):
-		#self.endStop = False
+	def DoStep(self, count):
 
 		direction=1
 		if count < 0:
 			direction= (-1)
-
+		if direction == -1 and self.endStop:
+			print ("break init endStop")
+			return
 		# TODO:
 		#if GPIO.input(self.endstopbutton)==1 and direction>0:
 		#	return self.info()
-			
+		
+		print(self.directionPin)
 		if direction>0: # Clockwise Rotation
+			print("Clockwise")
 			GPIO.output(self.directionPin, GPIO.HIGH)
 		else: # Counterclockwise Rotation
-			GPIO.output(self.directionPin, GPIO.LOW)			
-		
+			print("Counterclockwise")
+			GPIO.output(self.directionPin, GPIO.LOW)
+		print ("direction", direction,self.endStop)
 		for xi in range (abs(count)):
+			# down until button pressed
+			if direction == -1 and self.endStop:
+				self.endStop = False
+				print ("break loop")
+				break
 			self.currentPosition += direction
 			GPIO.output(self.stepPin, GPIO.HIGH)
 			sleep (self.waitDelay * 10)
 			GPIO.output(self.stepPin, GPIO.LOW)
-			sleep (self.waitDelay)
-			# TODO:
-			#if GPIO.input(self.endstopbutton)==1 and direction>0:
-			#	break;
+			sleep (self.waitDelay * 10)
 
-		self.powerOff()
-		return self.info()
+		#self.powerOff()
+		return self.Info()
 		
 	#do while endstop button pressed
-	def doCalibrate(self):
-		#while GPIO.input(self.endstopbutton)!=1 and self.currentPosition > -10000:
-		#	self.doStep(1000)
-		self.doStep(1000)
+	def DoCalibrate(self):
+		self.DoStep(1000)
 		self.currentPosition=0
-		return self.info()
-
-	#do reset
-	def doReset(self):
+		return self.Info()
+	
+	# reset
+	def DoReset(self):
 		self.currentPosition=0
-		self.powerOff()
-		return self.info()
-
+		self.PowerOff()
+		return self.Info()
 	#emulate gpio.output with arrays
-	def gpioOutput(self, channelArray, valueArray):
+	def GpioOutput(self, channelArray, valueArray):
 		for channelCount in range(len(channelArray)):
 			GPIO.output(channelArray[channelCount], valueArray[channelCount])
 
-	# set Power off
-	def powerOff(self):
-		print ("GPIO.powerOff()")
-		#self.gpioOutput(self.motorChannel, (0, 0, 0, 0))
-		#GPIO.output(self.motorChannel,(0,0,0,0))
-
 	#callback button pressed
-	def endstopCallback(self,port):
+	def EndstopCallback(self,port):
 		#print("     -----> GPIO.input() - Button pressed - stop loop")
 		self.endStop = True
 		self.currentPosition = 0
+
+	#callback button released
+	def EndstopCallbackReleased(self,port):
+		print("     -----> GPIO.input() - Button released - stop loop")

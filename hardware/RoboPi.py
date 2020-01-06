@@ -64,7 +64,7 @@ stepsPerKey = 10
 if direction == "up" or direction == "down" or direction == "slot":
 	# name, direction, step
 	# init activate power - motor becomes hot
-	ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 21, 23, 19)
+	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
 	#ElevatorMotor1.setEndstop(11)
 	##not yet -> handling of sleepPin missing - ElevatorMotor1.powerOff()
 	motorName = "Elevator"
@@ -72,7 +72,7 @@ if direction == "up" or direction == "down" or direction == "slot":
 if direction == "in" or direction == "out":
 	# name, direction, step
 	# init activate power - motor becomes hot
-	ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 3, 5, 7)
+	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7)
 	#ConnectorMotor1.setEndstop(23)
 	#ConnectorMotor1.powerOff()
 	motorName = "Connector"
@@ -81,10 +81,10 @@ if direction == "in" or direction == "out":
 if direction == "poweroff":
 	motorName = "PowerOff"
 	print("PowerOff")
-	ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 21, 23, 19)
-	ElevatorMotor1.powerOff()
-	ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 3, 5, 7)
-	ConnectorMotor1.powerOff()
+	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
+	ElevatorMotor1.PowerOff()
+	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7)
+	ConnectorMotor1.PowerOff()
 
 
 command = "dostep"
@@ -96,37 +96,41 @@ print("MotorHandler, motorName, command, direction, steps", motorName, command, 
 # zu einem bestimmten Slot fahren 
 if direction == "slot" and slot != 0:
 	steps = 500
-	retJson = motor.doStep(steps * -1)
+	retJson = motor.DoStep(steps * -1)
 	# goto slot
 	steps = stepsToFirstSlot + ((slot -1) * stepsPerSlot)
 	print("steps to slot", steps)
-	retJson = motor.doStep(steps)
+	retJson = motor.DoStep(steps)
 # auf init position fahren
 if direction == "slot" and slot == 0:
 	steps = 500
 	print("steps to slot", steps)
-	retJson = motor.doStep(steps * -1)
+	retJson = motor.DoStep(steps * -1)
 
 # Elevator: rauf und runter
 #Im Uhrzeiger, rauf
 if direction == "up":
-	retJson = motor.doStep(steps)
+	motor.PowerOn()
+	retJson = motor.DoStep(steps)
 	print ("retJson ", retJson)
 #gegen den Uhrzeiger, runter
 if direction == "down":
-	retJson = motor.doStep(steps * -1)
+	motor.PowerOn()
+	retJson = motor.DoStep(steps * -1)
 	print ("retJson ", retJson)
 
 # Connector, rein und raus
 #Im Uhrzeiger, rein
 if direction == "in":
-	retJson = motor.doStep(steps)
-	motor.powerOff()
+	motor.PowerOn()
+	retJson = motor.DoStep(steps)
+	motor.PowerOff()
 	print ("retJson ", retJson)
 #gegen den Uhrzeiger, raus
 if direction == "out":
-	retJson = motor.doStep(steps * -1)
-	motor.powerOff()
+	motor.PowerOn()
+	retJson = motor.DoStep(steps * -1)
+	motor.PowerOff()
 	print ("retJson ", retJson)
 
 

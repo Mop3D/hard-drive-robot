@@ -2,20 +2,156 @@
 # coding: utf8
 from tornado import websocket, web, ioloop
 
-class MotorHandlerB(web.RequestHandler):
-    def initialize(self, gpioExists):
-        self.gpioExists = gpioExists
-        print("MotorHandler init gpioExists:", gpioExists)
+
+#
+# HDRack worker class
+#        
+class HDRackWorker():
+    # init
+    def __init__(self, socketHandler):
+        # check if gpio exists
+        self.gpioExists = True
+        self.ElevatorMotor = None
+        self.ConnectorMotor = None
+        try:
+            import RPi.GPIO as GPIO
+        except ImportError:
+            self.gpioExists = False
+        self.socketHandler = socketHandler
+        print("HDRackWorker: init gpioExists:", self.gpioExists)
+
+        # init motors
+        if self.gpioExists:
+            print ("init motors")
+            # load GpioMotor
+            import GpioMotor
+        
+            #Elevator
+            #Elevator Slot
+            self.stepsPerSlot = 400
+            #Elevator Motor
+            self.stepsPerRound = 4096
+
+            self.stepsPerKey = 100
+            self.stepsToConnect = 1830
+
+            self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
+            #ElevatorMotor1.SetEndstop(18)
+            self.ElevatorMotor.SetSendMessage(socketHandler.SendMessage)
+
+            self.ConnectorMotor = GpioMotor.GpioMotor("Connector", 3, 5, 7)
+            #ConnectorMotor1.SetEndstop(26) 
+            self.ConnectorMotor.SetSendMessage(socketHandler.SendMessage)
+
+    # info motor
+    def InfoMotor(self, motorName):
+        if motorName == "Connector":
+            return self.ConnectorMotor.Info()
+        else:
+            return self.ElevatorMotor.Info()
+
+    # reset motor
+    def ResetMotor(self, motorName):
+        if motorName == "Connector":
+            return self.ConnectorMotor.DoReset()
+        else:
+            return self.ElevatorMotor.DoReset()
+
+    # move Elevator, up and down
+    def MoveElevator(self, direction, steps):
+        retJson = {}
+        self.ElevatorMotor.PowerOn()
+        #Im Uhrzeiger, hoch
+        if direction == "up":
+            print ("HDRackWorker: move up", retJson)
+       	    retJson = self.ElevatorMotor.DoStep(steps)
+        #gegen den Uhrzeiger, runter
+        if direction == "down":
+            print ("HDRackWorker: move down", retJson)
+            retJson = self.ElevatorMotor.DoStep(steps * -1)
+        #self.ElevatorMotor.powerOff()
+        return retJson
+
+    # move Connector, in and out
+    def MoveConnector(self, direction, steps):
+        retJson = {}
+        self.ConnectorMotor.PowerOn()
+        #Im Uhrzeiger, rein
+        if direction == "in":
+            print ("HDRackWorker: move in", retJson)
+       	    retJson = self.ConnectorMotor.DoStep(steps)
+        #gegen den Uhrzeiger, raus
+        if direction == "out":
+            print ("HDRackWorker: move out", retJson)
+            retJson = self.ConnectorMotor.DoStep(steps * -1)
+        self.ConnectorMotor.PowerOff()
+        return retJson
+
+
+class MotorHandler(web.RequestHandler):
+    def initialize(self, hdrackWork):
+        self.hdrackWork = hdrackWork
+        print("MotorHandler init gpioExists:", self.hdrackWork.gpioExists)
 
     @web.asynchronous
     def get(self, motorName, command):
-        if self.gpioExists == False:
+        if self.hdrackWork.gpioExists == False:
+            retJson = { "name": motorName, "error": "no device" }
+            self.hdrackWork.socketHandler.SendMessage("motorinfo", retJson)
+            self.write(retJson)
+            self.finish()
             return
 
-        print("MotorHandler get gpioExists:", self.gpioExists)
-        pass
+        print("  ---  MotorHandler, motorName, command", motorName, command)
 
-class MotorHandler(web.RequestHandler):
+        retJson = { "name": motorName, "command": command }
+
+        # info
+        if command == "info":
+            retJson = self.hdrackWork.InfoMotor(motorName)
+
+        # elevator up
+        elif command.startswith("up"):
+            steps = int(command.replace("up", ""))
+            if command == "up":
+                steps = self.hdrackWork.stepsPerKey
+            retJson = self.hdrackWork.MoveElevator("up", steps)
+        #elevator down
+        elif command.startswith("down"):
+            steps = int(command.replace("down", ""))
+            print("down steps", steps)
+            if command == "down":
+                steps = self.hdrackWork.stepsPerKey
+            retJson = self.hdrackWork.MoveElevator("down", steps)
+
+        #connector forward
+        elif command.startswith("forward"):
+            steps = int(command.replace("forward", ""))
+            if command == "forward":
+                steps = self.hdrackWork.stepsPerKey
+            retJson = self.hdrackWork.MoveConnector("in", steps)
+        #connector backward
+        elif command.startswith("backward"):
+            steps = int(command.replace("backward", ""))
+            if command == "forward":
+                steps = self.hdrackWork.stepsPerKey
+            retJson = self.hdrackWork.MoveConnector("out", steps)
+
+        #reset
+        elif command == "reset":
+            retJson = self.hdrackWork.ResetMotor(motorName)
+        else:
+            retJson = { "Motor": command }
+
+        self.hdrackWork.socketHandler.SendMessage("motorinfo", retJson)
+        print ("retJson ", retJson)
+        self.write(retJson)
+        self.finish()
+
+
+
+
+class MotorHandlerB(web.RequestHandler):
     def initialize(self, gpioExists, socketHandler):
         self.gpioExists = gpioExists
         self.socketHandler = socketHandler

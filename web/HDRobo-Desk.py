@@ -39,51 +39,33 @@ except ImportError:
 
 
 # load the robo components
-from API_HDRack import MotorHandler
+from API_HDRack import MotorHandler, HDRackWorker
 if gpioExists:
+    print ("init motors")
 # load GpioMotor
-    import GpioMotor
+    #import GpioMotor
  
     #Elevator
     #Elevator Slot
-    stepsPerSlot = 400
+    #stepsPerSlot = 400
     #Elevator Motor
-    stepsPerRound = 4096
+    #stepsPerRound = 4096
 
-    stepsPerKey = 100
-    stepsToConnect = 1830
+    #stepsPerKey = 100
+    #stepsToConnect = 1830
 
-    ####test
-    #GpioMotor.gpioResolution(3, 5, 7)
-    #GpioMotor.gpioResolution(11, 13, 15)
-    GpioMotor.gpioResolution(19, 21, 23)
-    ####test
+    #ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 21, 23, 19)
+    ##ElevatorMotor1.setEndstop(18)
+    #ElevatorMotor1.powerOff()
 
-    #GpioMotor.gpioResolution(11, 13, 15)
-
-    ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 16, 18)
-    ElevatorMotor1.setSpeed(50)    
-    #ElevatorMotor1.setEndstop(18)
-
-    ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21)
-    ConnectorMotor1.setSpeed(50)    
-    #ConnectorMotor1.setEndstop(26) 
-    ConnectorMotor1.powerOff()
-
-    #Gear Motor
-    #    # motor1 11,16,18,22 Motor alleine
-    #    # motor1 11, 13, 15, 16 Endstop 18 Robot
-    #    # motor2 19, 21, 23, 24 Endstop 26 Robot
-    #    ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 11, 13, 15, 16)
-    #    ElevatorMotor1.setSpeed(50)    
-    #    ElevatorMotor1.setEndstop(18)
-    #    ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 19, 21, 23, 24)
-    #    ConnectorMotor1.setSpeed(50)    
-    #    #ConnectorMotor1.setEndstop(26)
-    #    ConnectorMotor1.powerOff()
+    #ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 3, 5, 7)
+    ##ConnectorMotor1.setEndstop(26) 
+    #ConnectorMotor1.powerOff()
 # /load the robo components
 
-
+#
+# the page handlers
+#
 class IndexHandler(web.RequestHandler):
     def get(self):
         self.render("ClientApp/build/index.html")
@@ -91,9 +73,30 @@ class IndexHandler(web.RequestHandler):
 class IndexFirstHandler(web.RequestHandler):
     def get(self):
         self.render("first/templates/index.html")
+#
 
 
-class ApiHandler(web.RequestHandler):
+#
+# must set before the api handlers
+# CORS for development 
+class BaseHandler(web.RequestHandler):
+
+    def set_default_headers(self):
+        self.set_header("access-control-allow-origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS')
+        # HEADERS!
+        self.set_header("Access-Control-Allow-Headers", "access-control-allow-origin,authorization,content-type") 
+
+    def options(self):
+        # no body
+        self.set_status(204)
+        self.finish()
+
+#
+# the api handler
+#
+class ApiHandler(BaseHandler):
 
     @web.asynchronous
     def get(self, *args):
@@ -110,6 +113,11 @@ class ApiHandler(web.RequestHandler):
     @web.asynchronous
     def post(self):
         pass
+
+
+
+
+
 
 
 #
@@ -132,9 +140,9 @@ class SocketHandler(websocket.WebSocketHandler):
         print ("open socket")
         if self not in cl:
             cl.append(self)
-        if gpioExists:
-            ElevatorMotor1.setSendMessage(SocketHandler.SendMessage)
-            ConnectorMotor1.setSendMessage(SocketHandler.SendMessage)
+        #if gpioExists:
+        #    ElevatorMotor1.setSendMessage(SocketHandler.SendMessage)
+        #    ConnectorMotor1.setSendMessage(SocketHandler.SendMessage)
         
         robotWork.ConnectedInfo()
         
@@ -142,9 +150,9 @@ class SocketHandler(websocket.WebSocketHandler):
         print ("open closed")
         if self in cl:
             cl.remove(self)
-        if gpioExists:
-            ElevatorMotor1.setSendMessage(None)
-            ConnectorMotor1.setSendMessage(None)
+        #if gpioExists:
+        #    ElevatorMotor1.setSendMessage(None)
+        #    ConnectorMotor1.setSendMessage(None)
 
     @staticmethod
     def SendMessage(command, data):
@@ -223,6 +231,8 @@ def signalHandler(signum, frame):
 signal.signal(signal.SIGALRM, signalHandler)
 #signal.setitimer(signal.ITIMER_REAL, 5)
 
+# init the HDRack Worker class
+hdrackWork = HDRackWorker(SocketHandler)
 # init the Robot Worker class
 robotWork = RobotWorker(SocketHandler)
 # init the socket handler class
@@ -235,7 +245,7 @@ app = web.Application(
     (r'/ws', SocketHandler),
     (r'/api/(.*)', ApiHandler),
     #(r'/motor/([0-9]+)', MotorHandler),
-    (r'/motor/(.*)/(.*)', MotorHandler, dict(gpioExists=gpioExists, socketHandler=socketHandler)), #/motor/motorName/Command
+    (r'/motor/(.*)/(.*)', MotorHandler, dict(hdrackWork=hdrackWork)), #/motor/motorName/Command
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     #(r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
     (r'/static/(.*)', web.StaticFileHandler, {'path': static_path_dir}),
