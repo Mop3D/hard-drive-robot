@@ -1,15 +1,19 @@
 // functions
 export const robopiApi = (callname: string) => {
-  const robopiapiurl = "http://debian-2:8888/api";
+  const robopiapiurl = "http://hdrobo:8888";
+  console.log("call api", callname)
   switch (callname)
   {
     case "ping":
-      return robopiapiurl + "/ping?dast=true";
+      return robopiapiurl + "/api/ping?dast=true";
+      break;
+    default:
+      return robopiapiurl + callname;
       break;
   }
   return ""
 };
 export const robopiWs = () => {
-  return "ws://debian-2:8888/ws";
+  return "ws://hdrobo:8888/ws";
 }
 
