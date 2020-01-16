@@ -2,6 +2,8 @@
 # coding: utf8
 from tornado import websocket, web, ioloop
 
+from Common import BaseHandler
+
 
 #
 # HDRack worker class
@@ -57,6 +59,17 @@ class HDRackWorker():
         else:
             return self.ElevatorMotor.DoReset()
 
+    # power off
+    def PowerOffMotor(self, motorName):
+        retJson = {}
+        if motorName == "Connector":
+            self.ConnectorMotor.PowerOff()
+            retJson = self.ConnectorMotor.Info()
+        else:
+            self.ElevatorMotor.PowerOff()
+            retJson = self.ElevatorMotor.Info()
+        return retJson
+
     # move Elevator, up and down
     def MoveElevator(self, direction, steps):
         retJson = {}
@@ -69,7 +82,7 @@ class HDRackWorker():
         if direction == "down":
             print ("HDRackWorker: move down", retJson)
             retJson = self.ElevatorMotor.DoStep(steps * -1)
-        #self.ElevatorMotor.powerOff()
+        #self.ElevatorMotor.PowerOff()
         return retJson
 
     # move Connector, in and out
@@ -88,7 +101,7 @@ class HDRackWorker():
         return retJson
 
 
-class MotorHandler(web.RequestHandler):
+class MotorHandler(BaseHandler):
     def initialize(self, hdrackWork):
         self.hdrackWork = hdrackWork
         print("MotorHandler init gpioExists:", self.hdrackWork.gpioExists)
@@ -137,6 +150,28 @@ class MotorHandler(web.RequestHandler):
                 steps = self.hdrackWork.stepsPerKey
             retJson = self.hdrackWork.MoveConnector("out", steps)
 
+        elif command == "slot":
+            #if ConnectorMotor1.currentPosition > 0:
+            #	ConnectorMotor1.doStep(stepsToConnect);
+            slotNo = int(self.get_argument('slotno', None, True))
+            if slotNo == 1:
+                stepsToSlot = 115
+            if slotNo == 2:
+                stepsToSlot = 180
+            if slotNo == 3:
+                stepsToSlot = 247
+            if slotNo == 4:
+                stepsToSlot = 314
+            if slotNo == 5:
+                stepsToSlot = 376
+            steps = stepsToSlot - int(motor.currentPosition)
+            print("slot, stepsPerSlot, stepsToSlot, steps, currentPosition ", slotNo, stepsPerSlot, stepsToSlot, steps, motor.currentPosition)
+            robotWork.ConnectToSlot(slotNo)
+            retJson = motor.doStep(steps)
+
+        #power off
+        elif command == "poweroff":
+            retJson = self.hdrackWork.PowerOffMotor(motorName)
         #reset
         elif command == "reset":
             retJson = self.hdrackWork.ResetMotor(motorName)
@@ -147,9 +182,6 @@ class MotorHandler(web.RequestHandler):
         print ("retJson ", retJson)
         self.write(retJson)
         self.finish()
-
-
-
 
 class MotorHandlerB(web.RequestHandler):
     def initialize(self, gpioExists, socketHandler):
