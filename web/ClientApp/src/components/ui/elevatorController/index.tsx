@@ -24,17 +24,32 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
     componentDidMount() {
     }
 
-    button_Click(type: string)
+    button_Click(type: string, value?: number)
     {
+        var url = "";
+        var motorName = "";
+        var command = "";
         console.log("button_Click", type)
         if (type == "ping")
             this.sendCommand(type);
+        if (type == "up" || type == "down" || type == "poweroff" || type == "reset")
+            motorName = "Elevator";
+        command = type;
+        if (type == "up" || type == "down")
+        {
+            command = type + value;
+        }
+        if (motorName == "")
+            return;
+        var apiUrl = '/motor/' + motorName + "/" + command;
+        this.sendCommand(apiUrl);
     }
     //
     // send command: ping
     //
     sendCommand = async (command: string) => {
         const APIENDPOINT = robopiApi(command);
+        console.log("sendCommand", APIENDPOINT)
 
         /* get dropdown data */
         const res = await axios.get(APIENDPOINT);
@@ -61,34 +76,46 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
         const pageContent = <div className="elevatorcontroller">
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("up")}>up</button>
+                    <button onClick={() => this.button_Click("up", 50)}>up</button>
                 </div>
             </div>
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-5 center">
-                <button onClick={() => this.button_Click("in")}>in</button>
+                <button onClick={() => this.button_Click("in", undefined)}>in</button>
                 </div>
                 <div className="col-5 center">
-                <button onClick={() => this.button_Click("out")}>out</button>
+                <button onClick={() => this.button_Click("out", undefined)}>out</button>
                 </div>
                 <div className="col-1"></div>
             </div>
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("down")}>down</button>
+                    <button onClick={() => this.button_Click("down", 50)}>down</button>
                 </div>
             </div>
             <hr/>
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("calibration")}>calibrate</button>
+                    <button onClick={() => this.button_Click("poweroff", undefined)}>power off</button>
                 </div>
             </div>
             <hr/>
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("ping")}>ping</button>
+                    <button onClick={() => this.button_Click("calibration", undefined)}>calibrate</button>
+                </div>
+            </div>
+            <hr/>
+            <div className="row">
+                <div className="col-12 center">
+                    <button onClick={() => this.button_Click("reset", undefined)}>reset</button>
+                </div>
+            </div>
+            <hr/>
+            <div className="row">
+                <div className="col-12 center">
+                    <button onClick={() => this.button_Click("ping", undefined)}>ping</button>
                 </div>
             </div>
         </div>
