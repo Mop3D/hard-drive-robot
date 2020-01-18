@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { SendCommand } from "../../misc/function";
 
 interface IOwnProps {
     slotNo: number,
@@ -23,10 +23,12 @@ export default class RackSlot extends React.Component<IOwnProps, {}> {
             loading: false,
             hasError: false
         });
- */    }
+ */ 
+}
     slot_onClick()
     {
         console.log("slot no", this.props.slotNo)    
+        SendCommand(this, "slot", this.props.slotNo);
     }
 
     render() {
