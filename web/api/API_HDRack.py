@@ -164,11 +164,14 @@ class MotorHandler(BaseHandler):
                 stepsToSlot = 314
             if slotNo == 5:
                 stepsToSlot = 376
-            steps = stepsToSlot - int(motor.currentPosition)
-            print("slot, stepsPerSlot, stepsToSlot, steps, currentPosition ", slotNo, stepsPerSlot, stepsToSlot, steps, motor.currentPosition)
-            robotWork.ConnectToSlot(slotNo)
-            retJson = motor.doStep(steps)
+            steps = stepsToSlot
+            retJson = self.hdrackWork.MoveElevator("up", steps)
+            print("slot, stepsToSlot, steps, currentPosition ", slotNo, stepsToSlot, steps)
 
+            #steps = stepsToSlot - int(motor.currentPosition)
+            #print("slot, stepsPerSlot, stepsToSlot, steps, currentPosition ", slotNo, stepsPerSlot, stepsToSlot, steps, motor.currentPosition)
+            #robotWork.ConnectToSlot(slotNo)
+            #retJson = motor.doStep(steps)
         #power off
         elif command == "poweroff":
             retJson = self.hdrackWork.PowerOffMotor(motorName)
