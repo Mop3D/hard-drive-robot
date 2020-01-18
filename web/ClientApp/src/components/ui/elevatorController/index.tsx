@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { robopiApi } from "../../misc/function";
+import { SendCommand } from "../../misc/function";
 import MessageBox from '../../ui/messageBox';
 import { stringify } from 'querystring';
 
@@ -26,52 +26,10 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
 
     button_Click(type: string, value?: number)
     {
-        var url = "";
-        var motorName = "";
-        var command = "";
-        console.log("button_Click", type)
-        if (type == "ping")
-            this.sendCommand(type);
-        if (type == "up" || type == "down" || type == "poweroff" || type == "reset")
-            motorName = "Elevator";
-        command = type;
-        if (type == "up" || type == "down")
-        {
-            command = type + value;
-        }
-        if (motorName == "")
-            return;
-        var apiUrl = '/motor/' + motorName + "/" + command;
-        this.sendCommand(apiUrl);
+        SendCommand(this, type, value);
     }
-    //
-    // send command: ping
-    //
-    sendCommand = async (command: string) => {
-        const APIENDPOINT = robopiApi(command);
-        console.log("sendCommand", APIENDPOINT)
 
-        /* get dropdown data */
-        const res = await axios.get(APIENDPOINT);
-        const { data } = await res;
-        try {
-            console.log("sendCommand", command, data)
-            if (data) {
-                this.setState({
-                    outMessage: "returnData: " + stringify(data),
-                    hasError: false
-                });
-            } else {
-                console.error("sendCommand - no valid data", data);
-                this.setState({ hasError: true });
-            }
-        } catch (e) {
-            console.error("sendCommand - error data", e);
-            this.setState({ hasError: true });
-        }
-    }
     // render
-    
     render() {
         const pageContent = <div className="elevatorcontroller">
             <div className="row">

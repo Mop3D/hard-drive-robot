@@ -1,10 +1,11 @@
 import * as React from 'react';
 import axios from 'axios';
+import Websocket from 'react-websocket';
+import { stringify } from 'querystring';
 //import { has } from 'lodash';
 import Loading from '../../ui/loading';
 import MessageBox from '../../ui/messageBox';
-import Websocket from 'react-websocket';
-import { stringify } from 'querystring';
+import { HDRoboWS } from "../../misc/function";
 
 
 interface IOwnProps {
@@ -60,7 +61,7 @@ export default class SocketMessages extends React.Component<IOwnProps, {}> {
                     {this.state.wsMessages}
                 </div>
             </div>
-            <Websocket url='ws://hdrobo:8888/ws'
+            <Websocket url="ws://hdrobo:8888/ws"
                     onMessage={this.Websocket_onMessage.bind(this)}
                     onOpen={this.Websocket_onOpen.bind(this)}
                     onClose={this.Websocket_onClose.bind(this)}
