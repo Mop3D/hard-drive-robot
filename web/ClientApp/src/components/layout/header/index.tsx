@@ -9,7 +9,7 @@ export default class Header extends React.Component<{}, {}> {
          <li className="header__item"><a className="header__link" href="#">Files</a></li>
        </ul>
        <ul className="header__list header__list--float-right">
-         <li className="header__item"><a className="header__link" href="#">Info V0.2020.01.18.1</a></li>
+         <li className="header__item"><a className="header__link" href="#">Info V0.2020.01.19.1</a></li>
        </ul>
      </header>;
     }
