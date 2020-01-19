@@ -53,13 +53,25 @@ class GpioMotor(object):
 	# info
 	def Info(self):
 		print ('\n--- motor info --- ')
-		print (" channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
-		print (" currentPosition = " + str(self.currentPosition))
-		print (" self = " + self.__class__.__name__)
-		info = { "name": self.name, "channels": str(self.directionPin) + "/" + str(self.stepPin) +"/"+str(self.sleepPin), "currentPosition": self.currentPosition }
+		#print (" channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
+		#print (" currentPosition = " + str(self.currentPosition))
+		#print (" self = " + self.__class__.__name__)
+		info = { "name": self.name, "currentPosition": self.currentPosition }
+		self.InfoPin(info, "direction", self.directionPin)
+		self.InfoPin(info, "step", self.stepPin)
+		self.InfoPin(info, "sleep", self.sleepPin)
+		self.InfoPin(info, "endStopButton", self.endStopButtonPin)
+		print (" info = ", info)
 		if self.sendMessage:
 			self.sendMessage("statusinfo", info)
 		return info
+	# info Pin
+	def InfoPin(self, infoObject, pinName, pinValue):
+		if pinValue == 0:
+			return
+		infoObject[pinName] = { "Pin": pinValue, "Status": "off" }
+		if GPIO.input(pinValue) == 1:
+			infoObject[pinName]["Status"] = "on"
 
 	# set powerOn
 	def PowerOn(self):
