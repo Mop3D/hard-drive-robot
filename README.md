@@ -32,6 +32,10 @@ get the last version of tornado
 $ sudo python -m pip install tornado
 ```
 
+```
+Install yaml
+$ sudo python -m pip install pyyaml
+```
 
 
 

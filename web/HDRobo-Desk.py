@@ -27,8 +27,8 @@ settings = {
 }
 
 # common
+# must set before the api handlers
 from Common import BaseHandler
-
 
 # web Index and API
 from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler

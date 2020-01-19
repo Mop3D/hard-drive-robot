@@ -1,7 +1,16 @@
 #!/usr/bin/python
 # coding: utf8
+import yaml
 from tornado import websocket, web, ioloop
 
+
+# HDRobo config
+hdRoboCfg = None
+# load HDRobo config
+with open("../HDRobo.conf.yml", 'r') as ymlfile:
+    hdRoboCfg = yaml.load(ymlfile, Loader=yaml.BaseLoader)
+#for section in hdRoboCfg:
+#    print(section)
 
 #
 # must set before the api handlers

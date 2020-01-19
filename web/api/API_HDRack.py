@@ -10,7 +10,7 @@ author: oliver Klepach, Martin Weichselbaumer
 
 from tornado import websocket, web, ioloop
 
-from Common import BaseHandler
+from Common import hdRoboCfg, BaseHandler
 
 
 #
@@ -32,6 +32,9 @@ class HDRackWorker():
 
         # init motors
         if self.gpioExists:
+            # removes message: RuntimeWarning: This channel is already in use, continuing anyway.
+            GPIO.setwarnings(False)
+
             print ("init motors")
             # load GpioMotor
             import GpioMotor
@@ -45,12 +48,17 @@ class HDRackWorker():
             self.stepsPerKey = 100
             self.stepsToConnect = 1830
 
-            self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
-            #ElevatorMotor1.SetEndstop(18)
+            elevatorRackCfg = hdRoboCfg["Rack"]["Elevator"]
+            print("HDRackWorker: config Rack", elevatorRackCfg)
+
+            #self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
+            self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", int(elevatorRackCfg["DirectionPin"]), int(elevatorRackCfg["StepPin"]), int(elevatorRackCfg["SleepPin"]))
+            #ElevatorMotor1.SetEndstop(13)
+            if "StopPin" in elevatorRackCfg:
+                self.ElevatorMotor.SetEndstop(int(elevatorRackCfg["StopPin"]))
             self.ElevatorMotor.SetSendMessage(socketHandler.SendMessage)
 
             self.ConnectorMotor = GpioMotor.GpioMotor("Connector", 3, 5, 7)
-            #ConnectorMotor1.SetEndstop(26) 
             self.ConnectorMotor.SetSendMessage(socketHandler.SendMessage)
 
     # info motor
