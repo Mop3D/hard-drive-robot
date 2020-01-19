@@ -28,7 +28,7 @@ settings = {
 
 # common
 # must set before the api handlers
-from Common import BaseHandler
+from Common import hdRoboCfg
 
 # web Index and API
 from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler
@@ -100,8 +100,9 @@ app = web.Application(
 )
 
 if __name__ == '__main__':
-    print ("start app on 8888")
-    app.listen(8888)
+    webPort = hdRoboCfg["WebServer"]["Port"]
+    print ("start app on Port", webPort)
+    app.listen(int(webPort))
     #auto reload after file change
     #TODO remove in prod
     #tornado.autoreload.start()
