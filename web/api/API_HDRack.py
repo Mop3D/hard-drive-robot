@@ -199,7 +199,8 @@ class MotorHandler(BaseHandler):
 
         self.hdrackWork.socketHandler.SendMessage("motorinfo", retJson)
         print ("retJson ", retJson)
-        self.write(retJson)
+        if retJson is not None:
+            self.write(retJson)
         self.finish()
 
 class MotorHandlerB(web.RequestHandler):

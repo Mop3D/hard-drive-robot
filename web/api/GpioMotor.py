@@ -13,12 +13,12 @@ import RPi.GPIO as GPIO
 
 class GpioMotor(object):
 	"""Motor - GPIO out"""
+	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BOARD)
 
 	name = 'motor'
 	currentPosition = 0
 	endStop = False
-	endstopbutton = 0
 
 	waitDelay = .0208 / 32
 	#waitDelay = .0208 / 16
@@ -33,6 +33,7 @@ class GpioMotor(object):
 		self.stepPin = stepPin
 		self.endStop=False
 		self.sleepPin=sleepPin
+		self.endStopButtonPin = 0
 		print (" *****channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
 
 		# define out pins
@@ -79,34 +80,34 @@ class GpioMotor(object):
 
 	# set endstop gpio port
 	def SetEndstop(self, endstopport):
-		self.endstopbutton = endstopport
-		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-		# change to PULL-UP
-		#GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-		print ("set Endstop", self.endstopbutton)
-		#if not GPIO.input(self.endstopbutton):
-		if GPIO.input(self.endstopbutton):
+		self.endStopButtonPin = endstopport
+		GPIO.setup(self.endStopButtonPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+				# change to PULL-UP
+				#GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		print ("set Endstop", self.endStopButtonPin)
+			#if not GPIO.input(self.endstopbutton):
+		if GPIO.input(self.endStopButtonPin):
 			self.endStop = True
 		print ("Endstop", self.endStop)
 
-		#xi = 0
-		#while 1:
-		#	if not GPIO.input(self.endstopbutton):
-		#		print ("Pressed " + str(xi) )
-		#		xi = xi + 1
-		# call when Button Released
-		#GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.EndstopCallback)  
-		# call when Button Pressed
-		GPIO.add_event_detect(self.endstopbutton, GPIO.RISING, callback=self.EndstopCallback)  
+				#xi = 0
+				#while 1:
+				#	if not GPIO.input(self.endstopbutton):
+				#		print ("Pressed " + str(xi) )
+				#		xi = xi + 1
+				# call when Button Released
+				#GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.EndstopCallback)  
+				# call when Button Pressed
+		GPIO.add_event_detect(self.endStopButtonPin, GPIO.RISING, callback=self.EndstopCallback)  
 		
 	# set endstop gpio port
 	def TestEndStop(self):
-		print ("Test End Stop", self.endstopbutton)
+		print ("Test End Stop", self.endStopButtonPin)
 		xx1 = 0
 		for xi in range (2000):
 			sleep (1)
-			print ("    status: ", GPIO.input(self.endstopbutton))
-		print ("Test End Stop", self.endstopbutton)
+			print ("    status: ", GPIO.input(self.endStopButtonPin))
+		print ("Test End Stop", self.endStopButtonPin)
 
 
 	# do step
