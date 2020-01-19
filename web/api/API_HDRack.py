@@ -52,13 +52,13 @@ class HDRackWorker():
             print("HDRackWorker: config Rack", elevatorRackCfg)
 
             #self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
-            self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", int(elevatorRackCfg["DirectionPin"]), int(elevatorRackCfg["StepPin"]), int(elevatorRackCfg["SleepPin"]))
+            self.ElevatorMotor = GpioMotor.GpioMotor("Elevator", int(elevatorRackCfg["DirectionPin"]), int(elevatorRackCfg["StepPin"]), int(elevatorRackCfg["SleepPin"]), False)
             #ElevatorMotor1.SetEndstop(13)
             if "StopPin" in elevatorRackCfg:
                 self.ElevatorMotor.SetEndstop(int(elevatorRackCfg["StopPin"]))
             self.ElevatorMotor.SetSendMessage(socketHandler.SendMessage)
 
-            self.ConnectorMotor = GpioMotor.GpioMotor("Connector", 3, 5, 7)
+            self.ConnectorMotor = GpioMotor.GpioMotor("Connector", 3, 5, 7, True)
             self.ConnectorMotor.SetSendMessage(socketHandler.SendMessage)
 
     # info motor
@@ -89,7 +89,6 @@ class HDRackWorker():
     # move Elevator, up and down
     def MoveElevator(self, direction, steps):
         retJson = {}
-        self.ElevatorMotor.PowerOn()
         #Im Uhrzeiger, hoch
         if direction == "up":
             print ("HDRackWorker: move up", retJson)
@@ -98,13 +97,11 @@ class HDRackWorker():
         if direction == "down":
             print ("HDRackWorker: move down", retJson)
             retJson = self.ElevatorMotor.DoStep(steps * -1)
-        #self.ElevatorMotor.PowerOff()
         return retJson
 
     # move Connector, in and out
     def MoveConnector(self, direction, steps):
         retJson = {}
-        self.ConnectorMotor.PowerOn()
         #Im Uhrzeiger, rein
         if direction == "in":
             print ("HDRackWorker: move in", retJson)
@@ -113,7 +110,6 @@ class HDRackWorker():
         if direction == "out":
             print ("HDRackWorker: move out", retJson)
             retJson = self.ConnectorMotor.DoStep(steps * -1)
-        self.ConnectorMotor.PowerOff()
         return retJson
 
 
@@ -165,29 +161,29 @@ class MotorHandler(BaseHandler):
             if command == "forward":
                 steps = self.hdrackWork.stepsPerKey
             retJson = self.hdrackWork.MoveConnector("out", steps)
-
+        # move to Slot
         elif command == "slot":
-            #if ConnectorMotor1.currentPosition > 0:
-            #	ConnectorMotor1.doStep(stepsToConnect);
             slotNo = int(self.get_argument('slotno', None, True))
             if slotNo == 1:
-                stepsToSlot = 115
+                stepsToSlot = 107
             if slotNo == 2:
-                stepsToSlot = 180
+                stepsToSlot = 169
             if slotNo == 3:
-                stepsToSlot = 247
+                stepsToSlot = 237
             if slotNo == 4:
-                stepsToSlot = 314
+                stepsToSlot = 305
             if slotNo == 5:
-                stepsToSlot = 376
+                stepsToSlot = 373
             steps = stepsToSlot
             retJson = self.hdrackWork.MoveElevator("up", steps)
             print("slot, stepsToSlot, steps, currentPosition ", slotNo, stepsToSlot, steps)
-
-            #steps = stepsToSlot - int(motor.currentPosition)
-            #print("slot, stepsPerSlot, stepsToSlot, steps, currentPosition ", slotNo, stepsPerSlot, stepsToSlot, steps, motor.currentPosition)
-            #robotWork.ConnectToSlot(slotNo)
-            #retJson = motor.doStep(steps)
+        # connect to
+        elif command == "connect":
+            steps = 75
+            retJson = self.hdrackWork.MoveConnector("in", steps)
+        elif command == "disconnect":
+            steps = 75
+            retJson = self.hdrackWork.MoveConnector("out", steps)
         #power off
         elif command == "poweroff":
             retJson = self.hdrackWork.PowerOffMotor(motorName)

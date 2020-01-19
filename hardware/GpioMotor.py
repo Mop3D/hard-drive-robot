@@ -26,22 +26,24 @@ class GpioMotor(object):
 	sendMessage = None
 
 	# init. name of the motor, a,b,c,d are the contoling gpio ports
-	def __init__(self, name, directionPin, stepPin, sleepPin):
+	# if powerOffAfterCommand == True allways Power Off after the command is thru
+	def __init__(self, name, directionPin, stepPin, sleepPin, powerOffAfterCommand):
 		self.name = name
 		# init step position
 		self.directionPin = directionPin
 		self.stepPin = stepPin
-		self.endStop=False
 		self.sleepPin=sleepPin
 		self.endStopButtonPin = 0
+		self.powerOffAfterCommand = powerOffAfterCommand
+		self.endStop=False
 		print (" *****channels = " + str(self.directionPin) + "/" + str(self.stepPin) + "/" +str(self.sleepPin))
 
 		# define out pins
 		GPIO.setup(directionPin, GPIO.OUT)
 		GPIO.setup(stepPin, GPIO.OUT)
 		GPIO.setup(sleepPin, GPIO.OUT)
-		# allways set to off
-		GPIO.output(self.sleepPin, GPIO.LOW)
+		# allways set to off - NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+		#GPIO.output(self.sleepPin, GPIO.LOW)
 
 	# set SendMessage method
 	def SetSendMessage(self, SendMessage):
@@ -61,8 +63,9 @@ class GpioMotor(object):
 	# set powerOn
 	def PowerOn(self):
 		print ("GPIO.powerOn() ", GPIO.input(self.stepPin))
-		if not GPIO.input(self.stepPin):
-			GPIO.output(self.sleepPin, GPIO.HIGH)			
+		#if not GPIO.input(self.stepPin):
+		#	GPIO.output(self.sleepPin, GPIO.HIGH)			
+		GPIO.output(self.sleepPin, GPIO.HIGH)
 
 	# set powerOff
 	def PowerOff(self):
@@ -112,9 +115,12 @@ class GpioMotor(object):
 
 	# do step
 	def DoStep(self, count):
+		self.PowerOn()
 		direction=1
 		if count < 0:
-			direction= (-1)
+			direction = (-1)
+		print("DoStep count, direction", count, direction)
+
 		if direction == -1 and self.endStop:
 			print ("break init endStop")
 			return
@@ -143,12 +149,15 @@ class GpioMotor(object):
 			sleep (self.waitDelay * 10)
 
 		print ("after loop")
+		
+		if self.powerOffAfterCommand:
+			self.PowerOff()
 
 		return self.Info()
 		
 	#do while endstop button pressed
 	def DoCalibrate(self):
-		self.DoStep(1000)
+		self.DoStep(-1000)
 		self.currentPosition=0
 		return self.Info()
 	
