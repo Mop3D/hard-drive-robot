@@ -40,10 +40,10 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-5 center">
-                <button onClick={() => this.button_Click("in", undefined)}>in</button>
+                <button onClick={() => this.button_Click("forward", 50)}>in 50</button>
                 </div>
                 <div className="col-5 center">
-                <button onClick={() => this.button_Click("out", undefined)}>out</button>
+                <button onClick={() => this.button_Click("backward", 50)}>out 50</button>
                 </div>
                 <div className="col-1"></div>
             </div>
@@ -61,13 +61,15 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
             <hr/>
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("calibration", undefined)}>calibrate</button>
+                    <button onClick={() => this.button_Click("calibrate", undefined)}>calibrate</button>
+                    <button onClick={() => this.button_Click("reset", undefined)}>reset</button>
                 </div>
             </div>
             <hr/>
             <div className="row">
                 <div className="col-12 center">
-                    <button onClick={() => this.button_Click("reset", undefined)}>reset</button>
+                    <button onClick={() => this.button_Click("connect", undefined)}>Connect HD</button>
+                    <button onClick={() => this.button_Click("release", undefined)}>release HD</button>
                 </div>
             </div>
             <hr/>

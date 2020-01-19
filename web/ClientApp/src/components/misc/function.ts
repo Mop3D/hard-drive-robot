@@ -34,12 +34,16 @@ export const SendCommand = async (stateObject: any, command: string, value?: num
   // motor commands
   if (apiUrl == "")
   {
-    if (command == "up" || command == "down" || command == "poweroff" || command == "reset" || command == "slot")
+    if (command == "up" || command == "down" || command == "slot" || command == "poweroff" || command == "reset" || command == "calibrate")
     {
         motorName = "Elevator";
     }
+    if (command == "forward" || command == "backward" || command == "connect" || command == "release")
+    {
+        motorName = "Connector";
+    }
     apiCommand = command;
-    if (command == "up" || command == "down")
+    if (command == "up" || command == "down" || command == "forward" || command == "backward")
     {
       apiCommand = apiCommand + value;
     }

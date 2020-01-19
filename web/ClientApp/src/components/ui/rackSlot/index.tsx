@@ -37,7 +37,7 @@ export default class RackSlot extends React.Component<IOwnProps, {}> {
         const pageContent = <div className="rackslot row">
             <div className="col-12 slot inactive" onClick={() => this.slot_onClick()}>
                 Slot No: {this.props.slotNo} - {this.state.status}
-                </div>
+            </div>
         </div>
 
         return (
