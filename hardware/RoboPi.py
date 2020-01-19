@@ -4,7 +4,7 @@
 """
 RoboPi.py
 
-date: 06.01.2020
+date: 19.01.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -12,7 +12,6 @@ import json
 import os
 import signal
 import sys, getopt
-cl = []
 
 import RPi.GPIO as GPIO
 import GpioMotor 
@@ -25,7 +24,7 @@ slot = 0
 poweroff = False
 for opt, arg in opts:
 	if opt == "-h":
-		print "RoboPy.py -d --direction <up|down|in|out|slot|poweroff> -s --steps <steps>"
+		print "RoboPy.py -d --direction <up|down|in|out|slot|connect|disconnect|calibrate|poweroff> -s --steps <steps>"
 	elif opt in ("-d", "--direction"):
 		direction = arg
 	elif opt in ("-s", "--steps"):
@@ -55,25 +54,22 @@ stepsToConnect = 75
 
 #Elevator Motor
 stepsPerRound = 4096
-# motor1 11, 13, 15, 16 Endstop 18 Robot
-# motor2 19, 21, 23, 24 Endstop 26 Robot
-#obsolete GpioMotor.gpioResolution(3, 5, 7)
 
 stepsPerKey = 10
 
-if direction == "up" or direction == "down" or direction == "slot":
+if direction == "up" or direction == "down" or direction == "slot" or direction == "calibrate":
 	# name, direction, step
 	# init activate power - motor becomes hot
-	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
-	#ElevatorMotor1.setEndstop(11)
+	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19, False)
+	ElevatorMotor1.SetEndstop(13)
 	##not yet -> handling of sleepPin missing - ElevatorMotor1.powerOff()
 	motorName = "Elevator"
 	motor = ElevatorMotor1
-if direction == "in" or direction == "out":
+if direction == "in" or direction == "out" or direction == "connect" or direction == "disconnect":
 	# name, direction, step
 	# init activate power - motor becomes hot
-	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7)
-	#ConnectorMotor1.setEndstop(23)
+	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7, True)
+	#ConnectorMotor1.setEndstop(11)
 	#ConnectorMotor1.powerOff()
 	motorName = "Connector"
 	motor = ConnectorMotor1
@@ -81,9 +77,9 @@ if direction == "in" or direction == "out":
 if direction == "poweroff":
 	motorName = "PowerOff"
 	print("PowerOff")
-	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
+	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19, False)
 	ElevatorMotor1.PowerOff()
-	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7)
+	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7, True)
 	ConnectorMotor1.PowerOff()
 
 
@@ -95,42 +91,66 @@ print("MotorHandler, motorName, command, direction, steps", motorName, command, 
 
 # zu einem bestimmten Slot fahren 
 if direction == "slot" and slot != 0:
-	steps = 500
-	retJson = motor.DoStep(steps * -1)
+	#steps = 500
+	#retJson = motor.DoStep(steps * -1)
+	#print("steps to slot", steps)
+	#steps = stepsToFirstSlot + ((slot -1) * stepsPerSlot)
+	if slot == 1:
+		stepsToSlot = 107
+	if slot == 2:
+		stepsToSlot = 169
+	if slot == 3:
+		stepsToSlot = 237
+	if slot == 4:
+		stepsToSlot = 305
+	if slot == 5:
+		stepsToSlot = 373
 	# goto slot
-	steps = stepsToFirstSlot + ((slot -1) * stepsPerSlot)
-	print("steps to slot", steps)
+	steps = stepsToSlot
 	retJson = motor.DoStep(steps)
+	print ("retJson ", retJson)
+
 # auf init position fahren
 if direction == "slot" and slot == 0:
-	steps = 500
-	print("steps to slot", steps)
-	retJson = motor.DoStep(steps * -1)
+	retJson = motor.DoCalibrate()
+	print ("retJson ", retJson)
 
 # Elevator: rauf und runter
 #Im Uhrzeiger, rauf
 if direction == "up":
-	motor.PowerOn()
 	retJson = motor.DoStep(steps)
 	print ("retJson ", retJson)
 #gegen den Uhrzeiger, runter
 if direction == "down":
-	motor.PowerOn()
 	retJson = motor.DoStep(steps * -1)
 	print ("retJson ", retJson)
 
 # Connector, rein und raus
 #Im Uhrzeiger, rein
 if direction == "in":
-	motor.PowerOn()
 	retJson = motor.DoStep(steps)
-	motor.PowerOff()
 	print ("retJson ", retJson)
 #gegen den Uhrzeiger, raus
 if direction == "out":
-	motor.PowerOn()
 	retJson = motor.DoStep(steps * -1)
-	motor.PowerOff()
+	print ("retJson ", retJson)
+# connect or disconnect
+if direction == "connect" or direction == "disconnect":
+	steps = 75
+	if direction == "disconnect":
+		steps = steps * -1
+	retJson = motor.DoStep(steps)
+	print ("retJson ", retJson)
+
+
+
+
+if direction == "calibrate":
+	retJson = motor.DoCalibrate()
+	print ("retJson ", retJson)
+
+if direction == "testendstop":
+	retJson = motor.TestEndStop()
 	print ("retJson ", retJson)
 
 
