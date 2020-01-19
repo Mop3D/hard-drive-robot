@@ -4,6 +4,7 @@
 """
 GpoiMotor.py
 
+version: 2020-01-19-2
 date: 19.01.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
@@ -119,14 +120,12 @@ class GpioMotor(object):
 		direction=1
 		if count < 0:
 			direction = (-1)
-		print("DoStep count, direction", count, direction)
+		print("DoStep count, direction, endStop", count, direction, self.endStop)
 
+		# if endStop and direction down, exit
 		if direction == -1 and self.endStop:
 			print ("break init endStop")
 			return
-		# TODO:
-		#if GPIO.input(self.endstopbutton)==1 and direction>0:
-		#	return self.info()
 
 		print(self.directionPin)
 		if direction>0: # Clockwise Rotation
@@ -150,6 +149,10 @@ class GpioMotor(object):
 
 		print ("after loop")
 		
+		# set endStop to False when direction is up
+		if direction == 1:
+			self.endStop = False
+
 		if self.powerOffAfterCommand:
 			self.PowerOff()
 
@@ -158,7 +161,7 @@ class GpioMotor(object):
 	#do while endstop button pressed
 	def DoCalibrate(self):
 		self.DoStep(-1000)
-		self.currentPosition=0
+		self.PowerOff()
 		return self.Info()
 	
 	# reset

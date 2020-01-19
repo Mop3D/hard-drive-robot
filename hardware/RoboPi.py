@@ -24,7 +24,7 @@ slot = 0
 poweroff = False
 for opt, arg in opts:
 	if opt == "-h":
-		print "RoboPy.py -d --direction <up|down|in|out|slot|connect|disconnect|calibrate|poweroff> -s --steps <steps>"
+		print "RoboPy.py -d --direction <up|down|in|out|slot|connect|release|calibrate|poweroff> -s --steps <steps>"
 	elif opt in ("-d", "--direction"):
 		direction = arg
 	elif opt in ("-s", "--steps"):
@@ -65,7 +65,7 @@ if direction == "up" or direction == "down" or direction == "slot" or direction 
 	##not yet -> handling of sleepPin missing - ElevatorMotor1.powerOff()
 	motorName = "Elevator"
 	motor = ElevatorMotor1
-if direction == "in" or direction == "out" or direction == "connect" or direction == "disconnect":
+if direction == "in" or direction == "out" or direction == "connect" or direction == "release":
 	# name, direction, step
 	# init activate power - motor becomes hot
 	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7, True)
@@ -134,17 +134,14 @@ if direction == "in":
 if direction == "out":
 	retJson = motor.DoStep(steps * -1)
 	print ("retJson ", retJson)
-# connect or disconnect
-if direction == "connect" or direction == "disconnect":
+# connect or release HD
+if direction == "connect" or direction == "release":
 	steps = 75
-	if direction == "disconnect":
+	if direction == "release":
 		steps = steps * -1
 	retJson = motor.DoStep(steps)
 	print ("retJson ", retJson)
-
-
-
-
+# Calibrate
 if direction == "calibrate":
 	retJson = motor.DoCalibrate()
 	print ("retJson ", retJson)
@@ -152,32 +149,3 @@ if direction == "calibrate":
 if direction == "testendstop":
 	retJson = motor.TestEndStop()
 	print ("retJson ", retJson)
-
-
-#class MotorHandler():
-#
-#	def get(self, motorName, command):
-#		motor = ElevatorMotor1
-#
-#		print("MotorHandler, motorName, command", motorName, command)
-#
-#		if command == "info":
-#			retJson = motor.info()
-#		elif command == "slot":
-#			slotNo = self.get_argument('slotno', None, True)
-#			stepsToSlot = ((stepsPerSlot * int(slotNo)) - int(motor.currentPosition)) * -1
-#			print("slot, stepsToSlot, currentPosition", slotNo, stepsToSlot, motor.currentPosition)
-#			retJson = motor.doStep(stepsToSlot)
-#		elif command == "forward":
-#			retJson = motor.doStep(stepsPerKey)
-#		elif command == "backward":
-#			retJson = motor.doStep(stepsPerKey * -1)
-#		elif command == "calibrate":
-#			retJson = motor.doCalibrate()
-#		else:
-#			retJson = { "Motor": command }
-#
-#		print ("retJson ", retJson)
-#		self.write(retJson)
-#		self.finish()
-

@@ -5,7 +5,7 @@ Rack:
       DirectionPin: 21
       StepPin: 23
       SleepPin: 19
-      #StopPin: 13
+      StopPin: 13
     Connector:
       DirectionPin: 3
       StepPin: 5
