@@ -4,7 +4,7 @@
 """
 RoboPi.py
 
-date: 06.01.2020
+date: 18.01.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -25,7 +25,7 @@ slot = 0
 poweroff = False
 for opt, arg in opts:
 	if opt == "-h":
-		print "RoboPy.py -d --direction <up|down|in|out|slot|poweroff> -s --steps <steps>"
+		print "RoboPy.py -d --direction <up|down|in|out|slot|calibrate|poweroff> -s --steps <steps>"
 	elif opt in ("-d", "--direction"):
 		direction = arg
 	elif opt in ("-s", "--steps"):
@@ -55,9 +55,6 @@ stepsToConnect = 75
 
 #Elevator Motor
 stepsPerRound = 4096
-# motor1 11, 13, 15, 16 Endstop 18 Robot
-# motor2 19, 21, 23, 24 Endstop 26 Robot
-#obsolete GpioMotor.gpioResolution(3, 5, 7)
 
 stepsPerKey = 10
 
@@ -65,7 +62,7 @@ if direction == "up" or direction == "down" or direction == "slot":
 	# name, direction, step
 	# init activate power - motor becomes hot
 	ElevatorMotor1 = GpioMotor.GpioMotor("Elevator", 21, 23, 19)
-	#ElevatorMotor1.setEndstop(11)
+	ElevatorMotor1.SetEndstop(13)
 	##not yet -> handling of sleepPin missing - ElevatorMotor1.powerOff()
 	motorName = "Elevator"
 	motor = ElevatorMotor1
@@ -73,7 +70,7 @@ if direction == "in" or direction == "out":
 	# name, direction, step
 	# init activate power - motor becomes hot
 	ConnectorMotor1 = GpioMotor.GpioMotor("Connector", 3, 5, 7)
-	#ConnectorMotor1.setEndstop(23)
+	#ConnectorMotor1.setEndstop(11)
 	#ConnectorMotor1.powerOff()
 	motorName = "Connector"
 	motor = ConnectorMotor1
@@ -132,6 +129,17 @@ if direction == "out":
 	retJson = motor.DoStep(steps * -1)
 	motor.PowerOff()
 	print ("retJson ", retJson)
+
+if direction == "calibrate":
+	motor.PowerOn()
+	retJson = motor.DoCalibrate()
+	print ("retJson ", retJson)
+
+if direction == "testendstop":
+	motor.PowerOn()
+	retJson = motor.TestEndStop()
+	print ("retJson ", retJson)
+	motor.PowerOff()
 
 
 #class MotorHandler():

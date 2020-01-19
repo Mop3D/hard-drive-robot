@@ -1,5 +1,13 @@
 #!/usr/bin/python
 # coding: utf8
+
+"""
+API_HDRack.py
+
+date: 19.01.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
+
 from tornado import websocket, web, ioloop
 
 from Common import BaseHandler

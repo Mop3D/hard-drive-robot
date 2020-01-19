@@ -4,7 +4,7 @@
 """
 GpoiMotor.py
 
-date: 06.01.2020
+date: 19.01.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -59,13 +59,9 @@ class GpioMotor(object):
 
 	# set powerOn
 	def PowerOn(self):
-		print ("GPIO.powerOn()")
-		if GPIO.input(self.stepPin):
-			print("power on")
-		else:
-			print("power off")
-			
-		GPIO.output(self.sleepPin, GPIO.HIGH)
+		print ("GPIO.powerOn() ", GPIO.input(self.stepPin))
+		if not GPIO.input(self.stepPin):
+			GPIO.output(self.sleepPin, GPIO.HIGH)			
 
 	# set powerOff
 	def PowerOff(self):
@@ -84,12 +80,14 @@ class GpioMotor(object):
 	# set endstop gpio port
 	def SetEndstop(self, endstopport):
 		self.endstopbutton = endstopport
-		#GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 		# change to PULL-UP
-		GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		#GPIO.setup(self.endstopbutton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 		print ("set Endstop", self.endstopbutton)
-		if not GPIO.input(self.endstopbutton):
+		#if not GPIO.input(self.endstopbutton):
+		if GPIO.input(self.endstopbutton):
 			self.endStop = True
+		print ("Endstop", self.endStop)
 
 		#xi = 0
 		#while 1:
@@ -97,13 +95,22 @@ class GpioMotor(object):
 		#		print ("Pressed " + str(xi) )
 		#		xi = xi + 1
 		# call when Button Released
-		GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.endstopCallback)  
+		#GPIO.add_event_detect(self.endstopbutton, GPIO.FALLING, callback=self.EndstopCallback)  
 		# call when Button Pressed
-		#GPIO.add_event_detect(self.endstopbutton, GPIO.RISING, callback=self.endstopCallback)  
+		GPIO.add_event_detect(self.endstopbutton, GPIO.RISING, callback=self.EndstopCallback)  
 		
+	# set endstop gpio port
+	def TestEndStop(self):
+		print ("Test End Stop", self.endstopbutton)
+		xx1 = 0
+		for xi in range (2000):
+			sleep (1)
+			print ("    status: ", GPIO.input(self.endstopbutton))
+		print ("Test End Stop", self.endstopbutton)
+
+
 	# do step
 	def DoStep(self, count):
-
 		direction=1
 		if count < 0:
 			direction= (-1)
@@ -113,7 +120,7 @@ class GpioMotor(object):
 		# TODO:
 		#if GPIO.input(self.endstopbutton)==1 and direction>0:
 		#	return self.info()
-		
+
 		print(self.directionPin)
 		if direction>0: # Clockwise Rotation
 			print("Clockwise")
@@ -121,7 +128,7 @@ class GpioMotor(object):
 		else: # Counterclockwise Rotation
 			print("Counterclockwise")
 			GPIO.output(self.directionPin, GPIO.LOW)
-		print ("direction", direction,self.endStop)
+		print ("direction", direction, self.endStop)
 		for xi in range (abs(count)):
 			# down until button pressed
 			if direction == -1 and self.endStop:
@@ -134,7 +141,8 @@ class GpioMotor(object):
 			GPIO.output(self.stepPin, GPIO.LOW)
 			sleep (self.waitDelay * 10)
 
-		#self.powerOff()
+		print ("after loop")
+
 		return self.Info()
 		
 	#do while endstop button pressed
@@ -155,7 +163,7 @@ class GpioMotor(object):
 
 	#callback button pressed
 	def EndstopCallback(self,port):
-		#print("     -----> GPIO.input() - Button pressed - stop loop")
+		print("     -----> GPIO.input() - Button pressed - stop loop")
 		self.endStop = True
 		self.currentPosition = 0
 

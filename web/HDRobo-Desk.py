@@ -3,19 +3,20 @@
 
 """
 HDRobo-Desk.py
+
+date: 19.01.2020
+author: oliver Klepach, Martin Weichselbaumer
 """
 
 # https://www.tornadoweb.org/en/stable/guide/structure.html
 from tornado import websocket, web, ioloop
 import tornado.autoreload
-import json
-import os
-import signal
-import sys
-# needed to import modules from the api folder
-sys.path.append('./api')
+#import json
+#import os
 
-cl = []
+# needed to import modules from the api folder
+import sys
+sys.path.append('./api')
 
 # set the web static folder
 static_path_dir = 'ClientApp/build/static'
@@ -28,10 +29,16 @@ settings = {
 # common
 from Common import BaseHandler
 
-# DeviceConnect
-import DeviceConnect
-# connected Disk
-import ConnectedDisk
+
+# web Index and API
+from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler
+# web Socket
+from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
+
+# signal SocketHandlerWrapper
+from RobotWorker import RobotWorker
+
+
 
 # check if gpio exists
 gpioExists = True
@@ -66,176 +73,9 @@ if gpioExists:
     #ConnectorMotor1.powerOff()
 # /load the robo components
 
-#
-# the page handlers
-#
-class IndexHandler(web.RequestHandler):
-    def get(self):
-        self.render("ClientApp/build/index.html")
 
-class IndexFirstHandler(web.RequestHandler):
-    def get(self):
-        self.render("first/templates/index.html")
-#
-
-
-#
-# must set before the api handlers
-# CORS for development 
-#class BaseHandler(web.RequestHandler):
-#
-#    def set_default_headers(self):
-#        self.set_header("access-control-allow-origin", "*")
-#        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-#        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS')
-#        # HEADERS!
-#        self.set_header("Access-Control-Allow-Headers", "access-control-allow-origin,authorization,content-type") 
-#
-#    def options(self):
-#        # no body
-#        self.set_status(204)
-#        self.finish()
-
-
-
-#
-# the api handler
-#
-class ApiHandler(BaseHandler):
-
-    @web.asynchronous
-    def get(self, *args):
-        retJson = { "return": "ping"}
-        self.write(retJson)
-        self.finish()
-
-        #value = self.get_argument("value")
-        #data = {"id": id, "value" : value}
-        #data = json.dumps(data)
-        #for c in cl:
-        #    c.write_message(data)
-
-    @web.asynchronous
-    def post(self):
-        pass
-
-
-
-
-
-
-
-#
-# Socket Handler wrapper class
-#        
-class SocketHandlerWrapper():
-    # init
-    def __init__(self, SocketHandler):
-        self.webSocketHandler = SocketHandler
-    def SendMessage(self, command, data):
-        self.webSocketHandler.SendMessage(command, data)
-#
-# Socket Handler class
-#        
-class SocketHandler(websocket.WebSocketHandler):
-    def check_origin(self, origin):
-        return True
-
-    def open(self):
-        print ("open socket")
-        if self not in cl:
-            cl.append(self)
-        #if gpioExists:
-        #    ElevatorMotor1.setSendMessage(SocketHandler.SendMessage)
-        #    ConnectorMotor1.setSendMessage(SocketHandler.SendMessage)
-        
-        robotWork.ConnectedInfo()
-        
-    def on_close(self):
-        print ("open closed")
-        if self in cl:
-            cl.remove(self)
-        #if gpioExists:
-        #    ElevatorMotor1.setSendMessage(None)
-        #    ConnectorMotor1.setSendMessage(None)
-
-    @staticmethod
-    def SendMessage(command, data):
-        print ("SendMessage", command, data)
-        retJson = { "command": command, "data": data }
-        for webSocket in cl:
-            webSocket.write_message(retJson)
-
-
-#
-# Robot worker class
-#        
-class RobotWorker():
-    #connected Slot Number
-    connectedSlotNo = -1
-    
-    # listen to device 
-    devicePath = "/dev/sda"
-    #connected Disk
-    connDisk = None
-    # device handler
-    devMon = None
-    #websocker handler
-    webSocketHandler = None
-    
-    # init
-    def __init__(self, SocketHandler):
-        self.webSocketHandler = SocketHandler
-        self.MessageFromObject("robotworker", "init RobotWorker")
-
-        #init Disk
-        self.connDisk = ConnectedDisk.CDisk(self)
-
-        self.devMon = DeviceConnect.Monitor(None, "ata", None, self.devicePath, self.connDisk, self)
-        #diskConnected = self.devMon.GetConnectedDisk()
-        self.devMon.StartMonitoring()
-
-    def DiskInfoJson(self):
-        retJson = {
-            "SlotNo": self.connectedSlotNo,
-            "Device": { }
-        }
-        if self.connDisk != None:
-            retJson["Device"]["Type"] = self.connDisk.GetDeviceInfo("type")
-            retJson["Device"]["Node"] = self.connDisk.GetDeviceInfo("name")
-            retJson["Device"]["Serial"] = self.connDisk.GetDeviceInfo("serial")
-            retJson["Device"]["Bus"] = self.connDisk.GetDeviceInfo("bus")
-        return retJson
-
-    def ConnectedInfo(self):
-        retJson = self.DiskInfoJson()
-        self.MessageFromObject("connectinfo", retJson)
-        
-    def ConnectToSlot(self, slotNo):
-        self.connectedSlotNo = slotNo
-        print ("   ConnectToSlot: {0}".format(slotNo))
-        retJson = self.DiskInfoJson()
-        self.MessageFromObject("connecttoslot", retJson)
-        
-    def MessageFromObject(self, command, message):
-        if command == "connecteddisk":
-            message = self.DiskInfoJson()
-        if command == "disconnecteddisk":
-            message = self.DiskInfoJson()
-        
-        print ("   -> MessageFromObject - {0}: {1}".format(command, message))
-        if SocketHandler != None:
-            self.webSocketHandler.SendMessage(command, message)
 
             
-def signalHandler(signum, frame):
-    SocketHandler.SendMessage("signalhandler", {})
-    print ("send signal")
-    signal.setitimer(signal.ITIMER_REAL, 5)
-
-signal.signal(signal.SIGALRM, signalHandler)
-#signal.setitimer(signal.ITIMER_REAL, 5)
-
 # init the HDRack Worker class
 hdrackWork = HDRackWorker(SocketHandler)
 # init the Robot Worker class
@@ -254,7 +94,7 @@ app = web.Application(
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
     #(r'/(rest_api_example.png)', web.StaticFileHandler, {'path': './'}),
     (r'/static/(.*)', web.StaticFileHandler, {'path': static_path_dir}),
-   (r'/firststatic/(.*)', web.StaticFileHandler, {'path': "./first/firststatic"})
+    (r'/firststatic/(.*)', web.StaticFileHandler, {'path': "./first/firststatic"})
     ],
     **settings
 )
