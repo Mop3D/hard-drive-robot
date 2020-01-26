@@ -4,7 +4,7 @@
 """
 HDRobo-Desk.py
 
-date: 19.01.2020
+date: 26.01.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -38,43 +38,8 @@ from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
 # signal SocketHandlerWrapper
 from RobotWorker import RobotWorker
 
-
-
-# check if gpio exists
-gpioExists = True
-try:
-    import RPi.GPIO as GPIO
-except ImportError:
-    gpioExists = False
-
-
 # load the robo components
 from API_HDRack import MotorHandler, HDRackWorker
-if gpioExists:
-    print ("init motors")
-# load GpioMotor
-    #import GpioMotor
- 
-    #Elevator
-    #Elevator Slot
-    #stepsPerSlot = 400
-    #Elevator Motor
-    #stepsPerRound = 4096
-
-    #stepsPerKey = 100
-    #stepsToConnect = 1830
-
-    #ElevatorMotor1 = GpioMotor.gpioMotor("Elevator", 21, 23, 19)
-    ##ElevatorMotor1.setEndstop(18)
-    #ElevatorMotor1.powerOff()
-
-    #ConnectorMotor1 = GpioMotor.gpioMotor("Connector", 3, 5, 7)
-    ##ConnectorMotor1.setEndstop(26) 
-    #ConnectorMotor1.powerOff()
-# /load the robo components
-
-
-
             
 # init the HDRack Worker class
 hdrackWork = HDRackWorker(SocketHandler)
