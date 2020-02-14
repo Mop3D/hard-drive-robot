@@ -1,0 +1,1848 @@
+Device: None (host)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3f0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f201000.serial/tty/ttyAMA0/hci0')
+  type is <type 'unicode'>
+('device_type', u'host')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f201000.serial/tty/ttyAMA0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'bluetooth')
+  type is <type 'unicode'>
+('sys_name', u'hci0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f201000.serial/tty/ttyAMA0/hci0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x76755ed0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 428, 201051))
+  type is <type 'datetime.timedelta'>
+Device: /dev/mmcblk0 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/mmcblk0')
+  type is <type 'unicode'>
+('device_number', 45824L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'mmcblk0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 145586))
+  type is <type 'datetime.timedelta'>
+Device: /dev/mmcblk0p1 (partition)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/mmcblk0p1')
+  type is <type 'unicode'>
+('device_number', 45825L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0/mmcblk0p1')
+  type is <type 'unicode'>
+('device_type', u'partition')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'mmcblk0p1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0/mmcblk0p1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 19355))
+  type is <type 'datetime.timedelta'>
+Device: /dev/mmcblk0p2 (partition)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb300>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/mmcblk0p2')
+  type is <type 'unicode'>
+('device_number', 45826L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0/mmcblk0p2')
+  type is <type 'unicode'>
+('device_type', u'partition')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'mmcblk0p2')
+  type is <type 'unicode'>
+('sys_number', u'2')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa/block/mmcblk0/mmcblk0p2')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 98066))
+  type is <type 'datetime.timedelta'>
+Device: None (wlan)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3f0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:1/net/wlan0')
+  type is <type 'unicode'>
+('device_type', u'wlan')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'net')
+  type is <type 'unicode'>
+('sys_name', u'wlan0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:1/net/wlan0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 433, 588133))
+  type is <type 'datetime.timedelta'>
+Device: /dev/bus/usb/001/001 (usb_device)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3f0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/bus/usb/001/001')
+  type is <type 'unicode'>
+('device_number', 48384L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1')
+  type is <type 'unicode'>
+('device_type', u'usb_device')
+  type is <type 'unicode'>
+('driver', u'usb')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'usb1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 160887))
+  type is <type 'datetime.timedelta'>
+Device: None (usb_interface)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-0:1.0')
+  type is <type 'unicode'>
+('device_type', u'usb_interface')
+  type is <type 'unicode'>
+('driver', u'hub')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-0:1.0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-0:1.0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 141959))
+  type is <type 'datetime.timedelta'>
+Device: /dev/bus/usb/001/002 (usb_device)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/bus/usb/001/002')
+  type is <type 'unicode'>
+('device_number', 48385L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1')
+  type is <type 'unicode'>
+('device_type', u'usb_device')
+  type is <type 'unicode'>
+('driver', u'usb')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 78202))
+  type is <type 'datetime.timedelta'>
+Device: /dev/bus/usb/001/003 (usb_device)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/bus/usb/001/003')
+  type is <type 'unicode'>
+('device_number', 48386L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1')
+  type is <type 'unicode'>
+('device_type', u'usb_device')
+  type is <type 'unicode'>
+('driver', u'usb')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1.1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 433, 913403))
+  type is <type 'datetime.timedelta'>
+Device: None (usb_interface)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb300>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1/1-1.1:1.0')
+  type is <type 'unicode'>
+('device_type', u'usb_interface')
+  type is <type 'unicode'>
+('driver', u'smsc95xx')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1.1:1.0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1/1-1.1:1.0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 433, 909704))
+  type is <type 'datetime.timedelta'>
+Device: /dev/bus/usb/001/004 (usb_device)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/bus/usb/001/004')
+  type is <type 'unicode'>
+('device_number', 48387L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2')
+  type is <type 'unicode'>
+('device_type', u'usb_device')
+  type is <type 'unicode'>
+('driver', u'usb')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1.2')
+  type is <type 'unicode'>
+('sys_number', u'2')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 211, 530957))
+  type is <type 'datetime.timedelta'>
+Device: None (usb_interface)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3f0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0')
+  type is <type 'unicode'>
+('device_type', u'usb_interface')
+  type is <type 'unicode'>
+('driver', u'usb-storage')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1.2:1.0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 211, 527858))
+  type is <type 'datetime.timedelta'>
+Device: None (scsi_host)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0')
+  type is <type 'unicode'>
+('device_type', u'scsi_host')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', False)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'scsi')
+  type is <type 'unicode'>
+('sys_name', u'host0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0))
+  type is <type 'datetime.timedelta'>
+Device: None (scsi_target)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0')
+  type is <type 'unicode'>
+('device_type', u'scsi_target')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', False)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'scsi')
+  type is <type 'unicode'>
+('sys_name', u'target0:0:0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0))
+  type is <type 'datetime.timedelta'>
+Device: None (scsi_device)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f2d8>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f350>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0')
+  type is <type 'unicode'>
+('device_type', u'scsi_device')
+  type is <type 'unicode'>
+('driver', u'sd')
+  type is <type 'unicode'>
+('is_initialized', False)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'scsi')
+  type is <type 'unicode'>
+('sys_name', u'0:0:0:0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0))
+  type is <type 'datetime.timedelta'>
+Device: /dev/sda (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3f0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f260>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f6c0>)
+  type is <type 'generator'>
+('device_node', u'/dev/sda')
+  type is <type 'unicode'>
+('device_number', 2048L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'sda')
+  type is <type 'unicode'>
+('sys_number', None)
+  type is <type 'NoneType'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f670>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 210, 503337))
+  type is <type 'datetime.timedelta'>
+Device: None (usb_interface)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', None)
+  type is <type 'NoneType'>
+('device_number', 0L)
+  type is <type 'long'>
+('device_path', u'/devices/platform/soc/3f980000.usb/usb1/1-1/1-1:1.0')
+  type is <type 'unicode'>
+('device_type', u'usb_interface')
+  type is <type 'unicode'>
+('driver', u'hub')
+  type is <type 'unicode'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', Device(u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1'))
+  type is <class 'pyudev.device._device.Device'>
+('properties', <pyudev.device._device.Properties object at 0x7678f5f0>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'usb')
+  type is <type 'unicode'>
+('sys_name', u'1-1:1.0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1:1.0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f610>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 93832))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop0 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop0')
+  type is <type 'unicode'>
+('device_number', 1792L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop0')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 101755))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop1 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop1')
+  type is <type 'unicode'>
+('device_number', 1793L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop1')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 125208))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop2 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop2')
+  type is <type 'unicode'>
+('device_number', 1794L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop2')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop2')
+  type is <type 'unicode'>
+('sys_number', u'2')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop2')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 120448))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop3 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop3')
+  type is <type 'unicode'>
+('device_number', 1795L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop3')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop3')
+  type is <type 'unicode'>
+('sys_number', u'3')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop3')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 130234))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop4 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop4')
+  type is <type 'unicode'>
+('device_number', 1796L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop4')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop4')
+  type is <type 'unicode'>
+('sys_number', u'4')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop4')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 106655))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop5 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop5')
+  type is <type 'unicode'>
+('device_number', 1797L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop5')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop5')
+  type is <type 'unicode'>
+('sys_number', u'5')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop5')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 109925))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop6 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop6')
+  type is <type 'unicode'>
+('device_number', 1798L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop6')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop6')
+  type is <type 'unicode'>
+('sys_number', u'6')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop6')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 111871))
+  type is <type 'datetime.timedelta'>
+Device: /dev/loop7 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/loop7')
+  type is <type 'unicode'>
+('device_number', 1799L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/loop7')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'loop7')
+  type is <type 'unicode'>
+('sys_number', u'7')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/loop7')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 115522))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram0 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram0')
+  type is <type 'unicode'>
+('device_number', 256L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram0')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram0')
+  type is <type 'unicode'>
+('sys_number', u'0')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram0')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 118017))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram1 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram1')
+  type is <type 'unicode'>
+('device_number', 257L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram1')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram1')
+  type is <type 'unicode'>
+('sys_number', u'1')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram1')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 109656))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram10 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram10')
+  type is <type 'unicode'>
+('device_number', 266L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram10')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram10')
+  type is <type 'unicode'>
+('sys_number', u'10')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram10')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 106200))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram11 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram11')
+  type is <type 'unicode'>
+('device_number', 267L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram11')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram11')
+  type is <type 'unicode'>
+('sys_number', u'11')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram11')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 117155))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram12 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram12')
+  type is <type 'unicode'>
+('device_number', 268L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram12')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram12')
+  type is <type 'unicode'>
+('sys_number', u'12')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram12')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 122673))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram13 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram13')
+  type is <type 'unicode'>
+('device_number', 269L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram13')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram13')
+  type is <type 'unicode'>
+('sys_number', u'13')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram13')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 116236))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram14 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram14')
+  type is <type 'unicode'>
+('device_number', 270L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram14')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram14')
+  type is <type 'unicode'>
+('sys_number', u'14')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram14')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 125504))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram15 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram15')
+  type is <type 'unicode'>
+('device_number', 271L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram15')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram15')
+  type is <type 'unicode'>
+('sys_number', u'15')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram15')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 131127))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram2 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram2')
+  type is <type 'unicode'>
+('device_number', 258L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram2')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram2')
+  type is <type 'unicode'>
+('sys_number', u'2')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram2')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 127837))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram3 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram3')
+  type is <type 'unicode'>
+('device_number', 259L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram3')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram3')
+  type is <type 'unicode'>
+('sys_number', u'3')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram3')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 87617))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram4 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram4')
+  type is <type 'unicode'>
+('device_number', 260L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram4')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram4')
+  type is <type 'unicode'>
+('sys_number', u'4')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram4')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 127827))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram5 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram5')
+  type is <type 'unicode'>
+('device_number', 261L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram5')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram5')
+  type is <type 'unicode'>
+('sys_number', u'5')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram5')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 125772))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram6 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram6')
+  type is <type 'unicode'>
+('device_number', 262L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram6')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram6')
+  type is <type 'unicode'>
+('sys_number', u'6')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram6')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 130702))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram7 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb3a0>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram7')
+  type is <type 'unicode'>
+('device_number', 263L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram7')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram7')
+  type is <type 'unicode'>
+('sys_number', u'7')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram7')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 118185))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram8 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb350>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram8')
+  type is <type 'unicode'>
+('device_number', 264L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram8')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram8')
+  type is <type 'unicode'>
+('sys_number', u'8')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram8')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 122039))
+  type is <type 'datetime.timedelta'>
+Device: /dev/ram9 (disk)
+{'_as_parameter_': <pyudev._ctypeslib.libudev.LP_udev_device object at 0x766bb440>, '_libudev': <CDLL 'libudev.so.1', handle b01018 at 76755c70>, 'context': <pyudev.core.Context object at 0x76755450>}
+     member -- 
+('action', None)
+  type is <type 'NoneType'>
+('ancestors', <generator object ancestors at 0x7677f350>)
+  type is <type 'generator'>
+('attributes', <pyudev.device._device.Attributes object at 0x7678f5d0>)
+  type is <class 'pyudev.device._device.Attributes'>
+('children', <generator object children at 0x7677f2d8>)
+  type is <type 'generator'>
+('context', <pyudev.core.Context object at 0x76755450>)
+  type is <class 'pyudev.core.Context'>
+('device_links', <generator object device_links at 0x7677f260>)
+  type is <type 'generator'>
+('device_node', u'/dev/ram9')
+  type is <type 'unicode'>
+('device_number', 265L)
+  type is <type 'long'>
+('device_path', u'/devices/virtual/block/ram9')
+  type is <type 'unicode'>
+('device_type', u'disk')
+  type is <type 'unicode'>
+('driver', None)
+  type is <type 'NoneType'>
+('is_initialized', True)
+  type is <type 'bool'>
+('parent', None)
+  type is <type 'NoneType'>
+('properties', <pyudev.device._device.Properties object at 0x7678f630>)
+  type is <class 'pyudev.device._device.Properties'>
+('sequence_number', 0L)
+  type is <type 'long'>
+('subsystem', u'block')
+  type is <type 'unicode'>
+('sys_name', u'ram9')
+  type is <type 'unicode'>
+('sys_number', u'9')
+  type is <type 'unicode'>
+('sys_path', u'/sys/devices/virtual/block/ram9')
+  type is <type 'unicode'>
+('tags', <pyudev.device._device.Tags object at 0x7678f6b0>)
+  type is <class 'pyudev.device._device.Tags'>
+('time_since_initialized', datetime.timedelta(0, 434, 109676))
+  type is <type 'datetime.timedelta'>
+next....
+boot
+rootfs

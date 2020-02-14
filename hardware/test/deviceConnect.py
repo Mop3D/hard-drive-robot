@@ -84,7 +84,7 @@ class Monitor():
 		print("  action", device.action, device)
 		if device.action == 'add':
 			time.sleep( 1 )
-			self.devCon.MountPartitions(device)
+			self.devCon.MountPartition(device)
 		if device.action == 'remove':
 			time.sleep( 1 )
 			self.devCon.UnmountPartitionFromDevice(device)
@@ -174,24 +174,47 @@ class DeviceCon():
 		return False
 		
 	# mount all partitions	
+	def MountPartition(self, parentDevice):
+		devInfo = self.GetDeviceInfo(parentDevice)
+		# check type
+		if devInfo["type"] != "partition":
+			return
+		deviceName = str(devInfo["name"])
+		lastDeviceChar = deviceName[-1:]
+		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+		if not os.path.exists(mountPoint):
+			os.makedirs(mountPoint)
+		if not self.CheckMountPartition(parentDevice, mountPoint):
+			self.Mount(devInfo["name"], mountPoint, devInfo["fsType"], "rw")
+		else:
+			 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
+
+	# mount all partitions	
 	def MountPartitions(self, parentDevice):
+		return
 		partitions = self.GetPartitionsFromDisk(parentDevice)
 		count = 0
 		for partition in partitions:
 			partInfo = self.GetDeviceInfo(partition)
 			mountPoint = "/mnt/partition{0}".format(count)
 			if not os.path.exists(mountPoint):
-				 print "create " + mountPoint
-				 os.makedirs(mountPoint)
+				print " - create " + mountPoint
+				os.makedirs(mountPoint)
 			if not self.CheckMountPartition(partition, mountPoint):
-				 self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
+				print "xxx mount"
+				#self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
 			else:
-				 print "partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
+				 print "  - partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
+			count = count + 1
 
 	# mount partition
 	def Mount(self, source, mountPoint, fstype, options=''):
-		command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
-		self.shCommand(command)
+		try:
+			command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
+			if fstype != None and fstype != "" :
+				self.shCommand(command)
+		except Exception as e:
+			print('Failed mount: ' + str(e))
 
 	# mount partitions from mountPoint
 	def UnmountPartitionMountPoint(self, mountPoint):

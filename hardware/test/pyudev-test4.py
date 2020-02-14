@@ -168,7 +168,7 @@ if (devicesConnected):
     #print devicesConnected
     for deviceRef in devicesConnected:
         devInfo=decode_device_info(deviceRef)
-        print devInfo
+        print ("devInfo", devInfo)
 
 checkDevice = devicesConnected[0]
 #checkDevice = devicesConnected[1]
@@ -178,7 +178,10 @@ for att in checkDevice:
     print ("{0} = {1}", att, checkDevice[att])
 
 diskInfo = get_disk_info(checkDevice)
+print ("diskInfo", diskInfo)
+
 partitions = get_partitions_from_disk(checkDevice)
+print ("partitions", partitions)
 checkPartition = partitions[0]
 print ("")
 print (checkPartition)
@@ -189,9 +192,9 @@ for p in psutil.disk_partitions():
     if p.device in checkPartition.device_node:
         print("  {}: {}".format(p.device, p.mountpoint))
 
-print (checkPartition.device_node)
-
-
+print ("mount partition", checkPartition.device_node)
+mountPoint = checkPartition.device_node
+mountPoint = "dev/sda1"
 #checkPartition.device_node
-#mount(checkPartition.device_node, '/mnt/pdisk', 'vfat', 'rw')
-umount('/mnt/pdisk')
+mount(mountPoint, '/mnt/pdisk', 'vfat', 'rw')
+#umount('/mnt/pdisk')

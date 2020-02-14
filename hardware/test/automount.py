@@ -28,6 +28,7 @@ if False:
 			deviceInfo = devCon.GetDeviceInfo(partitionFromDisk)
 			#print(deviceInfo)
 			devCon.ListDeviceAttribute(partitionFromDisk)
+			print "   MountPartitions"
 			devCon.MountPartitions(partitionFromDisk)
 			#for p in psutil.disk_partitions():
 			#    if p.device in partitionFromDisk.device_node:
