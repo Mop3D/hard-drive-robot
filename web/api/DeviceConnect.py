@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # coding: utf8
 
+"""
+deveiceConnect.py
+
+date: 15.02.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
+
 import pyudev
 #https://pyudev.readthedocs.io/en/latest/#documentation
 #sudo apt-get install python-psutil
@@ -15,74 +22,60 @@ import inspect
 class Monitor():
 	context = pyudev.Context()
 
-	monitorParent = None
+	webSocketHandler = None
 	devCon = None
-	connDisk = None
+	subsystem = None
+	devtype = None
+	devname = None
 	
 	# init
-	def __init__(self, subsystem, bussystem, devtype, devname, connDisk, MonitorParent):
-		self.monitorParent = MonitorParent
-		self.monitorParent.MessageFromObject("devicemon", "init devmon")
-		self.connDisk = connDisk;
-		print ("deviceConnect.Monitor: init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
+	def __init__(self, subsystem, devtype, devname, SocketHandler):
+		if SocketHandler != None:
+			self.webSocketHandler = SocketHandler
+			self.webSocketHandler.SendMessage("devicemon", "init devmon")
+		print ("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
 		self.devCon = DeviceCon()
 		self.subsystem = subsystem
-		self.bussystem = bussystem
 		self.devtype = devtype
 		self.devname = devname
-
+	
 	def GetConnectedDisk(self):
 		devicesConnected = self.devCon.GetDevicelist(self.devname)
-		print "deviceConnect.Monitor: GetConnectedDisk", devicesConnected
-		if devicesConnected is not None and len(devicesConnected) > 0 and self.connDisk is not None:
-			self.connDisk.SetDevice(devicesConnected[0], self.devCon.GetDeviceInfo(devicesConnected[0]))
 		return devicesConnected
-
+	# Start Monitoring
 	def StartMonitoring(self):
-		print "deviceConnect.Monitor: start monitoring {0}, {1}...".format(self.subsystem, self.devtype) 
 		monitor = pyudev.Monitor.from_netlink(self.context)
 			
 		if self.subsystem is not None and self.devtype is not None:
 			monitor.filter_by(subsystem=self.subsystem, device_type=self.devtype)
-			print "deviceConnect.Monitor: monitoring - subsystem, device_type"
 		elif self.subsystem is not None:
-			print "deviceConnect.Monitor: monitoring - subsystem"
 			monitor.filter_by(subsystem=self.subsystem)
 		elif self.devtype is not None:
-			print "deviceConnect.Monitor: monitoring - device_type"
 			monitor.filter_by('', device_type=self.devtype)
 			
-		observer = pyudev.MonitorObserver(monitor, self.Log_Event)
-		observer.start()
+		#observer = pyudev.MonitorObserver(monitor, self.Log_Event)
+		#observer.start()
 
-	# Start Monitoring poll
-	def StartMonitoringPoll(self):
-		print "deviceConnect.Monitor: StartMonitoringPoll"
-		#for device in iter(monitor.poll, None):
-		#	self.Log_Event(device.action, device)
-		
-		#	print ("action, device node", device.action, device.device_node)
-		#	#continue
-		#	if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
-		#		continue
-		#	deviceInfo = self.devCon.GetDeviceInfo(device)
-		#	print("  action", device.action)
-		#	#print("   deviceInfo", deviceInfo)
-		#	if device.action == 'add':
-		#		time.sleep( 1 )
-		#		self.devCon.MountPartitions(device)
-		#	if device.action == 'remove':
-		#		time.sleep( 1 )
-		#		self.devCon.UnmountPartitionFromDevice(device)
+		for device in iter(monitor.poll, None):
+			self.Log_Event(device.action, device)
+			#print ("action, device node", device.action, device.device_node)
+			##continue
+			#if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
+			#	continue
+			#deviceInfo = self.devCon.GetDeviceInfo(device)
+			#print("  action", device.action)
+			##print("   deviceInfo", deviceInfo)
+			#if device.action == 'add':
+			#	time.sleep( 1 )
+			#	self.devCon.MountPartitions(device)
+			#if device.action == 'remove':
+			#	time.sleep( 1 )
+			#	self.devCon.UnmountPartitionFromDevice(device)
 
-	#not in use
 	def Log_Event(self, action, device):
-		print "deviceConnect.Monitor: event action={0}, device node={1}".format(device.action, device.device_node)
-		if device.device_node is None:
-			return
+		print ("action, device node", action, device.device_node)
 		if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
 			return
-		# bus = ata
 		deviceInfo = self.devCon.GetDeviceInfo(device)
 
 		retJson = { "Action": action,
@@ -92,22 +85,21 @@ class Monitor():
 				"Number": device.device_number
 			}
 		}
-		self.monitorParent.MessageFromObject("devicemon", retJson)
+		if self.webSocketHandler is not None:
+			self.webSocketHandler.SendMessage("devicemon", retJson)
 
+		print("  action", device.action, device)
 		if device.action == 'add':
 			time.sleep( 1 )
-			if self.connDisk is not None:
-				self.connDisk.SetDevice(device, self.devCon.GetDeviceInfo(device))
-			self.devCon.MountPartitions(device)
+			self.devCon.MountPartition(device)
 		if device.action == 'remove':
 			time.sleep( 1 )
-			if self.connDisk is not None:
-				self.connDisk.ClearDevice()
 			self.devCon.UnmountPartitionFromDevice(device)
 
 	def Dispose(self):
 		observer.stop()
-		print "deviceConnect.Monitor: Dispose"
+		print ("observer dispose()")
+	
 
 class DeviceCon():
 	context = pyudev.Context()
@@ -123,9 +115,8 @@ class DeviceCon():
 			deviceList = self.context.list_devices(subsystem='block', DEVTYPE=devtype)
 		else:
 			deviceList = self.context.list_devices(subsystem='block')
-		print "deviceConnect.DeviceCon: GetDevicelist {0},{1}".format(devname, devtype)
+		
 		for device in deviceList:
-			print "deviceConnect.DeviceCon: deviceList device".format(device)
 			# Filter out cd drives, loop devices.
 			if device.get('ID_TYPE', '') == 'cd':
 				continue
@@ -174,7 +165,7 @@ class DeviceCon():
 	# list device attibutes
 	def ListDeviceAttribute(self, device):
 		for att in device:
-			print "deviceConnect.DeviceCon.ListDeviceAttribute: {0} = {1}".format(att, device[att])
+			print ("{0} = {1}", att, device[att])
 
 	# get Partitions 
 	def GetPartitionsFromDisk(self, parentDevice):
@@ -190,27 +181,47 @@ class DeviceCon():
 		return False
 		
 	# mount all partitions	
-	def MountPartitions(self, parentDevice):
-		partitions = self.GetPartitionsFromDisk(parentDevice)
-		count = 0
-		for partition in partitions:
-			partInfo = self.GetDeviceInfo(partition)
-			mountPoint = "/mnt/partition{0}".format(count)
-			if not os.path.exists(mountPoint):
-				 print "create " + mountPoint
-				 os.makedirs(mountPoint)
-			if not self.CheckMountPartition(partition, mountPoint):
-				 self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
-			else:
-				 print "partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
-			count = count +1
+	def MountPartition(self, parentDevice):
+		devInfo = self.GetDeviceInfo(parentDevice)
+		# check type
+		if devInfo["type"] != "partition":
+			return
+		deviceName = str(devInfo["name"])
+		lastDeviceChar = deviceName[-1:]
+		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+		if not os.path.exists(mountPoint):
+			os.makedirs(mountPoint)
+		if not self.CheckMountPartition(parentDevice, mountPoint):
+			self.Mount(devInfo["name"], mountPoint, devInfo["fsType"], "rw")
+		else:
+			 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
+
+	# mount all partitions	
+	#def MountPartitions(self, parentDevice):
+	#	return
+	#	partitions = self.GetPartitionsFromDisk(parentDevice)
+	#	count = 0
+	#	for partition in partitions:
+	#		partInfo = self.GetDeviceInfo(partition)
+	#		mountPoint = "/mnt/partition{0}".format(count)
+	#		if not os.path.exists(mountPoint):
+	#			print " - create " + mountPoint
+	#			os.makedirs(mountPoint)
+	#		if not self.CheckMountPartition(partition, mountPoint):
+	#			print "xxx mount"
+	#			#self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
+	#		else:
+	#			 print "  - partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
+	#		count = count + 1
 
 	# mount partition
 	def Mount(self, source, mountPoint, fstype, options=''):
-		if fstype == None or fstype == "":
-			return
-		command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
-		self.shCommand(command)
+		try:
+			command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
+			if fstype != None and fstype != "" :
+				self.shCommand(command)
+		except Exception as e:
+			print('Failed mount: ' + str(e))
 
 	# mount partitions from mountPoint
 	def UnmountPartitionMountPoint(self, mountPoint):

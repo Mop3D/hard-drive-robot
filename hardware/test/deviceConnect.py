@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # coding: utf8
 
+"""
+deveiceConnect.py
+
+date: 15.02.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
+
 import pyudev
 #https://pyudev.readthedocs.io/en/latest/#documentation
 #sudo apt-get install python-psutil
@@ -190,22 +197,22 @@ class DeviceCon():
 			 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
 
 	# mount all partitions	
-	def MountPartitions(self, parentDevice):
-		return
-		partitions = self.GetPartitionsFromDisk(parentDevice)
-		count = 0
-		for partition in partitions:
-			partInfo = self.GetDeviceInfo(partition)
-			mountPoint = "/mnt/partition{0}".format(count)
-			if not os.path.exists(mountPoint):
-				print " - create " + mountPoint
-				os.makedirs(mountPoint)
-			if not self.CheckMountPartition(partition, mountPoint):
-				print "xxx mount"
-				#self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
-			else:
-				 print "  - partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
-			count = count + 1
+	#def MountPartitions(self, parentDevice):
+	#	return
+	#	partitions = self.GetPartitionsFromDisk(parentDevice)
+	#	count = 0
+	#	for partition in partitions:
+	#		partInfo = self.GetDeviceInfo(partition)
+	#		mountPoint = "/mnt/partition{0}".format(count)
+	#		if not os.path.exists(mountPoint):
+	#			print " - create " + mountPoint
+	#			os.makedirs(mountPoint)
+	#		if not self.CheckMountPartition(partition, mountPoint):
+	#			print "xxx mount"
+	#			#self.Mount(partInfo["name"], mountPoint, partInfo["fsType"], "rw")
+	#		else:
+	#			 print "  - partition {0} on {1} mounted".format(partInfo["name"], mountPoint)
+	#		count = count + 1
 
 	# mount partition
 	def Mount(self, source, mountPoint, fstype, options=''):
