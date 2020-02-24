@@ -11,6 +11,9 @@ diskConnected = devMon.GetConnectedDisk()
 print(diskConnected)
 devMon.StartMonitoring()
 
+###################################################
+# not used
+###################################################
 if False:
 	devCon = deviceConnect.DeviceCon();
 	diskPath = "/dev/sda"
@@ -19,6 +22,7 @@ if False:
 	if devicesConnected:
 		deviceConnected = devicesConnected[0]
 		deviceInfo = devCon.GetDeviceInfo(deviceConnected)
+		print " "
 		print(deviceInfo)
 		devCon.ListDeviceAttribute(deviceConnected)
 		partitionsFromDisk = devCon.GetPartitionsFromDisk(deviceConnected)

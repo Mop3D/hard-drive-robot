@@ -57,7 +57,7 @@ class Monitor():
 		#observer.start()
 
 		for device in iter(monitor.poll, None):
-			self.Log_Event(device.action, device)
+			self.CallByEvent(device.action, device)
 			#print ("action, device node", device.action, device.device_node)
 			##continue
 			#if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
@@ -72,10 +72,14 @@ class Monitor():
 			#	time.sleep( 1 )
 			#	self.devCon.UnmountPartitionFromDevice(device)
 
-	def Log_Event(self, action, device):
-		print ("action, device node", action, device.device_node)
+	def CallByEvent(self, action, device):
+		# only disk, no partition
+		if device.device_type != "disk":
+			return
+		print " *** event, device node, type", action, device.device_node, device.device_type
 		if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
 			return
+
 		deviceInfo = self.devCon.GetDeviceInfo(device)
 
 		retJson = { "Action": action,
@@ -88,13 +92,13 @@ class Monitor():
 		if self.webSocketHandler is not None:
 			self.webSocketHandler.SendMessage("devicemon", retJson)
 
-		print("  action", device.action, device)
+		print " *** action", device.action, device
 		if device.action == 'add':
 			time.sleep( 1 )
-			self.devCon.MountPartition(device)
+			self.devCon.MountDiskPartitions(device)
 		if device.action == 'remove':
 			time.sleep( 1 )
-			self.devCon.UnmountPartitionFromDevice(device)
+			self.devCon.UnmountDiskPartitions(device)
 
 	def Dispose(self):
 		observer.stop()
@@ -162,6 +166,60 @@ class DeviceCon():
 		
 		return deviceInfo
 
+	# mount all partitions, (not used)	
+	def MountDiskPartitions(self, diskDevice):
+		print ""
+		print "-----> MountDiskPartitions", diskDevice.device_node
+		devInfo = self.GetDeviceInfo(diskDevice)
+		partitions = self.GetPartitionsFromDisk(diskDevice)
+		for partition in partitions:
+			# partition info
+			partInfo = self.GetDeviceInfo(partition)
+			# device name
+			deviceName = str(partInfo["name"])
+			# part number
+			lastDeviceChar = deviceName[-1:]
+			# mount point and share name
+			mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+			shareName = "Part{0}".format(lastDeviceChar)
+			print "    --> Partition", partInfo["name"], partInfo["fsType"], partInfo["fsLabel"], mountPoint, shareName
+			# check and create mount folder
+			if not os.path.exists(mountPoint):
+				os.makedirs(mountPoint)
+			# check mounted partitions
+			if not self.CheckMountPartition(partition, mountPoint):
+				print "  {0} on {1} mount...".format(deviceName, mountPoint, partInfo["fsType"])
+				self.Mount(deviceName, mountPoint, partInfo["fsType"], "rw")
+				self.SetSambaShare(shareName, mountPoint)
+			else:
+				print "  {0} on {1} allready mounted".format(deviceName, mountPoint)
+
+	# mount all partitions from device
+	def UnmountDiskPartitions(self, diskDevice):
+		print ""
+		print "-----< UnmountDiskPartitions", diskDevice.device_node
+		devInfo = self.GetDeviceInfo(diskDevice)
+		for partition in psutil.disk_partitions():
+			# only partition from the devices
+			#print "    --< Part", partition.device, diskDevice.device_node, partition.mountpoint
+
+			if partition.device.startswith(diskDevice.device_node):
+				# partition info
+				partInfo = self.GetDeviceInfo(partition)
+				# device name
+				deviceName = str(partInfo["name"])
+				# part number
+				lastDeviceChar = deviceName[-1:]
+				# share name
+				shareName = "Part{0}".format(lastDeviceChar)
+				print "    --< Partition", partition.device, partition.mountpoint, shareName
+				self.DelSambaShare(shareName)
+				self.KillFUser(partition.mountpoint)
+				self.Umount(partition.device)
+
+
+
+
 	# list device attibutes
 	def ListDeviceAttribute(self, device):
 		for att in device:
@@ -179,24 +237,28 @@ class DeviceCon():
 				return True
 				#print("  {}: {}".format(partitions.device, partitions.mountpoint))
 		return False
-		
-	# mount all partitions	
-	def MountPartition(self, parentDevice):
-		devInfo = self.GetDeviceInfo(parentDevice)
-		# check type
-		if devInfo["type"] != "partition":
-			return
-		deviceName = str(devInfo["name"])
-		lastDeviceChar = deviceName[-1:]
-		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
-		shareName = "Part{0}".format(lastDeviceChar)
-		if not os.path.exists(mountPoint):
-			os.makedirs(mountPoint)
-		if not self.CheckMountPartition(parentDevice, mountPoint):
-			self.Mount(devInfo["name"], mountPoint, devInfo["fsType"], "rw")
-			self.SetSambaShare(shareName, mountPoint)
-		else:
-			 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
+
+
+
+
+
+	# mount all partitions, (not used)	
+	#def MountPartition(self, parentDevice):
+	#	devInfo = self.GetDeviceInfo(parentDevice)
+	#	# check type
+	#	if devInfo["type"] != "partition":
+	#		return
+	#	deviceName = str(devInfo["name"])
+	#	lastDeviceChar = deviceName[-1:]
+	#	mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+	#	shareName = "Part{0}".format(lastDeviceChar)
+	#	if not os.path.exists(mountPoint):
+	#		os.makedirs(mountPoint)
+	#	if not self.CheckMountPartition(parentDevice, mountPoint):
+	#		self.Mount(devInfo["name"], mountPoint, devInfo["fsType"], "rw")
+	#		self.SetSambaShare(shareName, mountPoint)
+	#	else:
+	#		 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
 
 	# mount all partitions	
 	#def MountPartitions(self, parentDevice):
@@ -220,17 +282,18 @@ class DeviceCon():
 	def Mount(self, source, mountPoint, fstype, options=''):
 		try:
 			command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
+			print " ... mount", command
 			if fstype != None and fstype != "" :
 				self.shCommand(command)
 		except Exception as e:
 			print('Failed mount: ' + str(e))
 
 	# mount partitions from mountPoint
-	def UnmountPartitionMountPoint(self, mountPoint):
-		for p in psutil.disk_partitions():
-			if p.mountpoint == mountPoint:
-				self.Umount(p.device)
-				#print("  {}: {}".format(p.device, p.mountpoint))	
+	#def UnmountPartitionMountPoint(self, mountPoint):
+	#	for p in psutil.disk_partitions():
+	#		if p.mountpoint == mountPoint:
+	#			self.Umount(p.device)
+	#			#print("  {}: {}".format(p.device, p.mountpoint))	
 			
 	# mount all partitions from device
 	def UnmountPartitionFromDevice(self, device):
