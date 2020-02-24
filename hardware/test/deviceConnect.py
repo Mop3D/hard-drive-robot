@@ -189,10 +189,12 @@ class DeviceCon():
 		deviceName = str(devInfo["name"])
 		lastDeviceChar = deviceName[-1:]
 		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+		shareName = "Part{0}".format(lastDeviceChar)
 		if not os.path.exists(mountPoint):
 			os.makedirs(mountPoint)
 		if not self.CheckMountPartition(parentDevice, mountPoint):
 			self.Mount(devInfo["name"], mountPoint, devInfo["fsType"], "rw")
+			self.SetSambaShare(shareName, mountPoint)
 		else:
 			 print "  - partition {0} on {1} mounted".format(devInfo["name"], mountPoint)
 
@@ -232,23 +234,75 @@ class DeviceCon():
 			
 	# mount all partitions from device
 	def UnmountPartitionFromDevice(self, device):
-		#print "  unmount from Pa ", device.device_node
-		for p in psutil.disk_partitions():
-			if p.device == device.device_node:
-				#print ("    found", p.device, device.device_node)
-				self.Umount(p.device)
-			else:
-				pDevice = self.GetDevicelist(p.device)
-				#print ("p.device, pDevice", p.device, pDevice[0].device_node)
-				if pDevice and pDevice[0].parent.device_node == device.device_node:
-					self.Umount(p.device)
+		devInfo = self.GetDeviceInfo(device)
+		if devInfo["type"] != "partition":
+			return
+		deviceName = str(devInfo["name"])
+		lastDeviceChar = deviceName[-1:]
+		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+		shareName = "Part{0}".format(lastDeviceChar)
+
+		print "  unmount device ", device.device_node
+		self.DelSambaShare(shareName)
+		self.KillFUser(mountPoint)
+		self.Umount(device.device_node)
+
+	# mount all partitions from device
+	#def UnmountPartitionFromDevice(self, device):
+	#	#print "  unmount from Pa ", device.device_node
+	#	for p in psutil.disk_partitions():
+	#		devInfo = self.GetDeviceInfo(p)
+	#		deviceName = str(devInfo["name"])
+
+	#		print("..............", p)
+	#		print("...............", devInfo )
+	#		print("................", deviceName)
+
+	#		lastDeviceChar = deviceName[-1:]
+	#		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
+	#		shareName = "Part{0}".format(lastDeviceChar)
+	#		if p.device == device.device_node:
+	#			#print ("    found", p.device, device.device_node)
+	#			self.DelSambaShare(shareName)
+	#			self.KillFUser(mountPoint)
+	#			self.Umount(p.device)
+	#		else:
+	#			pDevice = self.GetDevicelist(p.device)
+	#			#print ("p.device, pDevice", p.device, pDevice[0].device_node)
+	#			if pDevice and pDevice[0].parent.device_node == device.device_node:
+	#				self.DelSambaShare(shareName)
+	#				self.KillFUser(mountPoint)
+	#				self.Umount(p.device)
+
+	# kill fuser on partition
+	def KillFUser(self, mountPoint):
+		command = "fuser -km {0}".format(mountPoint)  
+		try:
+			self.shCommand(command)
+		except Exception as e:
+			print('Failed kill fUser: ' + str(e))
 
 	# umount partition
 	def Umount(self, mountDev):
 		command = "umount {0}".format(mountDev)  
 		self.shCommand(command)
 
+	# add smaba share	
+	def SetSambaShare(self, shareName, folder):
+		try:
+			command = "net usershare add {0} {1} '{1}' everyone:F guest_ok=y".format(shareName, folder)  
+			self.shCommand(command)
+		except Exception as e:
+			print('Failed set share: ' + str(e))
+	# remove smaba share	
+	def DelSambaShare(self, shareName):
+		try:
+			command = "net usershare delete {0}".format(shareName)  
+			self.shCommand(command)
+		except Exception as e:
+			print('Failed delete share: ' + str(e))
+
 	# call sh command
 	def shCommand(self, command):
-		print "command", command;
+		print "command", command
 		return subprocess.check_output(command.split(" ")) 

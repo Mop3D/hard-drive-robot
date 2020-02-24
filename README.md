@@ -32,6 +32,11 @@ $ pip install psutil
 ```
 
 ```
+Install ntfs-3g
+$ sudo apt-get install ntfs-3g
+```
+
+```
 Install tornado
 get the last version of tornado
 $ sudo python -m pip install tornado
