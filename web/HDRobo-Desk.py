@@ -40,13 +40,14 @@ from RobotWorker import RobotWorker
 
 # load the robo components
 from API_HDRack import MotorHandler, HDRackWorker
-            
+
 # init the HDRack Worker class
 hdrackWork = HDRackWorker(SocketHandler)
 # init the Robot Worker class
 robotWork = RobotWorker(SocketHandler)
 # init the socket handler class
 socketHandler = SocketHandlerWrapper(SocketHandler)
+
 
 app = web.Application(
     [

@@ -40,10 +40,11 @@ class RobotWorker():
         #init Disk
         self.connDisk = ConnectedDisk.CDisk(self)
 
-        self.devMon = DeviceConnect.Monitor(None, "ata", None, self.devicePath, self.connDisk, self)
+        #self.devMon = DeviceConnect.Monitor('block', self.devicePath, self.connDisk, self.webSocketHandler)
+        self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, self.webSocketHandler)
         #diskConnected = self.devMon.GetConnectedDisk()
         self.devMon.StartMonitoring()
-
+    
     def DiskInfoJson(self):
         retJson = {
             "SlotNo": self.connectedSlotNo,

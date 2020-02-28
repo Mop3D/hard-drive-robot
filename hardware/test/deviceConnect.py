@@ -4,7 +4,7 @@
 """
 deveiceConnect.py
 
-date: 15.02.2020
+date: 25.02.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
