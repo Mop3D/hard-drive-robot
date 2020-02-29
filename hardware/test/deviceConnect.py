@@ -237,8 +237,6 @@ class DeviceCon():
 			#print "    --< Part", partition.device, diskDevice.device_node, partition.mountpoint
 
 			if partition.device.startswith(diskDevice.device_node):
-				# device name
-				deviceName = str(partition.device)
 				# part number
 				lastDeviceChar = partition.device[-1:]
 				# share name
