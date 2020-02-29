@@ -4,7 +4,7 @@
 """
 deveiceConnect.py
 
-date: 25.02.2020
+date: 28.02.2020
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -28,17 +28,27 @@ class Monitor():
 	devtype = None
 	devname = None
 	
+	# WriteStatus
+	def WriteStatus(self, message):
+		print "message", message
+		if self.webSocketHandler is not None:
+			retJson = { "Action": "Info",
+				"Message": message
+			}
+			self.webSocketHandler.SendMessage("devicemon", retJson)
 	# init
 	def __init__(self, subsystem, devtype, devname, SocketHandler):
 		if SocketHandler != None:
 			self.webSocketHandler = SocketHandler
 			self.webSocketHandler.SendMessage("devicemon", "init devmon")
-		print ("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
-		self.devCon = DeviceCon()
+		#print ("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
+		self.WriteStatus("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
+		self.devCon = DeviceCon(SocketHandler)
 		self.subsystem = subsystem
 		self.devtype = devtype
 		self.devname = devname
 	
+	# GetConnectedDisk
 	def GetConnectedDisk(self):
 		devicesConnected = self.devCon.GetDevicelist(self.devname)
 		return devicesConnected
@@ -53,16 +63,19 @@ class Monitor():
 		elif self.devtype is not None:
 			monitor.filter_by('', device_type=self.devtype)
 			
-		#observer = pyudev.MonitorObserver(monitor, self.Log_Event)
-		#observer.start()
-
-		for device in iter(monitor.poll, None):
-			self.CallByEvent(device.action, device)
+		# call by webserver
+		if self.webSocketHandler != None:
+			self.WriteStatus("start MonitorObserver")
+			observer = pyudev.MonitorObserver(monitor, self.CallByEvent)
+			observer.start()
+		else:
+			for device in iter(monitor.poll, None):
+				self.CallByEvent(device.action, device)
 			#print ("action, device node", device.action, device.device_node)
 			##continue
 			#if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
 			#	continue
-			#deviceInfo = self.devCon.GetDeviceInfo(device)
+			#deviceInfo = self.GetDeviceInfo(device)
 			#print("  action", device.action)
 			##print("   deviceInfo", deviceInfo)
 			#if device.action == 'add':
@@ -76,7 +89,8 @@ class Monitor():
 		# only disk, no partition
 		if device.device_type != "disk":
 			return
-		print " *** event, device node, type", action, device.device_node, device.device_type
+		#print " *** event, device node, type", action, device.device_node, device.device_type
+		self.WriteStatus(" *** event, device node, type {0},{1},{2}".format(action, device.device_node, device.device_type))
 		if self.devname is not None and not device.device_node.encode("latin-1").startswith(self.devname):
 			return
 
@@ -92,7 +106,8 @@ class Monitor():
 		if self.webSocketHandler is not None:
 			self.webSocketHandler.SendMessage("devicemon", retJson)
 
-		print " *** action", device.action, device
+		#print " *** action", device.action, device
+		self.WriteStatus("*** action {0},{1}".format(device.action, device))
 		if device.action == 'add':
 			time.sleep( 1 )
 			self.devCon.MountDiskPartitions(device)
@@ -102,11 +117,26 @@ class Monitor():
 
 	def Dispose(self):
 		observer.stop()
-		print ("observer dispose()")
+		#print ("observer dispose()")
+		self.WriteStatus("observer dispose")
 	
 
 class DeviceCon():
 	context = pyudev.Context()
+	webSocketHandler = None
+
+	# WriteStatus
+	def WriteStatus(self, message):
+		print "message", message
+		if self.webSocketHandler is not None:
+			retJson = { "Action": "Info",
+				"Message": message
+			}
+			self.webSocketHandler.SendMessage("devicemon", retJson)
+	# init
+	def __init__(self, SocketHandler):
+		if SocketHandler != None:
+			self.webSocketHandler = SocketHandler
 
 	# get device list
 	def GetDevicelist(self, devname = "", devtype=""):
@@ -168,8 +198,8 @@ class DeviceCon():
 
 	# mount all partitions, (not used)	
 	def MountDiskPartitions(self, diskDevice):
-		print ""
-		print "-----> MountDiskPartitions", diskDevice.device_node
+		#print "-----> MountDiskPartitions", diskDevice.device_node
+		self.WriteStatus("-----> MountDiskPartitions {0}".format(diskDevice.device_node))
 		devInfo = self.GetDeviceInfo(diskDevice)
 		partitions = self.GetPartitionsFromDisk(diskDevice)
 		for partition in partitions:
@@ -182,22 +212,25 @@ class DeviceCon():
 			# mount point and share name
 			mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
 			shareName = "Part{0}".format(lastDeviceChar)
-			print "    --> Partition", partInfo["name"], partInfo["fsType"], partInfo["fsLabel"], mountPoint, shareName
+			#print "    --> Partition", partInfo["name"], partInfo["fsType"], partInfo["fsLabel"], mountPoint, shareName
+			self.WriteStatus("    --> Partition {0},{1},{2},{3},{4}".format(partInfo["name"], partInfo["fsType"], partInfo["fsLabel"], mountPoint, shareName))
 			# check and create mount folder
 			if not os.path.exists(mountPoint):
 				os.makedirs(mountPoint)
 			# check mounted partitions
 			if not self.CheckMountPartition(partition, mountPoint):
-				print "  {0} on {1} mount...".format(deviceName, mountPoint, partInfo["fsType"])
+				#print "  {0} on {1} mount...".format(deviceName, mountPoint, partInfo["fsType"])
+				self.WriteStatus("  {0} on {1} mount...".format(deviceName, mountPoint, partInfo["fsType"]))
 				self.Mount(deviceName, mountPoint, partInfo["fsType"], "rw")
 				self.SetSambaShare(shareName, mountPoint)
 			else:
-				print "  {0} on {1} allready mounted".format(deviceName, mountPoint)
+				#print "  {0} on {1} allready mounted".format(deviceName, mountPoint)
+				self.WriteStatus("  {0} on {1} allready mounted".format(deviceName, mountPoint))
 
 	# mount all partitions from device
 	def UnmountDiskPartitions(self, diskDevice):
-		print ""
-		print "-----< UnmountDiskPartitions", diskDevice.device_node
+		#print "-----< UnmountDiskPartitions", diskDevice.device_node
+		self.WriteStatus("-----< UnmountDiskPartitions {0}".format(diskDevice.device_node))
 		devInfo = self.GetDeviceInfo(diskDevice)
 		for partition in psutil.disk_partitions():
 			# only partition from the devices
@@ -212,18 +245,18 @@ class DeviceCon():
 				lastDeviceChar = deviceName[-1:]
 				# share name
 				shareName = "Part{0}".format(lastDeviceChar)
-				print "    --< Partition", partition.device, partition.mountpoint, shareName
+				#print "    --< Partition", partition.device, partition.mountpoint, shareName
+				self.WriteStatus("    --< Partition {0},{1},{2}...".format(partition.device, partition.mountpoint, shareName))
 				self.DelSambaShare(shareName)
 				self.KillFUser(partition.mountpoint)
 				self.Umount(partition.device)
 
 
-
-
 	# list device attibutes
 	def ListDeviceAttribute(self, device):
 		for att in device:
-			print ("{0} = {1}", att, device[att])
+			#print ("{0} = {1}", att, device[att])
+			self.WriteStatus("ListDeviceAttribute {0} = {1}".format(att, device[att]))
 
 	# get Partitions 
 	def GetPartitionsFromDisk(self, parentDevice):
@@ -237,10 +270,6 @@ class DeviceCon():
 				return True
 				#print("  {}: {}".format(partitions.device, partitions.mountpoint))
 		return False
-
-
-
-
 
 	# mount all partitions, (not used)	
 	#def MountPartition(self, parentDevice):
@@ -282,11 +311,13 @@ class DeviceCon():
 	def Mount(self, source, mountPoint, fstype, options=''):
 		try:
 			command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
-			print " ... mount", command
+			#print " ... mount", command
+			self.WriteStatus(" ... mount {0}".format(command))
 			if fstype != None and fstype != "" :
-				self.shCommand(command)
+				self.ShCommand(command)
 		except Exception as e:
-			print('Failed mount: ' + str(e))
+			#print('Failed mount: ' + str(e))
+			self.WriteStatus("Failed mount: {0}".format(str(e)))
 
 	# mount partitions from mountPoint
 	#def UnmountPartitionMountPoint(self, mountPoint):
@@ -305,7 +336,8 @@ class DeviceCon():
 		mountPoint = "/mnt/partition{0}".format(lastDeviceChar)
 		shareName = "Part{0}".format(lastDeviceChar)
 
-		print "  unmount device ", device.device_node
+		#print "  unmount device ", device.device_node
+		self.WriteStatus("  unmount device {0}".format(subsystemdevice.device_node))
 		self.DelSambaShare(shareName)
 		self.KillFUser(mountPoint)
 		self.Umount(device.device_node)
@@ -341,31 +373,35 @@ class DeviceCon():
 	def KillFUser(self, mountPoint):
 		command = "fuser -km {0}".format(mountPoint)  
 		try:
-			self.shCommand(command)
+			self.ShCommand(command)
 		except Exception as e:
 			print('Failed kill fUser: ' + str(e))
+			self.WriteStatus("Failed kill fUser {0}".format(str(e)))
 
 	# umount partition
 	def Umount(self, mountDev):
 		command = "umount {0}".format(mountDev)  
-		self.shCommand(command)
+		self.ShCommand(command)
 
 	# add smaba share	
 	def SetSambaShare(self, shareName, folder):
 		try:
 			command = "net usershare add {0} {1} '{1}' everyone:F guest_ok=y".format(shareName, folder)  
-			self.shCommand(command)
+			self.ShCommand(command)
 		except Exception as e:
-			print('Failed set share: ' + str(e))
+			#print('Failed set share: ' + str(e))
+			self.WriteStatus("Failed set share {0}".format(str(e)))
 	# remove smaba share	
 	def DelSambaShare(self, shareName):
 		try:
 			command = "net usershare delete {0}".format(shareName)  
-			self.shCommand(command)
+			self.ShCommand(command)
 		except Exception as e:
-			print('Failed delete share: ' + str(e))
+			#print('Failed delete share: ' + str(e))
+			self.WriteStatus("Failed delete share {0}".format(str(e)))
 
 	# call sh command
-	def shCommand(self, command):
-		print "command", command
+	def ShCommand(self, command):
+		#print "command", command
+		self.WriteStatus("command {0}".format(command))
 		return subprocess.check_output(command.split(" ")) 
