@@ -52,6 +52,7 @@ class Monitor():
 	def GetConnectedDisk(self):
 		devicesConnected = self.devCon.GetDevicelist(self.devname)
 		return devicesConnected
+	
 	# Start Monitoring
 	def StartMonitoring(self):
 		monitor = pyudev.Monitor.from_netlink(self.context)
@@ -309,7 +310,7 @@ class DeviceCon():
 			command = "mount -t {2} {0} {1} -o {3}".format(source, mountPoint, fstype, options)  
 			#print " ... mount", command
 			self.WriteStatus(" ... mount {0}".format(command))
-			if fstype != None and fstype != "" :
+			if fstype != None and fstype != "":
 				self.ShCommand(command)
 		except Exception as e:
 			#print('Failed mount: ' + str(e))

@@ -46,7 +46,7 @@ class SocketHandler(websocket.WebSocketHandler):
 
     @staticmethod
     def SendMessage(command, data):
-        print ("SendMessage", command, data)
+        print "SendMessage", command, data
         retJson = { "command": command, "data": data }
         for webSocket in cl:
             webSocket.write_message(retJson)
