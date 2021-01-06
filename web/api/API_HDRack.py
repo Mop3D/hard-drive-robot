@@ -15,7 +15,13 @@ from Common import hdRoboCfg, BaseHandler
 
 #
 # HDRack worker class
-#        
+#
+# Properties:
+# gpioExists - Is this the Robot Rack Pi
+# ElevatorMotor - Elevator Motor Instance
+# ConnectorMotor - Connector Motor Instance
+# socketHandler - socketHandler Instance
+#         
 class HDRackWorker():
     # init
     def __init__(self, socketHandler):
@@ -42,6 +48,9 @@ class HDRackWorker():
             #Elevator
             #Elevator Slot
             self.stepsPerSlot = 400
+            # 1-5
+            self.slotSteps = [ 0, 107, 169, 237, 305, 373]
+
             #Elevator Motor
             self.stepsPerRound = 4096
 
@@ -60,6 +69,13 @@ class HDRackWorker():
 
             self.ConnectorMotor = GpioMotor.GpioMotor("Connector", 3, 5, 7, True)
             self.ConnectorMotor.SetSendMessage(socketHandler.SendMessage)
+
+    # current Position
+    def CurrentPosition(self, motorName):
+        if motorName == "Connector":
+            return self.ConnectorMotor.currentPosition
+        else:
+            return self.ElevatorMotor.currentPosition
 
     # info motor
     def InfoMotor(self, motorName):
@@ -118,7 +134,12 @@ class HDRackWorker():
             print ("HDRackWorker: move out", retJson)
             retJson = self.ConnectorMotor.DoStep(steps * -1)
         return retJson
-
+    # Is Connector moved into the rack
+    def IsConnected(self):
+        if self.ConnectorMotor.currentPosition != 0:
+            return True
+        else:
+            return False
 
 class MotorHandler(BaseHandler):
     def initialize(self, hdrackWork):
@@ -144,17 +165,23 @@ class MotorHandler(BaseHandler):
 
         # elevator up
         elif command.startswith("up"):
-            steps = int(command.replace("up", ""))
-            if command == "up":
-                steps = self.hdrackWork.stepsPerKey
-            retJson = self.hdrackWork.MoveElevator("up", steps)
+            if self.hdrackWork.IsConnected():
+                print "---> Is connected - no move possible"
+            else:
+                steps = int(command.replace("up", ""))
+                if command == "up":
+                    steps = self.hdrackWork.stepsPerKey
+                retJson = self.hdrackWork.MoveElevator("up", steps)
         #elevator down
         elif command.startswith("down"):
-            steps = int(command.replace("down", ""))
-            print("down steps", steps)
-            if command == "down":
-                steps = self.hdrackWork.stepsPerKey
-            retJson = self.hdrackWork.MoveElevator("down", steps)
+            if self.hdrackWork.IsConnected():
+                print "---> Is connected - no move possible"
+            else:
+                steps = int(command.replace("down", ""))
+                print("down steps", steps)
+                if command == "down":
+                    steps = self.hdrackWork.stepsPerKey
+                retJson = self.hdrackWork.MoveElevator("down", steps)
 
         #connector forward
         elif command.startswith("forward"):
@@ -170,20 +197,16 @@ class MotorHandler(BaseHandler):
             retJson = self.hdrackWork.MoveConnector("out", steps)
         # move to Slot
         elif command == "slot":
-            slotNo = int(self.get_argument('slotno', None, True))
-            if slotNo == 1:
-                stepsToSlot = 107
-            if slotNo == 2:
-                stepsToSlot = 169
-            if slotNo == 3:
-                stepsToSlot = 237
-            if slotNo == 4:
-                stepsToSlot = 305
-            if slotNo == 5:
-                stepsToSlot = 373
-            steps = stepsToSlot
-            retJson = self.hdrackWork.MoveElevator("up", steps)
-            print("slot, stepsToSlot, steps, currentPosition ", slotNo, stepsToSlot, steps)
+            if self.hdrackWork.IsConnected():
+                print "---> Is connected - no move possible"
+            else:
+                slotNo = int(self.get_argument('slotno', None, True))
+                slotSteps = self.hdrackWork.slotSteps[slotNo]
+                steps = slotSteps - self.hdrackWork.CurrentPosition(motorName) 
+
+                print "---> slot, slotSteps, steps, currentPosition ", slotNo, slotSteps, steps, self.hdrackWork.CurrentPosition(motorName)
+                if steps != 0:
+                    retJson = self.hdrackWork.MoveElevator("up", steps)
         # connect HD
         elif command == "connect":
             steps = 75

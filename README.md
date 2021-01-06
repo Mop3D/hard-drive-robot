@@ -29,6 +29,9 @@ $ sudo apt-get install python-pip
 $ sudo pip install pyudev
 ---- psutil ---
 $ pip install psutil
+(on ImportError: No module named psutil
+$ sudo pip install --upgrade psutil
+)
 ```
 
 ```
@@ -46,6 +49,15 @@ $ sudo python -m pip install tornado
 Install yaml
 $ sudo python -m pip install pyyaml
 ```
+
+```
+Run HD Robo Desk
+$ cd ~/hard-drive-robot/web
+$ sudo ./HDRobo-Desk.py
+```
+
+
+
 
 
 
