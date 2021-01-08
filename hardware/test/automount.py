@@ -1,23 +1,24 @@
 #!/usr/bin/python
 # coding: utf8
 
-#import sys
-#sys.path.append('../disk')
+import StatusObject
 
 import DeviceConnect
 
 import psutil
 
+statusObj = StatusObject.StatusObject(None)
+
+
 diskPath = "/dev/sda"
-devMon = DeviceConnect.Monitor('block', None, diskPath, None, None)
-#diskConnected = devMon.connectedDisk
-if devMon.connectedDisk:
-	print len(devMon.connectedDisk.mountedPartitions)
-	print "diskid", devMon.connectedDisk.diskid
-	print "part1 Sharename", devMon.connectedDisk.mountedPartitions[0]
+devMon = DeviceConnect.Monitor('block', None, diskPath, False, statusObj)
+diskConnected = devMon.GetConnectedDisk()
+statusObj.StatusInfo("automount", diskConnected)
+devMon.StartMonitoring()
 
-#devMon.StartMonitoring()
-
+###################################################
+# not used
+###################################################
 if False:
 	devCon = DeviceConnect.DeviceCon()
 	diskPath = "/dev/sda"
@@ -26,6 +27,7 @@ if False:
 	if devicesConnected:
 		deviceConnected = devicesConnected[0]
 		deviceInfo = devCon.GetDeviceInfo(deviceConnected)
+		print " "
 		print(deviceInfo)
 		devCon.ListDeviceAttribute(deviceConnected)
 		partitionsFromDisk = devCon.GetPartitionsFromDisk(deviceConnected)
@@ -35,6 +37,7 @@ if False:
 			deviceInfo = devCon.GetDeviceInfo(partitionFromDisk)
 			#print(deviceInfo)
 			devCon.ListDeviceAttribute(partitionFromDisk)
+			print "   MountPartitions"
 			devCon.MountPartitions(partitionFromDisk)
 			#for p in psutil.disk_partitions():
 			#    if p.device in partitionFromDisk.device_node:

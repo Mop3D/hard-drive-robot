@@ -4,7 +4,7 @@
 """
 HDRobo-Desk.py
 
-date: 26.01.2020
+date: 07.01.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -29,6 +29,8 @@ settings = {
 # common
 # must set before the api handlers
 from Common import hdRoboCfg
+# signal SocketHandlerWrapper
+from CommunicationWorker import CommunicationWorker
 
 # web Index and API
 from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler
@@ -41,12 +43,15 @@ from RobotWorker import RobotWorker
 # load the robo components
 from API_HDRack import MotorHandler, HDRackWorker
 
+
+# init the socket handler class
+socketHandler = SocketHandlerWrapper(SocketHandler)
+# init the Communication Worker class
+commWork = CommunicationWorker(SocketHandler)
 # init the HDRack Worker class
 hdrackWork = HDRackWorker(SocketHandler)
 # init the Robot Worker class
-robotWork = RobotWorker(SocketHandler)
-# init the socket handler class
-socketHandler = SocketHandlerWrapper(SocketHandler)
+robotWork = RobotWorker(commWork)
 
 
 app = web.Application(

@@ -1,7 +1,36 @@
 #!/usr/bin/python
 # coding: utf8
 
+"""
+ConnectedDisk.py
+
+date: 01.03.2020
+author: oliver Klepach, Martin Weichselbaumer
+"""
+
 class CDisk():
+    commHandler = None
+
+    def StatusInfo(self, message):
+        self.commHandler.StatusInfo("connecteddisk", message)
+    def StatusError(self, message):
+        self.commHandler.StatusError("connecteddisk", message)
+
+	# init
+    def __init__(self, communicationHandler):
+        self.commHandler = communicationHandler
+        self.StatusInfo("init")
+
+	def GetDeviceInfo(self, property):
+		print ("   -> ConnectedDisk.Disk.DeviceInfo: deviceInfo {0}, {1}".format(property, self.diskDevice))
+		if self.diskInfo == None:
+			return ""
+		if self.diskInfo[property] != None:
+			return self.diskInfo[property]	
+		return ""
+
+
+class CDiskA():
 	diskParent = None
 
 	diskDevice = None

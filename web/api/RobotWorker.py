@@ -4,17 +4,17 @@
 """
 RobotWorker.py
 
-date: 19.01.2020
+date: 07.01.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
 # web Socket
-from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
+#from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
 
 # DeviceConnect
 import DeviceConnect
 # connected Disk
-import ConnectedDisk
+import ConnectedDisk 
 
 #
 # Robot worker class
@@ -30,21 +30,30 @@ class RobotWorker():
     # device handler
     devMon = None
     #websocker handler
-    webSocketHandler = None
+    commHandler = None
     
+    # StatusInfo, StatusError, WriteJsonToSocket
+    def StatusInfo(self, message):
+        self.commHandler.StatusInfo("robotworker", message)
+    def StatusError(self, message):
+        self.commHandler.StatusError("robotworker", message)
+    def WriteJsonToSocket(self, action, json):
+        self.commHandler.WriteJsonToSocket("robotworker", action, json, True)
+
+
     # init
-    def __init__(self, SocketHandler):
-        self.webSocketHandler = SocketHandler
-        self.MessageFromObject("robotworker", "init RobotWorker")
+    def __init__(self, communicationHandler):
+        self.commHandler = communicationHandler
+        self.StatusInfo("init RobotWorker")
 
         #init Disk
-        self.connDisk = ConnectedDisk.CDisk(self)
+        self.connDisk = ConnectedDisk.CDisk(self.commHandler)
 
-        #self.devMon = DeviceConnect.Monitor('block', self.devicePath, self.connDisk, self.webSocketHandler)
-        self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, self.webSocketHandler)
+        self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, True, self.commHandler)
         #diskConnected = self.devMon.GetConnectedDisk()
         self.devMon.StartMonitoring()
     
+    # DiskInfoJson
     def DiskInfoJson(self):
         retJson = {
             "SlotNo": self.connectedSlotNo,
@@ -57,22 +66,24 @@ class RobotWorker():
             retJson["Device"]["Bus"] = self.connDisk.GetDeviceInfo("bus")
         return retJson
 
+    # ConnectedInfo
     def ConnectedInfo(self):
         retJson = self.DiskInfoJson()
-        self.MessageFromObject("connectinfo", retJson)
+        self.WriteJsonToSocket("connectinfo", retJson)
         
+    # ConnectToSlot
     def ConnectToSlot(self, slotNo):
         self.connectedSlotNo = slotNo
-        print ("   ConnectToSlot: {0}".format(slotNo))
+        self.StatusInfo("   ConnectToSlot: {0}".format(slotNo))
         retJson = self.DiskInfoJson()
-        self.MessageFromObject("connecttoslot", retJson)
+        self.WriteJsonToSocket("connecttoslot", retJson)
         
+    # MessageFromObject
     def MessageFromObject(self, command, message):
         if command == "connecteddisk":
-            message = self.DiskInfoJson()
+            messageJson = self.DiskInfoJson()
         if command == "disconnecteddisk":
             message = self.DiskInfoJson()
         
-        print ("   -> MessageFromObject - {0}: {1}".format(command, message))
-        if SocketHandler != None:
-            self.webSocketHandler.SendMessage(command, message)
+        self.StatusInfo("   -> MessageFromObject - {0}: {1}".format(command, message))
+        self.WriteJsonToSocket(command, messageJson)
