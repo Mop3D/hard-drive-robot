@@ -40,7 +40,6 @@ class RobotWorker():
     def WriteJsonToSocket(self, action, json):
         self.commHandler.WriteJsonToSocket("robotworker", action, json, True)
 
-
     # init
     def __init__(self, communicationHandler):
         self.commHandler = communicationHandler
@@ -50,9 +49,18 @@ class RobotWorker():
         self.connDisk = ConnectedDisk.CDisk(self.commHandler)
 
         self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, True, self.commHandler)
+        # add connect/disconnect event
+        self.devMon.CallOnConnect(self.connected_changed)
+        self.devMon.CallOnDisconnect(self.connected_changed)
+
         #diskConnected = self.devMon.GetConnectedDisk()
         self.devMon.StartMonitoring()
     
+    # connect/disconnect callback
+    def connected_changed(self, action, diskid):
+        print "**************************** event:", action, diskid
+
+
     # DiskInfoJson
     def DiskInfoJson(self):
         retJson = {

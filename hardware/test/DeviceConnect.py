@@ -19,8 +19,9 @@ import subprocess
 
 import inspect
 
+from events import Events
+
 import socket
-print(socket.gethostname())
 
 class ConnectedDisk():
 	context = pyudev.Context()
@@ -44,6 +45,9 @@ class ConnectedDisk():
 		self.mountedPartitions = self.diskInfo["partitions"]
 		self.diskid = self.diskInfo["serial"]
 		#print self.diskInfo
+
+class MonitorDiskEvents(Events):
+    __events__ = ('on_connect', 'on_disconnect')
 
 class Monitor():
 	context = pyudev.Context()
@@ -94,7 +98,14 @@ class Monitor():
 		else:
 			self.StatusInfo("Disk connected: " + str(devicesConnected[0]))
 			self.connectedDisk = ConnectedDisk(self.devCon, devicesConnected[0])
-	
+
+		self.Events = MonitorDiskEvents()
+
+	def CallOnConnect(self, objToCall):
+		self.Events.on_connect += objToCall
+	def CallOnDisconnect(self, objToCall):
+		self.Events.on_disconnect += objToCall
+
 	# GetConnectedDeviceList
 	def GetConnectedDeviceList(self):
 		devicesConnected = self.devCon.GetDevicelist(self.devname)
@@ -163,10 +174,13 @@ class Monitor():
 			time.sleep( 1 )
 			#self.devCon.MountDiskPartitions(device)
 			self.connectedDisk = ConnectedDisk(self.devCon, device)
+			# call connect Event
+			self.Events.on_connect('connected', self.connectedDisk.diskid)
 			self.StatusJson("connectDisk", { "diskid": self.connectedDisk.diskid, "mounted": [ "part1"] } )
 
 		if device.action == 'remove':
 			time.sleep( 1 )
+			self.Events.on_disconnect('disconnected', self.connectedDisk.diskid)
 			self.devCon.UnmountDiskPartitions(device)
 			self.StatusJson("disconnectDisk", { "diskid": self.connectedDisk.diskid } )
 			self.connectedDisk = None

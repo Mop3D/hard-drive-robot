@@ -16,7 +16,14 @@ if devMon.connectedDisk:
 	print "diskid", devMon.connectedDisk.diskid
 	print "part1 Sharename", devMon.connectedDisk.mountedPartitions[0]
 
-#devMon.StartMonitoring()
+def something_changed(action, diskid):
+    print "**************************** event:", action, diskid
+
+devMon.CallOnConnect(something_changed)
+devMon.CallOnDisconnect(something_changed)
+#devMon.OnEvents.on_connect += something_changed
+
+devMon.StartMonitoring()
 
 if False:
 	devCon = DeviceConnect.DeviceCon()

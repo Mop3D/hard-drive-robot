@@ -56,7 +56,10 @@ $ cd ~/hard-drive-robot/web
 $ sudo ./HDRobo-Desk.py
 ```
 
-
+```
+Install Events
+$ pip install events
+```
 
 
 
