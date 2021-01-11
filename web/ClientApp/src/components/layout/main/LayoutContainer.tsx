@@ -1,33 +1,38 @@
-import * as React from 'react';
-import * as Redux from 'redux';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+import { Action, bindActionCreators, Dispatch } from "redux";
 import { actionCreators } from '../../../store/actions';
-import { ApplicationState }  from '../../../store';
+import { ApplicationState  }  from '../../../store';
+import {
+    selectDisk
+  } from "../../../store/selectors";
+  
 import Layout from './Layout';
 import { string } from 'prop-types';
+import { IDiskState } from "../../../declarations/model/disk";
 
-interface IStateProps {
-}
-     
-interface IDispatchProps {
-}
-
-interface IOwnProps {
-    showHeaderFooter?: boolean;
-}
-
-// Selects which state properties are merged into the component's props
-const mapStateToProps = (state: ApplicationState): IStateProps => {
+/* This component is used as main container for all pages.
+   It has the responsibility to provide state data to Layout Component.
+   LayoutContainer is used on all components inside /pages folder as a wrapper component.
+   Layout creates header and footer and renders it's children as page content.
+*/
+export interface IReduxStateProps {
+    disk?: IDiskState;
+  }
+  
+export interface IDispatchProps {
+  }
+  
+const mapStateToProps = (state: ApplicationState): IReduxStateProps => {
     return {
+      disk: selectDisk(state)
     };
-}
+  };
 
 // Selects which state store actions are merged into the component's dispatch
-const mapDispatchToProps = (dispatch: Redux.Dispatch<any>): IDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => {
     const storeActions = bindActionCreators<any, any>(actionCreators, dispatch);
     return storeActions;
-}
+  };
   
-export default connect<IStateProps, IDispatchProps, IOwnProps>
-  (mapStateToProps, mapDispatchToProps)(Layout) 
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+  

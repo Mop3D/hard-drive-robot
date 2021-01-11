@@ -2,11 +2,21 @@ import * as React from 'react';
 import Layout from '../../layout/main/Layout';
 import { RouteComponentProps } from 'react-router-dom';
 import RackSlot from '../../ui/rackSlot'
+import DiskInfo from '../../ui/diskInfo'
 import ElevatorControler from '../../ui/elevatorController'
 
 import SockerMessages from '../../ui/socketMessages'
 
 export default class Overview extends React.Component<RouteComponentProps<any>, {}> {
+    // state
+    state = {
+        //motorInfoElevator: IMotorInfo,
+        //motorInfoConnector: null
+    }
+    // component did mount
+    componentDidMount() {
+    }
+
     public render() {
         const slots = [];
         for (let slot = 0; slot < 5; slot++) {
@@ -22,6 +32,13 @@ export default class Overview extends React.Component<RouteComponentProps<any>, 
                         <div className="teaser__txt">
                             <div className="teaser__body">
                                 {slots}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="teaser">
+                        <div className="teaser__txt">
+                            <div className="teaser__body">
+                                <DiskInfo></DiskInfo>
                             </div>
                         </div>
                     </div>

@@ -54,6 +54,15 @@ export default class ElevatorController extends React.Component<IOwnProps, {}> {
             </div>
             <hr/>
             <div className="row">
+                <div className="col-6">
+                    Elevator Status
+                </div>
+                <div className="col-6">
+                    Connector Status
+                </div>
+            </div>
+            <hr/>
+            <div className="row">
                 <div className="col-12 center">
                     <button onClick={() => this.button_Click("poweroff", undefined)}>power off</button>
                 </div>

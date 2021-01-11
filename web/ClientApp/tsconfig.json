@@ -18,11 +18,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "typeRoots": [
-      "./src/declarations/@types"      
-    ]
+    "typeRoots": ["./node_modules/@types", "./src/declarations"]
   },
-  "include": [
-    "src"
-  ]
+  "include": [ "src" ],
+  "exclude": ["node_modules", "public", "build" ]
 }
