@@ -16,16 +16,6 @@ const history = createBrowserHistory();
 
 export const store = configureStore(history, initialState);
 
-const routing = (
-  <Router>
-      <Switch>
-        <Route exact path="/" component={Overview} />
-        <Route exact path="/restcall" component={RestCall} />
-        <Route component={Notfound} />
-      </Switch>
-  </Router>
-)
-//ReactDOM.render(routing, document.getElementById('root'))
 const providerStore = (
   <Provider store={store}>
     <Router>

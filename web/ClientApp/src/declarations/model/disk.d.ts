@@ -1,5 +1,5 @@
 // disk
-export interface IDiskState {
+export interface IDiskInfo {
     diskid: string,
     mountpoints: string[]
 }

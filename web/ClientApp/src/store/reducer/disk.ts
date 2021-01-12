@@ -15,14 +15,21 @@ export const reducer: Reducer<DiskState> = (state: DiskState = initialState.disk
           error: false,
           isLoading: true
         };
-        case ActionTypes.ReduxConstants.RECEIVE_DISK_CONNECT:
-            return {
-              ...state,
-              data: action.disk,
-              error: false,
-              isLoading: false
-            };
-        default:
+      case ActionTypes.ReduxConstants.RECEIVE_DISK_INFO:
+        return {
+          ...state,
+          data: action.disk,
+          error: false,
+          isLoading: true
+        };
+      case ActionTypes.ReduxConstants.RECEIVE_DISK_CONNECT:
+        return {
+            ...state,
+            data: action.disk,
+            error: false,
+            isLoading: false
+        };
+      default:
     }
           
     return state;

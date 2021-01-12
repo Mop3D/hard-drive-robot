@@ -26,37 +26,37 @@ export const SendCommand = async (stateObject: any, command: string, value?: num
   console.log("SendCommand", command)
 
   // common commands
-  if (command == "ping")
+  if (command === "ping")
   {
     apiUrl = "/api/ping?dast=true";
   }
 
   // motor commands
-  if (apiUrl == "")
+  if (apiUrl === "")
   {
-    if (command == "up" || command == "down" || command == "slot" || command == "poweroff" || command == "reset" || command == "calibrate")
+    if (command === "up" || command === "down" || command === "slot" || command === "poweroff" || command === "reset" || command === "calibrate")
     {
         motorName = "Elevator";
     }
-    if (command == "forward" || command == "backward" || command == "connect" || command == "release")
+    if (command === "forward" || command === "backward" || command === "connect" || command === "release")
     {
         motorName = "Connector";
     }
     apiCommand = command;
-    if (command == "up" || command == "down" || command == "forward" || command == "backward")
+    if (command === "up" || command === "down" || command === "forward" || command === "backward")
     {
       apiCommand = apiCommand + value;
     }
-    if (command == "slot")
+    if (command === "slot")
     {
       apiCommand = apiCommand + "?slotno=" + value;
     }
-    if (motorName != "")
+    if (motorName !== "")
       apiUrl = '/motor/' + motorName + "/" + apiCommand;
   }
 
   // nothing todo
-  if (apiUrl == "")
+  if (apiUrl === "")
   {
     return;
   }

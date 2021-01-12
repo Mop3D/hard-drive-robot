@@ -8,7 +8,7 @@ import {
   
 import Layout from './Layout';
 import { string } from 'prop-types';
-import { IDiskState } from "../../../declarations/model/disk";
+import { IDiskInfo } from "../../../declarations/model/disk";
 
 /* This component is used as main container for all pages.
    It has the responsibility to provide state data to Layout Component.
@@ -16,7 +16,7 @@ import { IDiskState } from "../../../declarations/model/disk";
    Layout creates header and footer and renders it's children as page content.
 */
 export interface IReduxStateProps {
-    disk?: IDiskState;
+    disk?: IDiskInfo;
   }
   
 export interface IDispatchProps {

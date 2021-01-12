@@ -1,12 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
 import Websocket from 'react-websocket';
-import { stringify } from 'querystring';
-//import { has } from 'lodash';
-import Loading from '../../ui/loading';
-import MessageBox from '../../ui/messageBox';
-import { HDRoboWS } from "../../misc/function";
-
 
 interface IOwnProps {
 }
@@ -41,7 +34,7 @@ export default class SocketMessages extends React.Component<IOwnProps, {}> {
         console.log("Websocket_onMessage", data);
         //this.setState({wsMessages: stringify(data) });
         this.setState({wsMessages: "Websocket_Message: " + data });
-        let result = JSON.parse(data);
+        //let result = JSON.parse(data);
     }
     Websocket_onOpen()
     {

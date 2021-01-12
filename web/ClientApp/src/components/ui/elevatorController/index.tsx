@@ -1,8 +1,6 @@
 import * as React from 'react';
-import axios from 'axios';
 import { SendCommand } from "../../misc/function";
 import MessageBox from '../../ui/messageBox';
-import { stringify } from 'querystring';
 
 interface IOwnProps {
 }

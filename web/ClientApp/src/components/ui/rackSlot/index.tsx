@@ -32,7 +32,7 @@ export default class RackSlot extends React.Component<IOwnProps, {}> {
     }
 
     render() {
-        const { status } = this.state;
+        //const { status } = this.state;
 
         const pageContent = <div className="rackslot row">
             <div className="col-12 slot inactive" onClick={() => this.slot_onClick()}>

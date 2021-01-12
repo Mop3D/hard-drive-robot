@@ -1,4 +1,4 @@
-//import { IDiskState } from "../model/disk";
+//import { IDiskInfo } from "../model/disk";
 
 // Disk Action
 interface RequestDiskInfoAction  {
@@ -6,13 +6,13 @@ interface RequestDiskInfoAction  {
 }
 interface ReceiveDiskInfoAction  {
     type: "RECEIVE_DISK_INFO";
-    disk: IDiskState;
+    disk: IDiskInfo;
 }
 interface ReceiveDiskConnectAction  {
     type: "RECEIVE_DISK_CONNECT";
-    disk: IDiskState;
+    disk: IDiskInfo;
 }
 interface ReceiveDiskDisconnectAction  {
     type: "RECEIVE_DISK_DISCONNECT";
-    disk: IDiskState;
+    disk: IDiskInfo;
 }
