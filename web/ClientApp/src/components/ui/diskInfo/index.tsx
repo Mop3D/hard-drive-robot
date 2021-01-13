@@ -1,39 +1,36 @@
-import * as React from 'react';
+// new with hooks
+// Sampel HP MobileFind
 
-import { connect } from "react-redux";
-import { Action, bindActionCreators, Dispatch } from "redux";
-import { actionCreators } from '../../../store/actions';
-import { ApplicationState  }  from '../../../store';
+import * as React from 'react';
+import { useEffect, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import { selectDisk } from "../../../store/selectors";
 import { setDiskInfo } from "../../../store/actions/disk";
 
 import { IDiskInfo } from "../../../declarations/model/disk";
 
-
-export interface IReduxStateProps {
-    disk: IDiskInfo;
-  }
-export interface IDispatchProps {
-    //setDiskInfo: (key: IDiskInfo) => void;
-}
-
-interface IOwnProps {
-}
-
-//  Merge all props.
-type IProps = IReduxStateProps & IDispatchProps & IOwnProps;
-
-
-class DiskInfo extends React.Component<IProps, {}> {
-    state = {
-        status: "empty"
-    }
+const DiskInfo = () => {
+    // getter, setter           // default wert
+    //const [status, setStatus] = useState("empty");
+    const [status2, setStatus2] = useState("empty2");
+    const dispatch = useDispatch();
+    const diskSelect: IDiskInfo = useSelector(selectDisk);
 
     // component did mount
-    componentDidMount() {
-    }
+    useEffect(() => {
+        //didmount
+        // ...
+        //  will unmount
+        return () => {
+            // ...
+        };
+      }, []);
+      //-> [] hier kommen die Properties rein.
 
-    button_Click()
+
+    const button_Click = () =>
     {
         const diskInfo: IDiskInfo =
         {
@@ -41,40 +38,26 @@ class DiskInfo extends React.Component<IProps, {}> {
                 mountpoints: []
         } 
         console.log("button_Click", diskInfo)
-        setDiskInfo(diskInfo)
+        dispatch(setDiskInfo(diskInfo));
+        setStatus2("neuer Status");
     }
 
-    render() {
-        //const { status } = this.state;
-        const { disk } = this.props;
+    const pageContent = <div className="diskinfo row">
+        <div className="col-12 inactive">Disk Info: { diskSelect.diskid}</div>
+        <div className="col-12 inactive">Status: { status2 }</div>
 
-        const pageContent = <div className="diskinfo row">
-            <div className="col-12 inactive">Disk Info: { disk.diskid}</div>
-            <div className="col-12 inactive">Status: {this.state.status}</div>
+        <button onClick={() => button_Click()}>set DiskInfo</button>
 
-            <button onClick={() => this.button_Click()}>set DiskInfo</button>
+    </div>
 
-        </div>
-
-        return (
+    //  Render component
+    return (
             <>
             {/* content */}
             {pageContent}
             </>
         )
-    }
 }
 
-const mapStateToProps = (state: ApplicationState): IReduxStateProps => {
-    return {
-      disk: selectDisk(state)
-    };
-};
-// Selects which state store actions are merged into the component's dispatch
-const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => {
-    const storeActions = bindActionCreators<any, any>(actionCreators, dispatch);
-    return storeActions;
-  };
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiskInfo);
+export default DiskInfo;
   
