@@ -58,7 +58,7 @@ $ sudo ./HDRobo-Desk.py
 
 ```
 Install Events
-$ pip install events
+$ sudo pip install events
 ```
 
 

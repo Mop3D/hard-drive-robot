@@ -33,7 +33,7 @@ from Common import hdRoboCfg
 from CommunicationWorker import CommunicationWorker
 
 # web Index and API
-from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler
+from WEB_IndexAndAPIHandler import IndexHandler, IndexFirstHandler, ApiHandler, JsonRpcHandler
 # web Socket
 from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
 
@@ -60,6 +60,7 @@ app = web.Application(
     (r'/first', IndexFirstHandler),
     (r'/ws', SocketHandler),
     (r'/api/(.*)', ApiHandler),
+    (r'/jsonrpc', JsonRpcHandler),
     #(r'/motor/([0-9]+)', MotorHandler),
     (r'/motor/(.*)/(.*)', MotorHandler, dict(hdrackWork=hdrackWork)), #/motor/motorName/Command
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
