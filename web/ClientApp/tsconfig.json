@@ -20,6 +20,6 @@
     "jsx": "preserve",
     "typeRoots": ["./node_modules/@types", "./src/declarations"]
   },
-  "include": [ "src" ],
-  "exclude": ["node_modules", "public", "build" ]
+  "include": [ "src", "Temp" ],
+  "exclude": ["node_modules", "public", "build", "Temp" ]
 }

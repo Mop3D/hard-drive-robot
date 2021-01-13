@@ -1,0 +1,12 @@
+.diskinfo {
+    margin: 5px;
+    padding: 3px 10px;
+    border-radius: 25px;
+    width:100%;
+    background-color: darkseagreen;
+    border: 1px soild black;
+    &.inactive {
+        background-color: grey;
+    }
+    cursor: pointer;
+}

@@ -11,6 +11,8 @@ import { createBrowserHistory } from "history";
 import initialState from "./initialState";
 import configureStore from "./configureStore";
 
+import ApiSocket from "./components/misc/apiSocket";
+
 // Create browser history to use in the Redux store
 const history = createBrowserHistory();
 
@@ -25,6 +27,7 @@ const providerStore = (
           <Route component={Notfound} />
         </Switch>
     </Router>
+    <ApiSocket/>
   </Provider>
 )
 ReactDOM.render(providerStore, document.getElementById('root'))
