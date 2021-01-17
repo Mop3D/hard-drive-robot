@@ -39,6 +39,16 @@ class ConnectedDisk():
 		self.deviceConnected = deviceConnected
 		self.GetConnectedDisk()
 
+	def GetJson(self):
+		if self.deviceConnected == None:
+			return {}
+
+		diskJson = {
+			"diskid": self.diskid,
+			"mounted": [ "part1"]
+		}
+		return diskJson
+
 	def GetConnectedDisk(self):
 		#print "GetConnectedDisk..."
 		self.diskInfo = self.devCon.MountDiskPartitions(self.deviceConnected)
@@ -105,6 +115,8 @@ class Monitor():
 		self.Events.on_connect += objToCall
 	def CallOnDisconnect(self, objToCall):
 		self.Events.on_disconnect += objToCall
+
+
 
 	# GetConnectedDeviceList
 	def GetConnectedDeviceList(self):
@@ -176,7 +188,8 @@ class Monitor():
 			self.connectedDisk = ConnectedDisk(self.devCon, device)
 			# call connect Event
 			self.Events.on_connect('connected', self.connectedDisk.diskid)
-			self.StatusJson("connectDisk", { "diskid": self.connectedDisk.diskid, "mounted": [ "part1"] } )
+			#self.StatusJson("connectDisk", { "diskid": self.connectedDisk.diskid, "mounted": [ "part1"] } )
+			self.StatusJson("connectDisk", self.connectedDisk.GetJson() )
 
 		if device.action == 'remove':
 			time.sleep( 1 )

@@ -4,7 +4,7 @@
 """
 WEB_IndexAndAPIHandler.py
 
-date: 19.01.2020
+date: 17.01.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -53,6 +53,11 @@ class ApiHandler(BaseHandler):
 # https://docs.pylonsproject.org/projects/webob/en/stable/jsonrpc-example.html
 #
 class JsonRpcHandler(BaseHandler):
+    # 
+    def initialize(self, robotWork):
+        self.robotWork = robotWork
+        print("JsonRpcHandler init")
+
     # check if body is json 
     def prepare(self):
         if self.request.headers.get("Content-Type", "").startswith("application/json"):
@@ -124,16 +129,25 @@ class JsonRpcHandler(BaseHandler):
         print "Id", jsonrpcId
         print "Params", jsonrpcParams
 
-        
-        if jsonrpcMethod == "Service.Version":
-            resultValue = "V0.9.3A"
-        else:
-            resultValue = "Method %s not implemented" % jsonrpcMethod
-
+        #respone object        
         jsonrpcReturn = {
             "jsonrpc": "2.0",          
             "id": jsonrpcId
         }
+
+        # Service
+        # Service.Version
+        # curl -g --data-binary '{ "jsonrpc": "2.0", "method": "Service.Version", "id": 1, "params": null }' --header 'content-type: application/json;' http://hdrobo:8888/jsonrpc
+        if jsonrpcMethod == "Service.Version":
+            resultValue = "V0.9.3A"
+        # ConnectedDisk
+        # ConnectedDisk.GetInfo
+        # curl -g --data-binary '{ "jsonrpc": "2.0", "method": "ConnectedDisk.GetInfo", "id": 1, "params": null }' --header 'content-type: application/json;' http://hdrobo:8888/jsonrpc
+        elif jsonrpcMethod == "ConnectedDisk.GetInfo":
+            resultValue = self.robotWork.ConnectedDiskInfo()
+        else:
+            resultValue = "Method %s not implemented" % jsonrpcMethod
+
         jsonrpcReturn["result"] = resultValue 
 
         #print "JsonRpc post json body", self.json_args

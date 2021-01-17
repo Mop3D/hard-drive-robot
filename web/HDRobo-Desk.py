@@ -60,7 +60,7 @@ app = web.Application(
     (r'/first', IndexFirstHandler),
     (r'/ws', SocketHandler),
     (r'/api/(.*)', ApiHandler),
-    (r'/jsonrpc', JsonRpcHandler),
+    (r'/jsonrpc', JsonRpcHandler, dict(robotWork=robotWork)),
     #(r'/motor/([0-9]+)', MotorHandler),
     (r'/motor/(.*)/(.*)', MotorHandler, dict(hdrackWork=hdrackWork)), #/motor/motorName/Command
     #(r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),

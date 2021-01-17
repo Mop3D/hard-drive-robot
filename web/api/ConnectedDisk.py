@@ -4,30 +4,37 @@
 """
 ConnectedDisk.py
 
-date: 01.03.2020
+date: 17.01.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
 class CDisk():
-    commHandler = None
+	commHandler = None
+	devMonConnectedDisk = None
 
-    def StatusInfo(self, message):
-        self.commHandler.StatusInfo("connecteddisk", message)
-    def StatusError(self, message):
-        self.commHandler.StatusError("connecteddisk", message)
+	def StatusInfo(self, message):
+		self.commHandler.StatusInfo("connecteddisk", message)
+	def StatusError(self, message):
+		self.commHandler.StatusError("connecteddisk", message)
 
 	# init
-    def __init__(self, communicationHandler):
-        self.commHandler = communicationHandler
-        self.StatusInfo("init")
+	def __init__(self, communicationHandler):
+		self.commHandler = communicationHandler
+		self.StatusInfo("init")
+	
+	# set the hardware connected disk
+	def SetConnectedDisk(self, devMonConnectedDisk):
+		self.devMonConnectedDisk = devMonConnectedDisk
+	
+	# get the hardware connected disk info
+	def GetDiskInfo(self):
+		print ("   -> ConnectedDisk.GetDiskInfo")
+		if self.devMonConnectedDisk == None:
+			return {}
+		return self.devMonConnectedDisk.GetJson()
 
-	def GetDeviceInfo(self, property):
-		print ("   -> ConnectedDisk.Disk.DeviceInfo: deviceInfo {0}, {1}".format(property, self.diskDevice))
-		if self.diskInfo == None:
-			return ""
-		if self.diskInfo[property] != None:
-			return self.diskInfo[property]	
-		return ""
+
+
 
 
 class CDiskA():

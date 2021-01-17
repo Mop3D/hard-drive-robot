@@ -11,6 +11,9 @@ author: oliver Klepach, Martin Weichselbaumer
 # web Socket
 #from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
 
+# CommunicationWorker
+from CommunicationWorker import CommunicationWorker
+
 # DeviceConnect
 import DeviceConnect
 # connected Disk
@@ -19,7 +22,7 @@ import ConnectedDisk
 #
 # Robot worker class
 #        
-class RobotWorker():
+class RobotWorker(CommunicationWorker):
     #connected Slot Number
     connectedSlotNo = -1
     
@@ -52,6 +55,8 @@ class RobotWorker():
         # add connect/disconnect event
         self.devMon.CallOnConnect(self.connected_changed)
         self.devMon.CallOnDisconnect(self.connected_changed)
+        # Set the current connected disk
+        self.connDisk.SetConnectedDisk(self.devMon.connectedDisk)
 
         #diskConnected = self.devMon.GetConnectedDisk()
         self.devMon.StartMonitoring()
@@ -59,25 +64,32 @@ class RobotWorker():
     # connect/disconnect callback
     def connected_changed(self, action, diskid):
         print "**************************** event:", action, diskid
+        if action == "connect":
+        # Set the current connected disk
+            self.connDisk.SetConnectedDisk(self.devMon.connectedDisk)
+        else:
+        # disconnect
+            self.connDisk.SetConnectedDisk(None)
 
 
     # DiskInfoJson
-    def DiskInfoJson(self):
-        retJson = {
-            "SlotNo": self.connectedSlotNo,
-            "Device": { }
-        }
-        if self.connDisk != None:
-            retJson["Device"]["Type"] = self.connDisk.GetDeviceInfo("type")
-            retJson["Device"]["Node"] = self.connDisk.GetDeviceInfo("name")
-            retJson["Device"]["Serial"] = self.connDisk.GetDeviceInfo("serial")
-            retJson["Device"]["Bus"] = self.connDisk.GetDeviceInfo("bus")
-        return retJson
+    #def DiskInfoJson(self):
+    #    retJson = {
+    #        "SlotNo": self.connectedSlotNo,
+    #        "Device": { }
+    #    }
+    #    if self.connDisk != None:
+    #        retJson["Device"]["Type"] = self.connDisk.GetDeviceInfo("type")
+    #        retJson["Device"]["Node"] = self.connDisk.GetDeviceInfo("name")
+    #        retJson["Device"]["Serial"] = self.connDisk.GetDeviceInfo("serial")
+    #        retJson["Device"]["Bus"] = self.connDisk.GetDeviceInfo("bus")
+    #    return retJson
 
-    # ConnectedInfo
-    def ConnectedInfo(self):
-        retJson = self.DiskInfoJson()
+    # Hardware Connected Disk Info
+    def ConnectedDiskInfo(self):
+        retJson = self.connDisk.GetDiskInfo()
         self.WriteJsonToSocket("connectinfo", retJson)
+        return retJson 
         
     # ConnectToSlot
     def ConnectToSlot(self, slotNo):
