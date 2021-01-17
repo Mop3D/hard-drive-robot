@@ -23,6 +23,9 @@ from events import Events
 
 import socket
 
+# StatusObject
+from StatusObject import StatusObjectBase
+
 class ConnectedDisk():
 	context = pyudev.Context()
 	devCon = None
@@ -59,10 +62,9 @@ class ConnectedDisk():
 class MonitorDiskEvents(Events):
     __events__ = ('on_connect', 'on_disconnect')
 
-class Monitor():
+class Monitor(StatusObjectBase):
 	context = pyudev.Context()
 
-	statusObj = None
 	monitorOn = False
 	devCon = None
 	subsystem = None
@@ -71,31 +73,16 @@ class Monitor():
 	# the current connected disk
 	connectedDisk = None
 	
-	# StatusInfo, StatusError
-	def StatusInfo(self, message):
-		if self.statusObj:  
-			self.statusObj.StatusInfo("devicemon", message)
-		else:
-			print "INFO", message
-	def StatusError(self, message):
-		if self.statusObj:  
-			self.statusObj.StatusError("devicemon", message)
-		else:
-			print "ERROR", message
-	def StatusJson(self, action, json):
-		if self.statusObj:  
-			self.statusObj.WriteJson("devicemon", action, json)
-		else:
-			print "ACTION", action, json
-
 	# init
-	def __init__(self, subsystem, devtype, devname, monitorDevices, statusObject):
+	def __init__(self, subsystem, devtype, devname, monitorDevices):
+        # set the communication status modul name
+		self.StatusModulName = "DeviceMonitor"
 		self.monitorOn = monitorDevices
-		self.statusObj = statusObject
+
 		self.StatusInfo("init Device Monitor")
 		#print ("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
 		self.StatusInfo("init monitoring on {0},{1},{2}...".format(subsystem, devtype, devname))
-		self.devCon = DeviceCon(statusObject)
+		self.devCon = DeviceCon()
 		self.subsystem = subsystem
 		self.devtype = devtype
 		self.devname = devname
@@ -203,26 +190,12 @@ class Monitor():
 		self.StatusInfo("observer dispose")
 
 
-
-class DeviceCon():
+class DeviceCon(StatusObjectBase):
 	context = pyudev.Context()
-	statusObj = None
-
-	# StatusInfo, StatusError
-	def StatusInfo(self, message):
-		if self.statusObj:  
-			self.statusObj.StatusInfo("devicecon", message)
-		else:
-			print "INFO", message
-	def StatusError(self, message):
-		if self.statusObj:  
-			self.statusObj.StatusError("devicecon", message)
-		else:
-			print "ERROR", message
 
 	# init
-	def __init__(self, statusObject):
-		self.statusObj = statusObject
+	def __init__(self):
+		self.StatusModulName = "DeviceCon"
 		self.StatusInfo("init Device Context")
 
 	# get device list

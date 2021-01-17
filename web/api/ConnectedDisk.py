@@ -9,18 +9,10 @@ author: oliver Klepach, Martin Weichselbaumer
 """
 
 class CDisk():
-	commHandler = None
 	devMonConnectedDisk = None
 
-	def StatusInfo(self, message):
-		self.commHandler.StatusInfo("connecteddisk", message)
-	def StatusError(self, message):
-		self.commHandler.StatusError("connecteddisk", message)
-
 	# init
-	def __init__(self, communicationHandler):
-		self.commHandler = communicationHandler
-		self.StatusInfo("init")
+	#def __init__(self, communicationHandler):
 	
 	# set the hardware connected disk
 	def SetConnectedDisk(self, devMonConnectedDisk):

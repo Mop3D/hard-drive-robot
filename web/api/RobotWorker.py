@@ -11,8 +11,8 @@ author: oliver Klepach, Martin Weichselbaumer
 # web Socket
 #from WEB_SocketHandler import SocketHandler, SocketHandlerWrapper
 
-# CommunicationWorker
-from CommunicationWorker import CommunicationWorker
+# StatusObject
+from StatusObject import StatusObjectBase
 
 # DeviceConnect
 import DeviceConnect
@@ -22,7 +22,7 @@ import ConnectedDisk
 #
 # Robot worker class
 #        
-class RobotWorker(CommunicationWorker):
+class RobotWorker(StatusObjectBase):
     #connected Slot Number
     connectedSlotNo = -1
     
@@ -32,26 +32,17 @@ class RobotWorker(CommunicationWorker):
     connDisk = None
     # device handler
     devMon = None
-    #websocker handler
-    commHandler = None
     
-    # StatusInfo, StatusError, WriteJsonToSocket
-    def StatusInfo(self, message):
-        self.commHandler.StatusInfo("robotworker", message)
-    def StatusError(self, message):
-        self.commHandler.StatusError("robotworker", message)
-    def WriteJsonToSocket(self, action, json):
-        self.commHandler.WriteJsonToSocket("robotworker", action, json, True)
-
     # init
-    def __init__(self, communicationHandler):
-        self.commHandler = communicationHandler
+    def __init__(self):
+        # set the communication status modul name
+        self.StatusModulName = "RobotWorker"
         self.StatusInfo("init RobotWorker")
 
         #init Disk
-        self.connDisk = ConnectedDisk.CDisk(self.commHandler)
+        self.connDisk = ConnectedDisk.CDisk()
 
-        self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, True, self.commHandler)
+        self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, True)
         # add connect/disconnect event
         self.devMon.CallOnConnect(self.connected_changed)
         self.devMon.CallOnDisconnect(self.connected_changed)
@@ -88,7 +79,7 @@ class RobotWorker(CommunicationWorker):
     # Hardware Connected Disk Info
     def ConnectedDiskInfo(self):
         retJson = self.connDisk.GetDiskInfo()
-        self.WriteJsonToSocket("connectinfo", retJson)
+        self.WriteJson("connectinfo", retJson)
         return retJson 
         
     # ConnectToSlot
@@ -96,7 +87,7 @@ class RobotWorker(CommunicationWorker):
         self.connectedSlotNo = slotNo
         self.StatusInfo("   ConnectToSlot: {0}".format(slotNo))
         retJson = self.DiskInfoJson()
-        self.WriteJsonToSocket("connecttoslot", retJson)
+        self.WriteJson("connecttoslot", retJson)
         
     # MessageFromObject
     def MessageFromObject(self, command, message):
@@ -106,4 +97,4 @@ class RobotWorker(CommunicationWorker):
             message = self.DiskInfoJson()
         
         self.StatusInfo("   -> MessageFromObject - {0}: {1}".format(command, message))
-        self.WriteJsonToSocket(command, messageJson)
+        self.WriteJson(command, messageJson)

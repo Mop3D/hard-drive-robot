@@ -51,7 +51,7 @@ commWork = CommunicationWorker(SocketHandler)
 # init the HDRack Worker class
 hdrackWork = HDRackWorker(SocketHandler)
 # init the Robot Worker class
-robotWork = RobotWorker(commWork)
+robotWork = RobotWorker()
 
 
 app = web.Application(
