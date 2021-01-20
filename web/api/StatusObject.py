@@ -64,6 +64,31 @@ class StatusObjectBase():
         if self.webSocketHandler is not None:
             self.webSocketHandler.SendMessage(messageFrom, retJson)
 
+    # send the result as jsonRpc response
+    def ResponseJsonRPC(self, jsonrpcId, resultValue, jsonrpcMethod = None):
+        jsonrpcReturn = {
+            "jsonrpc": "2.0"          
+        }
+        # send id if exists, otherwise -1
+        if jsonrpcId == None:
+            jsonrpcReturn["id"] = -1
+        else:
+            jsonrpcReturn["id"] = jsonrpcId
+
+        # send method only the exists
+        if jsonrpcMethod != None:
+            jsonrpcReturn["Method"] = jsonrpcMethod
+
+        jsonrpcReturn["result"] = resultValue
+
+        self.StatusInfo(jsonrpcReturn)
+
+        if self.webSocketHandler is not None:
+            self.webSocketHandler.SendMessage("jsonrpc", jsonrpcReturn)
+
+        return
+
+
     # don't remove for the moment
     def WriteJsonToSocketA(self, messageFrom, action, json, printOut):
         print "WriteJsonToSocketA"

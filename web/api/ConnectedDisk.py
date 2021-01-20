@@ -24,9 +24,9 @@ class CDisk():
 		if self.devMonConnectedDisk == None:
 			return {}
 		return self.devMonConnectedDisk.GetJson()
-
-
-
+	# get the hardware connected disk id
+	def GetDiskId(self):
+		return self.devMonConnectedDisk.diskid
 
 
 class CDiskA():

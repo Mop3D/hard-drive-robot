@@ -59,7 +59,7 @@ app = web.Application(
     (r'/', IndexHandler),
     (r'/first', IndexFirstHandler),
     (r'/ws', SocketHandler),
-    (r'/api/(.*)', ApiHandler),
+    (r'/api/(.*)', ApiHandler, dict(robotWork=robotWork)),
     (r'/jsonrpc', JsonRpcHandler, dict(robotWork=robotWork)),
     #(r'/motor/([0-9]+)', MotorHandler),
     (r'/motor/(.*)/(.*)', MotorHandler, dict(hdrackWork=hdrackWork)), #/motor/motorName/Command

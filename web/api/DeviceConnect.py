@@ -165,8 +165,8 @@ class Monitor(StatusObjectBase):
 		}
 		#if self.statusObj.webSocketHandler is not None:
 		#	self.statusObj.webSocketHandler.SendMessage("devicemon", retJson)
-		if self.statusObj != None:
-			self.statusObj.WriteJson("devicemon", action, retJson)
+		#if self.statusObj != None:
+		#	self.statusObj.WriteJson("devicemon", action, retJson)
 
 		self.StatusInfo("*** action {0},{1}".format(device.action, device))
 		if device.action == 'add':
@@ -175,14 +175,14 @@ class Monitor(StatusObjectBase):
 			self.connectedDisk = ConnectedDisk(self.devCon, device)
 			# call connect Event
 			self.Events.on_connect('connected', self.connectedDisk.diskid)
-			#self.StatusJson("connectDisk", { "diskid": self.connectedDisk.diskid, "mounted": [ "part1"] } )
-			self.StatusJson("connectDisk", self.connectedDisk.GetJson() )
+			#self.WriteJson("connectDisk", { "diskid": self.connectedDisk.diskid, "mounted": [ "part1"] } )
+			self.WriteJson("connectDisk", self.connectedDisk.GetJson() )
 
 		if device.action == 'remove':
 			time.sleep( 1 )
 			self.Events.on_disconnect('disconnected', self.connectedDisk.diskid)
 			self.devCon.UnmountDiskPartitions(device)
-			self.StatusJson("disconnectDisk", { "diskid": self.connectedDisk.diskid } )
+			self.WriteJson("disconnectDisk", { "diskid": self.connectedDisk.diskid } )
 			self.connectedDisk = None
 
 	def Dispose(self):

@@ -44,8 +44,8 @@ class RobotWorker(StatusObjectBase):
 
         self.devMon = DeviceConnect.Monitor('block', None, self.devicePath, True)
         # add connect/disconnect event
-        self.devMon.CallOnConnect(self.connected_changed)
-        self.devMon.CallOnDisconnect(self.connected_changed)
+        self.devMon.CallOnConnect(self.Connected_changed)
+        self.devMon.CallOnDisconnect(self.Connected_changed)
         # Set the current connected disk
         self.connDisk.SetConnectedDisk(self.devMon.connectedDisk)
 
@@ -53,14 +53,36 @@ class RobotWorker(StatusObjectBase):
         self.devMon.StartMonitoring()
     
     # connect/disconnect callback
-    def connected_changed(self, action, diskid):
+    def Connected_changed(self, action, diskid):
         print "**************************** event:", action, diskid
         if action == "connect":
         # Set the current connected disk
             self.connDisk.SetConnectedDisk(self.devMon.connectedDisk)
+            self.ResponseJsonRPC(None, self.ConnectedDiskInfo(), "OnConnect")
         else:
         # disconnect
+            json = {
+                "diskid": diskid
+            }
+            self.ResponseJsonRPC(None, json, "OnDisconnect")
             self.connDisk.SetConnectedDisk(None)
+    
+    # send OnConnect
+    def Trigger_OnConnect(self):
+        if self.connDisk != None:
+            json = self.ConnectedDiskInfo()
+        else:
+            json = {}
+        self.ResponseJsonRPC(None, json, "OnConnect")
+    # send OnDisconnect
+    def Trigger_OnDisconnect(self):
+        if self.connDisk != None:
+            json = {
+                "diskid": self.connDisk.GetDiskId()
+            }
+        else:
+            json = {}
+        self.ResponseJsonRPC(None, json, "OnDisconnect")
 
 
     # DiskInfoJson

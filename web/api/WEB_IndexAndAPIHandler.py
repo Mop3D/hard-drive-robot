@@ -31,8 +31,19 @@ class IndexFirstHandler(web.RequestHandler):
 class ApiHandler(BaseHandler):
 
     @web.asynchronous
-    def get(self, *args):
-        retJson = { "return": "ping"}
+    #def get(self, *args):
+    def get(self, command):
+        if command == "ping":
+            retJson = { "return": "ping"}
+        elif command == "triggeronconnect":
+            self.robotWork.Trigger_OnConnect()
+            retJson = { "return": "event triggert"}
+        elif command == "triggerondisconnect":
+            self.robotWork.Trigger_OnDisconnect()
+            retJson = { "return": "event triggert"}
+        else:
+            retJson = { "error": "no command"}
+
         self.write(retJson)
         self.finish()
 
@@ -45,6 +56,10 @@ class ApiHandler(BaseHandler):
     @web.asynchronous
     def post(self):
         pass
+
+    def initialize(self, robotWork):
+        self.robotWork = robotWork
+        print("ApiHandler init")
 
 #
 # the JsonRpc handler
