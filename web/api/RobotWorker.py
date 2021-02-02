@@ -4,7 +4,7 @@
 """
 RobotWorker.py
 
-date: 07.01.2021
+date: 02.02.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -34,7 +34,9 @@ class RobotWorker(StatusObjectBase):
     devMon = None
     
     # init
-    def __init__(self):
+    def __init__(self, socketHandler):
+        if socketHandler != None:
+            self.webSocketHandler = socketHandler
         # set the communication status modul name
         self.StatusModulName = "RobotWorker"
         self.StatusInfo("init RobotWorker")
@@ -55,7 +57,7 @@ class RobotWorker(StatusObjectBase):
     # connect/disconnect callback
     def Connected_changed(self, action, diskid):
         print "**************************** event:", action, diskid
-        if action == "connect":
+        if action == "connected":
         # Set the current connected disk
             self.connDisk.SetConnectedDisk(self.devMon.connectedDisk)
             self.ResponseJsonRPC(None, self.ConnectedDiskInfo(), "OnConnect")

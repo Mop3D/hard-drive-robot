@@ -30,14 +30,17 @@ class IndexFirstHandler(web.RequestHandler):
 #
 class ApiHandler(BaseHandler):
 
+
     @web.asynchronous
     #def get(self, *args):
     def get(self, command):
         if command == "ping":
             retJson = { "return": "ping"}
+        # curl -g http://hdrobo:8888/api/triggeronconnect
         elif command == "triggeronconnect":
             self.robotWork.Trigger_OnConnect()
             retJson = { "return": "event triggert"}
+        # curl -g http://hdrobo:8888/api/triggerondisconnect
         elif command == "triggerondisconnect":
             self.robotWork.Trigger_OnDisconnect()
             retJson = { "return": "event triggert"}

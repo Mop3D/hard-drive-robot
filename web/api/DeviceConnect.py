@@ -4,7 +4,7 @@
 """
 DeviceConnect.py
 
-date: 07.01.2021
+date: 02.02.2021
 author: oliver Klepach, Martin Weichselbaumer
 """
 
@@ -48,8 +48,11 @@ class ConnectedDisk():
 
 		diskJson = {
 			"diskid": self.diskid,
-			"mounted": [ "part1"]
+			"mounted": []
 		}
+		for partition in self.diskInfo["partitions"]:
+			diskJson["mounted"].append( partition["shareName"] )
+
 		return diskJson
 
 	def GetConnectedDisk(self):

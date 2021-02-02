@@ -77,13 +77,14 @@ class StatusObjectBase():
 
         # send method only the exists
         if jsonrpcMethod != None:
-            jsonrpcReturn["Method"] = jsonrpcMethod
+            jsonrpcReturn["method"] = jsonrpcMethod
 
         jsonrpcReturn["result"] = resultValue
 
         self.StatusInfo(jsonrpcReturn)
 
         if self.webSocketHandler is not None:
+            print "self.webSocketHandler"
             self.webSocketHandler.SendMessage("jsonrpc", jsonrpcReturn)
 
         return
@@ -95,9 +96,10 @@ class StatusObjectBase():
 
 
 	# init
-	def __init__(self, socketHandler):
-		if socketHandler != None:
-			self.webSocketHandler = socketHandler
+    def __init__(self, socketHandler):
+        if socketHandler != None:
+            self.webSocketHandler = socketHandler
+
         self.StatusInfo("StatusObject", "Init")
 
 #
