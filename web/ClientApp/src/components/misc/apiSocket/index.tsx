@@ -28,14 +28,39 @@ const ApiSocket = () => {
       //-> [] hier kommen die Properties rein.
 
     const Websocket_onMessage = (data: any) => {
-        console.log("ApiSocket Websocket_onMessage", data);
-
-        const diskInfo: IDiskInfo =
+        if (data.substring(0,1) !== "{")
         {
-                diskid: "abcde",
-                mountpoints: []
-        } 
-        dispatch(setDiskInfo(diskInfo));
+            console.log("no json data - abbort");
+            return;
+        }
+        const jsonData = JSON.parse(data);
+        console.log("ApiSocket Websocket_onMessage", jsonData);
+        // is command jsonrpc
+        if (!jsonData.command || jsonData.command !== "jsonrpc") {
+            console.log("no jsonrpc command - abbort");
+            return;
+        }
+        // is method
+        if (!jsonData.data || !jsonData.data.method || jsonData.data.method === "") {
+            console.log("no jsonrpc Method command - abbort");
+            return;
+        }
+        const callMethod = jsonData.data.method;
+        console.log("jsonprc Method", callMethod);
+        if (callMethod == "OnConnect")
+        {
+            const diskInfo: IDiskInfo =
+            {
+                    diskid: jsonData.data.result.diskid,
+                    mountpoints: jsonData.data.result.mounted
+            } 
+            dispatch(setDiskInfo(diskInfo));
+        }
+        else if (callMethod == "OnDisconnect")
+        {
+            dispatch(setDiskInfo(undefined));
+        }
+
     }
     const Websocket_onOpen = () => {
         console.log("ApiSocket Websocket_onOpen");

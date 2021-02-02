@@ -1,6 +1,6 @@
 .diskinfo {
     margin: 5px;
-    padding: 3px 10px;
+    padding: 3px 3px;
     border-radius: 25px;
     width:100%;
     background-color: darkseagreen;
@@ -8,5 +8,11 @@
     &.inactive {
         background-color: grey;
     }
-    cursor: pointer;
+    cursor: default;
+    
+    span {
+        padding-left: 3px;
+        color: blue;
+        cursor: pointer;
+    }
 }

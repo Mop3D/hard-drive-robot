@@ -6,6 +6,7 @@ import DiskInfo from '../../ui/diskInfo'
 import ElevatorControler from '../../ui/elevatorController'
 
 import SockerMessages from '../../ui/socketMessages'
+import { SendCommand } from '../../misc/function';
 
 export default class Overview extends React.Component<RouteComponentProps<any>, {}> {
     // state
@@ -15,6 +16,9 @@ export default class Overview extends React.Component<RouteComponentProps<any>, 
     }
     // component did mount
     componentDidMount() {
+        document.title = "Hartdrive Roboter";
+        // get the current connected disk info
+        SendCommand(this, "triggeronconnect");
     }
 
     public render() {

@@ -26,9 +26,15 @@ export const SendCommand = async (stateObject: any, command: string, value?: num
   console.log("SendCommand", command)
 
   // common commands
+  // ping
   if (command === "ping")
   {
     apiUrl = "/api/ping?dast=true";
+  }
+  // triggeronconnect
+  if (command === "triggeronconnect")
+  {
+    apiUrl = "/api/triggeronconnect";
   }
 
   // motor commands
