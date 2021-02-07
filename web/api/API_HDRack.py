@@ -49,7 +49,7 @@ class HDRackWorker():
             #Elevator Slot
             self.stepsPerSlot = 400
             # 1-5
-            self.slotSteps = [ 0, 107, 169, 237, 305, 373]
+            self.slotSteps = [ 0, 107, 171, 239, 305, 377]
 
             #Elevator Motor
             self.stepsPerRound = 4096
