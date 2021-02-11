@@ -14,7 +14,8 @@ devMon = DeviceConnect.Monitor('block', None, diskPath, None)
 if devMon.connectedDisk:
 	print len(devMon.connectedDisk.mountedPartitions)
 	print "diskid", devMon.connectedDisk.diskid
-	print "part1 Sharename", devMon.connectedDisk.mountedPartitions[0]
+	if len(devMon.connectedDisk.mountedPartitions) != 0:
+		print "part1 Sharename", devMon.connectedDisk.mountedPartitions[0]
 
 def something_changed(action, diskid):
     print "**************************** event:", action, diskid
