@@ -9,7 +9,7 @@ import DeviceConnect
 import psutil
 
 diskPath = "/dev/sda"
-devMon = DeviceConnect.Monitor('block', None, diskPath, None, None)
+devMon = DeviceConnect.Monitor('block', None, diskPath, None)
 #diskConnected = devMon.connectedDisk
 if devMon.connectedDisk:
 	print len(devMon.connectedDisk.mountedPartitions)
